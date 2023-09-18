@@ -20,9 +20,20 @@ const rooms = new Map() /////rooms map
 io.on('connection', (socket) => {
 	console.log(socket.id, 'connected')
 
-	socket.on('test', (callback) => {
-		console.log('push the button')
-        callback('it works')
+	socket.on('username', (username) => {
+		console.log(username)
+		socket.data.username = username
+		console.log(socket.data)
+	})
+
+	socket.on('createSinglePlayerRoom', async (callback) => {
+		const roomId = `sp${socket.id}`
+		await socket.join(roomId)
+		rooms.set(roomId, {
+			roomId,
+			players: [{ id: socket.id, username: socket.data?.username }],
+		})
+		callback(roomId)
 	})
 })
 

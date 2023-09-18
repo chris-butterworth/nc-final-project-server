@@ -10,10 +10,14 @@ import GamePage from './pages/GamePage'
 import GamePageGrid from './pages/GamePageGrid'
 import './App.css'
 import socket from './socket'
+import Login from './pages/Login.jsx'
 
 function App() {
 	const { mode } = useContext(ModeContext)
-
+	const [username, setUsername] = useState('')
+	const [room, setRoom] = useState('')
+	const [players, setPlayers] = useState([])
+	console.log(room, 'room')
 	return (
 		<>
 			<ThemeProvider theme={mode}>
@@ -24,20 +28,19 @@ function App() {
 					}}
 				>
 					<NavBar />
-					<Button
-						onClick={() => {
-							socket.emit('test', (data) => {
-								console.log(data)
-							})
-						}}
-					>
-						Console Log
-					</Button>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
 						<Route path="/tutorial" element={<TutorialPage />} />
-						<Route path="/game" element={<GamePage />} />
-						<Route path="/game-grid" element={<GamePageGrid />} />
+						<Route
+							path="/"
+							element={
+								<HomePage
+									room={room}
+									setRoom={setRoom}
+									username={username}
+									setUsername={setUsername}
+								/>
+							}
+						/>
 					</Routes>
 				</Paper>
 			</ThemeProvider>
