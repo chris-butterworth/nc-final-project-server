@@ -31,7 +31,24 @@ const GamePageGrid = () => {
           }}
         >
           <Timer sx={{maxHeight:"25px"}}/>
+         
         </Paper>
+        <Paper
+          elevation={3}
+          sx={{
+            minWidth: "25vw",
+            minHeight: "5vh",
+            maxHeight: "auto",
+            margin: "2em",
+            padding: "1em",
+            textAlign: "center",
+            variant: "h3"
+          }}
+        >
+          <Typography sx={{maxHeight:"25px"}}>Game Room ID: </Typography>
+         
+        </Paper>
+
       </Box>
       <Box sx={{ flexGrow: 1, }}>
         <Grid container spacing={2}>
