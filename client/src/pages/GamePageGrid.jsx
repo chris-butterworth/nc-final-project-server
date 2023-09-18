@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Timer } from "../components/Timer";
+import { PlayerList } from "../components/PlayerList";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -10,9 +11,10 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   minHeight: "50vh",
+  maxHeight: "50vh"
 }));
 
-const GamePageGrid = () => {
+const GamePageGrid = ({ players }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
@@ -27,11 +29,10 @@ const GamePageGrid = () => {
             margin: "2em",
             padding: "1em",
             textAlign: "center",
-            variant: "h3"
+            variant: "h3",
           }}
         >
-          <Timer sx={{maxHeight:"25px"}}/>
-         
+          <Timer sx={{ maxHeight: "25px" }} />
         </Paper>
         <Paper
           elevation={3}
@@ -42,31 +43,32 @@ const GamePageGrid = () => {
             margin: "2em",
             padding: "1em",
             textAlign: "center",
-            variant: "h3"
+            variant: "h3",
           }}
         >
-          <Typography sx={{maxHeight:"25px"}}>Game Room ID: </Typography>
-         
+          <Typography sx={{ maxHeight: "25px" }}>Game Room ID: </Typography>
         </Paper>
-
       </Box>
-      <Box sx={{ flexGrow: 1, }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} order={{xs:3, md:1}} md={3} >
-
-            <Item>
-              <Typography variant="h4">Player List </Typography>
+          <Grid
+            item
+            xs={12}
+            order={{ xs: 3, md: 1 }}
+            md={3}
+         
+          >
+            <Item sx={{overflow:"auto"}}>
+              <PlayerList players={players} />
             </Item>
-
           </Grid>
-          <Grid item xs={12} order={{xs:1, md:2}} md={6} >
+          <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
               <Typography variant="h4">Play Box</Typography>
             </Item>
+          </Grid>
 
-        </Grid>
-         
-          <Grid item xs={12} order={{xs:2, md:3}} md={3} >
+          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
             <Item>
               <Typography variant="h4">Winners List</Typography>
             </Item>
