@@ -35,17 +35,21 @@ const GamePageGrid = () => {
       </Box>
       <Box sx={{ flexGrow: 1, }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
-            <Item  >
+          <Grid item xs={12} order={{xs:3, md:1}} md={3} >
+
+            <Item>
               <Typography variant="h4">Player List </Typography>
             </Item>
+
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} order={{xs:1, md:2}} md={6} >
             <Item>
               <Typography variant="h4">Play Box</Typography>
             </Item>
-          </Grid>
-          <Grid item xs={12} md={3}>
+
+        </Grid>
+         
+          <Grid item xs={12} order={{xs:2, md:3}} md={3} >
             <Item>
               <Typography variant="h4">Winners List</Typography>
             </Item>
