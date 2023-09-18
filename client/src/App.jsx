@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { ModeContext } from "./context/Mode.jsx";
@@ -14,6 +14,12 @@ import socket from "./socket";
 
 function App() {
   const { mode } = useContext(ModeContext);
+
+  useEffect (() => {
+    socket.on("playerJoined", ()=> {
+      console.log("socketId", socket.id )
+    })
+  },[])
 
   return (
     <>
