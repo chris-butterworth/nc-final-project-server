@@ -3,14 +3,14 @@ import PlayerSelector from '../components/PlayerSelector'
 import Login from './Login'
 import GamePageGrid from './GamePageGrid'
 
-const HomePage = ({ room, setRoom, username, setUsername }) => {
+const HomePage = ({ room, setRoom, username, setUsername, setPlayers }) => {
 	return (
 		<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 			{username ? (
 				room ? (
 					<GamePageGrid />
 				) : (
-					<PlayerSelector room={room} setRoom={setRoom} />
+					<PlayerSelector room={room} setRoom={setRoom} setPlayers={setPlayers} />
 				)
 			) : (
 				<Login setUsername={setUsername} />

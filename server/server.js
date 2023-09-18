@@ -44,6 +44,20 @@ io.on('connection', (socket) => {
 		})
 		callback(roomId)
 	})
+	socket.on('joinMultiPlayerRoom', async (roomId, callback) => {
+		 const room = rooms.get(roomId)
+		 
+		await socket.join(roomId)
+
+		const roomUpdate = {
+			...room, 
+			players:[...room.players, 
+			{id: socket.id, username: socket.data?.username}]
+		}
+	
+		rooms.set(roomId, roomUpdate)
+		callback(roomUpdate)
+	})
 })
 
 server.listen(port, () => {

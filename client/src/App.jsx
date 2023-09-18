@@ -14,10 +14,11 @@ import Login from './pages/Login.jsx'
 
 function App() {
 	const { mode } = useContext(ModeContext)
-	const [username, setUsername] = useState('')
+	const [username, setUsername] = useState('hi')
 	const [room, setRoom] = useState('')
 	const [players, setPlayers] = useState([])
 	console.log(room, 'room')
+	console.log(players, "players")
 	return (
 		<>
 			<ThemeProvider theme={mode}>
@@ -38,6 +39,7 @@ function App() {
 									setRoom={setRoom}
 									username={username}
 									setUsername={setUsername}
+									setPlayers = {setPlayers}
 								/>
 							}
 						/>
