@@ -2,9 +2,9 @@ import { Box, Paper, Typography } from "@mui/material";
 
 const GamePage = () => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box
-        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+        sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}
       >
         <Paper
           elevation={3}

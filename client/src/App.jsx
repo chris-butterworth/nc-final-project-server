@@ -27,6 +27,8 @@ function App() {
         <Paper
           sx={{
             minHeight: "100vh",
+            width: "100vw",
+            margin: 0,
             borderRadius: 0,
           }}
         >

@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography } from "@mui/material";
+import { Timer } from "../components/Timer";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -22,18 +23,20 @@ const GamePageGrid = () => {
           sx={{
             minWidth: "25vw",
             minHeight: "5vh",
+            maxHeight: "auto",
             margin: "2em",
             padding: "1em",
             textAlign: "center",
+            variant: "h3"
           }}
         >
-          <Typography variant="span">i identify as a timer</Typography>
+          <Timer sx={{maxHeight:"25px"}}/>
         </Paper>
       </Box>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={3}>
-            <Item>
+            <Item  >
               <Typography variant="h4">Player List </Typography>
             </Item>
           </Grid>
