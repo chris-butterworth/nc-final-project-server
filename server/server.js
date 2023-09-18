@@ -19,6 +19,8 @@ const rooms = new Map() /////rooms map
 // io.on('connection');
 io.on('connection', (socket) => {
 	console.log(socket.id, 'connected')
+		socket.emit("playerJoined", socket.id)
+	
 })
 
 server.listen(port, () => {
