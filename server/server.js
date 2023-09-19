@@ -21,9 +21,8 @@ io.on("connection", (socket) => {
   console.log(socket.id, "connected");
 
   socket.on("username", (username) => {
-    console.log(username);
+    console.log(socket.id, "=", username);
     socket.data.username = username;
-    console.log(socket.data);
   });
 
   socket.on("createSinglePlayerRoom", async (callback) => {
@@ -84,7 +83,6 @@ io.on("connection", (socket) => {
     socket.rooms.forEach((socketRoom) => {
       if (rooms.has(socketRoom)) roomId = socketRoom;
     });
-    console.log(roomId);
     io.in(roomId).emit("startTimer");
   });
 });
