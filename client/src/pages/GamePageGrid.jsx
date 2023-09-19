@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
+import { PlayBox } from "../components/PlayBox";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -11,7 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   minHeight: "50vh",
-  maxHeight: "50vh"
+  maxHeight: "50vh",
 }));
 
 const GamePageGrid = ({ players }) => {
@@ -51,20 +52,14 @@ const GamePageGrid = ({ players }) => {
       </Box>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid
-            item
-            xs={12}
-            order={{ xs: 3, md: 1 }}
-            md={3}
-         
-          >
-            <Item sx={{overflow:"auto"}}>
+          <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
+            <Item sx={{ overflow: "auto" }}>
               <PlayerList players={players} />
             </Item>
           </Grid>
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
-              <Typography variant="h4">Play Box</Typography>
+              <PlayBox />
             </Item>
           </Grid>
 

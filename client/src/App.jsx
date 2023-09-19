@@ -44,7 +44,7 @@ function App() {
     {
       avatar_alt: "Angel of Death laughing",
       avatar:
-        "https://media.discordapp.net/attachments/995431151084773486/1029717337831637044/Lars_von_Retriever_Angel_of_Death_muppet_in_a_surgeons_dressing_e7d57624-5ba7-48a1-a292-9552772a0ee7.png?width=1558&height=1038",
+        "https://media.discordapp.net/attachments/1008571088919343124/1153609768309633024/l3x8107_an_angel_of_death_in_anime_style_smiling_sardonically_4d91615b-52b2-41d9-b9e4-c40916e16de8.png?width=876&height=876",
       username: "phil",
       score: 42,
       id: "ANOTHERONE",
@@ -52,13 +52,12 @@ function App() {
     {
       avatar_alt: "Orc holding Simba",
       avatar:
-        "https://media.discordapp.net/attachments/1139863387476598855/1153347556286414980/ulysses.123_An_Orc_from_Lord_of_the_Rings_as_a_weed_dealer_Ston_936ed9c2-6f7a-41b2-81c9-dd7cbddd71c3.png?width=581&height=1036",
+        "https://media.discordapp.net/attachments/1008571088919343124/1153610407550922842/l3x8107_an_orc_holding_simba_on_top_of_pride_rock_b200701e-f66b-4220-8e0d-8e2f638fccda.png?width=876&height=876",
       username: "chris",
       score: 500,
       id: "MOREID",
     },
   ]);
-  console.log(room, "room");
   return (
     <>
       <ThemeProvider theme={mode}>

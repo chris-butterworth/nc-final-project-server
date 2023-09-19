@@ -13,3 +13,12 @@
 .read-the-docs {
   color: #888;
 } */
+.playBoxBoxes {
+  border: purple 10px solid;
+  background-color: pink;
+  width: 5em;
+  height: 5em;
+}
+.letter-button :active {
+  background-color: white;
+}
