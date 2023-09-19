@@ -14,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
   maxHeight: "50vh"
 }));
 
-const GamePageGrid = ({ players }) => {
+const GamePageGrid = ({ players, room }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
@@ -46,7 +46,7 @@ const GamePageGrid = ({ players }) => {
             variant: "h3",
           }}
         >
-          <Typography sx={{ maxHeight: "25px" }}>Game Room ID: </Typography>
+          <Typography sx={{ maxHeight: "25px" }}>Game Room ID: {room}</Typography>
         </Paper>
       </Box>
       <Box sx={{ flexGrow: 1 }}>

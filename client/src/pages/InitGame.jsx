@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
-  const [roomError, setRoomError] = useState("");
+  const [joinRoomError, setJoinRoomError] = useState("");
 
   return (
     <>
@@ -29,7 +29,8 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createSinglePlayerRoom", (room) => {
-                setRoom(room);
+                setRoom(room.roomId);
+                setPlayers(room.players)
                 console.log("joined room", room);
               });
             }}
@@ -52,7 +53,8 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createMultiPlayerRoom", (room) => {
-                setRoom(room);
+                setPlayers(room.players)
+                setRoom(room.roomId);
               });
             }}
           >
@@ -86,7 +88,8 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                   "joinMultiPlayerRoom",
                   roomCodeInput,
                   (response) => {
-                    if (response.error) return setRoomError(response.message);
+                    console.log(response)
+                    if (response.error) return setJoinRoomError(response.message);
                     setRoom(response.roomId);
                     setPlayers(response.players);
                   }

@@ -10,7 +10,7 @@ import "./App.css";
 
 function App() {
   const { mode } = useContext(ModeContext);
-  const [username, setUsername] = useState("chicken");
+  const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([
     {
@@ -54,7 +54,7 @@ function App() {
       id: "MOREID",
     },
   ]);
-
+console.log(room)
   return (
     <>
       <ThemeProvider theme={mode}>
@@ -76,6 +76,7 @@ function App() {
                   username={username}
                   setUsername={setUsername}
                   players={players}
+				  setPlayers={setPlayers}
                 />
               }
             />
