@@ -1,6 +1,8 @@
 const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
+const { roomsMap, createNewRoom } = require("./gameFunctions.js");
+
 
 const app = express(); // initialize express
 
@@ -18,35 +20,27 @@ const rooms = new Map(); /////rooms map
 
 // io.on('connection');
 io.on("connection", (socket) => {
-  console.log(socket.id, "connected");
-
   socket.on("username", (username) => {
     console.log(socket.id, "=", username);
     socket.data.username = username;
   });
 
+
   socket.on("createSinglePlayerRoom", async (callback) => {
     const roomId = `sp${socket.id}`;
     await socket.join(roomId);
-    rooms.set(roomId, {
-      roomId,
-      players: [{ id: socket.id, username: socket.data?.username }],
-    });
-    callback(rooms.get(roomId));
+    createNewRoom(socket, roomId)
+    callback(roomsMap.get(roomId));
   });
   socket.on("createMultiPlayerRoom", async (callback) => {
     const roomId = `mp${socket.id}`;
     await socket.join(roomId);
-    rooms.set(roomId, {
-      roomId,
-      players: [{ id: socket.id, username: socket.data?.username }],
-    });
-
-    callback(rooms.get(roomId));
+    createNewRoom(socket, roomId)
+    callback(roomsMap.get(roomId));
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
-    const room = rooms.get(roomId);
+    const room = roomsMap.get(roomId);
     let error, message;
     if (!room) {
       error = true;
@@ -66,15 +60,8 @@ io.on("connection", (socket) => {
 
     await socket.join(roomId);
 
-    const roomUpdate = {
-      ...room,
-      players: [
-        ...room.players,
-        { id: socket.id, username: socket.data?.username },
-      ],
-    };
-
-    rooms.set(roomId, roomUpdate);
+    const roomUpdate = joinMultiplayerRoom(socket, room, roomId)
+    socket.to(roomId).emit('playerJoined', roomUpdate.players)
     callback(roomUpdate);
   });
 
