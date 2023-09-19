@@ -12,7 +12,12 @@ import { useState } from "react";
 
 const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
-  const [roomError, setRoomError] = useState("");
+  const [joinRoomError, setJoinRoomError] = useState("");
+
+  const setRoomAndPlayers = (room, players) => {
+    setRoom(room);
+    setPlayers(players);
+  };
 
   return (
     <>
@@ -29,8 +34,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createSinglePlayerRoom", (room) => {
-                setRoom(room);
-                console.log("joined room", room);
+                setRoomAndPlayers(room.roomId, room.players);
               });
             }}
           >
@@ -52,7 +56,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createMultiPlayerRoom", (room) => {
-                setRoom(room);
+                setRoomAndPlayers(room.roomId, room.players);
               });
             }}
           >
@@ -86,9 +90,10 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                   "joinMultiPlayerRoom",
                   roomCodeInput,
                   (response) => {
-                    if (response.error) return setRoomError(response.message);
-                    setRoom(response.roomId);
-                    setPlayers(response.players);
+                    console.log(response);
+                    if (response.error)
+                      return setJoinRoomError(response.message);
+                    setRoomAndPlayers(room.roomId, room.players);
                   }
                 );
               }}

@@ -15,7 +15,7 @@ const AppContainer = ({
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       {username ? (
         room ? (
-          <GamePageGrid players={players} />
+          <GamePageGrid players={players} room={room} />
         ) : (
           <InitGame room={room} setRoom={setRoom} setPlayers={setPlayers} />
         )
