@@ -8,11 +8,12 @@ import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
 import { Typography } from "@mui/material";
 import socket from "../socket";
-import {useState} from 'react'
+import { useState } from "react";
 
-const PlayerSelector = ({ numberofPlayers, room, setRoom, setPlayers }) => {
-	const[roomCodeInput, setRoomCodeInput] = useState('')
-	
+const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
+  const [roomCodeInput, setRoomCodeInput] = useState("");
+  const [roomError, setRoomError] = useState("");
+
   return (
     <>
       <Box
@@ -52,7 +53,6 @@ const PlayerSelector = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             onClick={() => {
               socket.emit("createMultiPlayerRoom", (room) => {
                 setRoom(room);
-                console.log("joined room", room);
               });
             }}
           >
@@ -69,44 +69,42 @@ const PlayerSelector = ({ numberofPlayers, room, setRoom, setPlayers }) => {
               <Typography variant="h3">New Multi-Player</Typography>
             </Paper>
           </Link>
-		
-            <Paper
-              sx={{
-                minWidth: "25vw",
-                minHeight: "30vh",
-                margin: "2em",
-                padding: "1em",
-                textAlign: "center",
+
+          <Paper
+            sx={{
+              minWidth: "25vw",
+              minHeight: "30vh",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
+            }}
+          >
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                socket.emit(
+                  "joinMultiPlayerRoom",
+                  roomCodeInput,
+                  (response) => {
+                    if (response.error) return setRoomError(response.message);
+                    setRoom(response.roomId);
+                    setPlayers(response.players);
+                  }
+                );
               }}
             >
-              <form
-				onSubmit={(e) => {
-					e.preventDefault()
-					
-				    
-					
-					socket.emit("joinMultiPlayerRoom", roomCodeInput, (room) =>{
-						setRoom(room.roomId)
-						setPlayers(room.players)
-					})
-					
-				}}
-			>
-				<label htmlFor="roomcode"> room code:</label>
-				<input
-					id="roomcode"
-					value={roomCodeInput}
-					onChange={(e) => {
-						setRoomCodeInput(e.target.value)
-						
-					}}
-				></input>
-				<button>Submit room code</button>
-			</form>
-              <Typography variant="h3">Join game</Typography>
-			  
-            </Paper>
-          
+              <label htmlFor="roomcode"> room code:</label>
+              <input
+                id="roomcode"
+                value={roomCodeInput}
+                onChange={(e) => {
+                  setRoomCodeInput(e.target.value);
+                }}
+              ></input>
+              <button>Submit room code</button>
+            </form>
+            <Typography variant="h3">Join game</Typography>
+          </Paper>
         </Box>
         <Link to={`/tutorial`} style={{ textDecoration: "none" }}>
           <Paper
@@ -127,4 +125,4 @@ const PlayerSelector = ({ numberofPlayers, room, setRoom, setPlayers }) => {
   );
 };
 
-export default PlayerSelector;
+export default InitGame;
