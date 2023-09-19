@@ -6,6 +6,7 @@ export const PlayBox = () => {
   const [solutionAttempt, setSolutionAttempt] = useState([]);
   //do this without direct DOM manipulation
   const letters = document.getElementsByClassName("letter-button");
+  console.log(letters, "<<<<<LETERES");
   //   console.log(letters, "<<<<<<<<<<<");
   const solutionBoxes = document.getElementsByClassName("solution-box");
 
@@ -15,16 +16,20 @@ export const PlayBox = () => {
     currY,
     targetX,
     targetY,
-    index
+    wordIndex,
+    letterIndex
   ) => {
+    const wordLetters = document.getElementsByClassName(
+      `letter-button-${wordIndex}`
+    );
     setSolutionAttempt((currSolution) => {
       return [...currSolution, attemptLetter];
     });
-    letters[index].style.left = currX + "px";
-    letters[index].style.top = currY + "px";
+    wordLetters[letterIndex].style.left = currX + "px";
+    wordLetters[letterIndex].style.top = currY + "px";
     requestAnimationFrame(() => {
-      letters[index].style.left = targetX + 5 + "px";
-      letters[index].style.top = targetY + 5 + "px";
+      wordLetters[letterIndex].style.left = targetX + 5 + "px";
+      wordLetters[letterIndex].style.top = targetY + 5 + "px";
     });
   };
 
@@ -69,6 +74,10 @@ export const PlayBox = () => {
     return boxesArr;
   };
   const makeQuestionBoxes = (word, wordIndex) => {
+    const wordsLetters = document.getElementsByClassName(
+      `letter-button-${wordIndex}`
+    );
+
     console.log(typeof wordLength, "<<<<<4 and 7");
     const lettersArr = word.split("");
 
@@ -78,7 +87,7 @@ export const PlayBox = () => {
       boxesArr.push(
         <Box
           key={`answer-box-${wordIndex}-${letterIndex}`}
-          className="playBoxBoxes solution-box"
+          className={`playBoxBoxes solution-box letter-button-${wordIndex}`}
           sx={{
             margin: "10px",
             padding: "0",
@@ -104,11 +113,19 @@ export const PlayBox = () => {
             }}
             onClick={(e) => {
               e.preventDefault();
-              const currX = letters[index].offsetLeft;
-              const currY = letters[index].offsetTop;
+              const currX = wordsLetters[letterIndex].offsetLeft;
+              const currY = wordsLetters[letterIndex].offsetTop;
               const targetX = solutionBoxes[solutionAttempt.length].offsetLeft;
               const targetY = solutionBoxes[solutionAttempt.length].offsetTop;
-              handleAttempt(letter, currX, currY, targetX, targetY, index);
+              handleAttempt(
+                letter,
+                currX,
+                currY,
+                targetX,
+                targetY,
+                wordIndex,
+                letterIndex
+              );
             }}
           >
             {letter}
