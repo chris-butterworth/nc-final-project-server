@@ -14,6 +14,11 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
   const [joinRoomError, setJoinRoomError] = useState("");
 
+  const setRoomAndPlayers = (room, players) => {
+    setRoom(room);
+    setPlayers(players);
+  };
+
   return (
     <>
       <Box
@@ -29,9 +34,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createSinglePlayerRoom", (room) => {
-                setRoom(room.roomId);
-                setPlayers(room.players)
-                console.log("joined room", room);
+                setRoomAndPlayers(room.roomId, room.players);
               });
             }}
           >
@@ -53,8 +56,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
             style={{ textDecoration: "none" }}
             onClick={() => {
               socket.emit("createMultiPlayerRoom", (room) => {
-                setPlayers(room.players)
-                setRoom(room.roomId);
+                setRoomAndPlayers(room.roomId, room.players);
               });
             }}
           >
@@ -88,10 +90,10 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                   "joinMultiPlayerRoom",
                   roomCodeInput,
                   (response) => {
-                    console.log(response)
-                    if (response.error) return setJoinRoomError(response.message);
-                    setRoom(response.roomId);
-                    setPlayers(response.players);
+                    console.log(response);
+                    if (response.error)
+                      return setJoinRoomError(response.message);
+                    setRoomAndPlayers(room.roomId, room.players);
                   }
                 );
               }}
