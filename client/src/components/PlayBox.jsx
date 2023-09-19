@@ -6,10 +6,20 @@ export const PlayBox = () => {
   const [solutionAttempt, setSolutionAttempt] = useState([]);
   //do this without direct DOM manipulation
   const letters = document.getElementsByClassName("letter-button");
-  console.log(letters, "<<<<<LETERES");
-  //   console.log(letters, "<<<<<<<<<<<");
   const solutionBoxes = document.getElementsByClassName("solution-box");
-
+  const question1 = "Flip Into Cup";
+  const questionWords = question1.split(" ");
+  console.log(questionWords);
+  const answer1 = "Pulp Fiction";
+  const hiddenAnswerStr = "xxxx xxxxxxx";
+  const formattedAnswer = [4, 7];
+  const emptyBoxes = [];
+  const wordLetters = [
+    document.getElementsByClassName("letter-button-0"),
+    document.getElementsByClassName("letter-button-1"),
+    document.getElementsByClassName("letter-button-2"),
+  ];
+  console.log(solutionAttempt);
   const handleAttempt = (
     attemptLetter,
     currX,
@@ -19,28 +29,21 @@ export const PlayBox = () => {
     wordIndex,
     letterIndex
   ) => {
-    const wordLetters = document.getElementsByClassName(
-      `letter-button-${wordIndex}`
-    );
+    console.log(wordIndex, "<<<<WORD NUMBER");
+    console.log(letterIndex, "<<<<LETTRER NUMEBR");
+
     setSolutionAttempt((currSolution) => {
       return [...currSolution, attemptLetter];
     });
-    wordLetters[letterIndex].style.left = currX + "px";
-    wordLetters[letterIndex].style.top = currY + "px";
+    console.log(wordIndex);
+    wordLetters[wordIndex][letterIndex].style.left = currX + "px";
+    wordLetters[wordIndex][letterIndex].style.top = currY + "px";
     requestAnimationFrame(() => {
-      wordLetters[letterIndex].style.left = targetX + 5 + "px";
-      wordLetters[letterIndex].style.top = targetY + 5 + "px";
+      wordLetters[wordIndex][letterIndex].style.left = targetX + 5 + "px";
+      wordLetters[wordIndex][letterIndex].style.top = targetY + 5 + "px";
     });
   };
 
-  const question1 = "Flip Into Cup";
-  const answer1 = "Pulp Fiction";
-  const hiddenAnswerStr = "xxxx xxxxxxx";
-  const hiddenAnswer = hiddenAnswerStr.split("");
-  console.log(hiddenAnswer);
-  const questionArr = question1.split(" ");
-  const formattedAnswer = [4, 7];
-  const emptyBoxes = [];
   const getEmptyBoxes = () => {
     for (let i = 0; i < formattedAnswer.length; i++) {
       const thisWord = [];
@@ -53,10 +56,8 @@ export const PlayBox = () => {
   };
 
   const makeBoxes = (wordLength, index) => {
-    console.log(typeof wordLength, "<<<<<4 and 7");
     const boxesArr = [];
     for (let i = 0; i < wordLength; i++) {
-      console.log(i, "INCREMENT TO 4 and 7");
       boxesArr.push(
         <Box
           key={`answer-box-${index}-${i + 1}`}
@@ -73,31 +74,22 @@ export const PlayBox = () => {
     }
     return boxesArr;
   };
+
   const makeQuestionBoxes = (word, wordIndex) => {
-    const wordsLetters = document.getElementsByClassName(
-      `letter-button-${wordIndex}`
-    );
-
-    console.log(typeof wordLength, "<<<<<4 and 7");
-    const lettersArr = word.split("");
-
-    const boxesArr = [];
-
-    lettersArr.map((letter, letterIndex) => {
-      boxesArr.push(
+    return word.split("").map((letter, letterIndex) => {
+      return (
         <Box
-          key={`answer-box-${wordIndex}-${letterIndex}`}
-          className={`playBoxBoxes solution-box letter-button-${wordIndex}`}
+          key={`question-box-${wordIndex}-${letterIndex}`}
           sx={{
-            margin: "10px",
-            padding: "0",
-            minWidth: "5em",
-            border: "rose 10px solid",
+            width: "5em",
+            height: "5em",
             display: "block",
+            margin: "10px",
+            border: "2px blue solid",
           }}
         >
           <Button
-            className="letter-button"
+            className={`letter-button letter-button-${wordIndex}`}
             sx={{
               color: "red",
               margin: "auto",
@@ -106,15 +98,12 @@ export const PlayBox = () => {
               position: "absolute",
               margin: "0",
               display: "block",
-
-              //   fontSize: "large",
-              //   margin: "0",
               transition: "left 0.5s ease-out, top 0.7s ease-out",
             }}
             onClick={(e) => {
               e.preventDefault();
-              const currX = wordsLetters[letterIndex].offsetLeft;
-              const currY = wordsLetters[letterIndex].offsetTop;
+              const currX = wordLetters[wordIndex][letterIndex].offsetLeft;
+              const currY = wordLetters[wordIndex][letterIndex].offsetTop;
               const targetX = solutionBoxes[solutionAttempt.length].offsetLeft;
               const targetY = solutionBoxes[solutionAttempt.length].offsetTop;
               handleAttempt(
@@ -133,61 +122,18 @@ export const PlayBox = () => {
         </Box>
       );
     });
-
-    // for (let i = 0; i < word.length; i++) {
-    //   console.log(i, "INCREMENT TO 4 and 7");
-    //   boxesArr.push(
-    //     <Box
-    //       key={`answer-box-${index}-${i + 1}`}
-    //       className="playBoxBoxes solution-box"
-    //       sx={{
-    //         margin: "10px",
-    //         padding: "0",
-    //         minWidth: "5em",
-    //         border: "green 10px solid",
-    //         display: "block",
-    //       }}
-    //     >
-    //       <Button>{letter}</Button>
-    //     </Box>
-    //   );
-    // }
-    return boxesArr;
+    console.log(wordIndex, "<<<<<wordindex");
   };
+
   getEmptyBoxes();
   const questions = ["Titanic", "Pulp Fiction", "The Shining", "Citizen Kane"];
   const answers = ["Act In It", "Flip Into Cup", "Highest Inn", "Nazi Necktie"];
 
   return (
-    <Paper sx={{ height: "auto", maxHeight: "80vh" }}>
+    <>
       <Typography variant="h4">PLAY BOX</Typography>
       <Paper>
-        {/* <Button
-          className="letter-button"
-          sx={{
-            color: "red",
-            margin: "auto",
-            padding: "auto",
-            backgroundColor: "white",
-            position: "absolute",
-            margin: "0",
-            display: "block",
-
-            //   fontSize: "large",
-            //   margin: "0",
-            transition: "left 0.5s ease-out, top 0.7s ease-out",
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            const currX = letters[index].offsetLeft;
-            const currY = letters[index].offsetTop;
-            const targetX = solutionBoxes[solutionAttempt.length].offsetLeft;
-            const targetY = solutionBoxes[solutionAttempt.length].offsetTop;
-            handleAttempt(letter, currX, currY, targetX, targetY, index);
-          }}
-        >
-          A
-        </Button> */}
+        <Button></Button>
       </Paper>
       <Paper
         className="solution-container"
@@ -235,142 +181,34 @@ export const PlayBox = () => {
               </>
             );
           }
-          console.log(word, "WORD");
-          console.log(index, "INDEX");
-          console.log(formattedAnswer.length, "LENGTH");
         })}
-        {/* {hiddenAnswer.map((letter, index) => {
-          if (letter !== " ") {
-            return (
-              <Box
-                key={`answer-box-${index}`}
-                className="playBoxBoxes solution-box"
-                sx={{
-                  border: "green 10px solid",
-                  margin: "10px",
-                  padding: "0",
-                  minWidth: "5em",
-                  // position: "inherit",
-                  // transition: "left 0.5s ease-out, top 0.7s ease-out",
-                  display: "block",
-                }}
-              ></Box>
-            );
-          } else {
-            console.log("IN ELSE");
-            return <Box sx={{ display: "block", width: "5em" }}></Box>;
-          } */}
-        //{" "}
-        {
-          //     return word.map((box, boxIndex) => {
-          //       return (
-          //         <Box
-          //           key={`answer-box-${wordIndex}-${boxIndex}`}
-          //           className="playBoxBoxes solution-box"
-          //           sx={{
-          //             border: "green 10px solid",
-          //             margin: "10px",
-          //             padding: "0",
-          //             // position: "inherit",
-          //             // transition: "left 0.5s ease-out, top 0.7s ease-out",
-          //             display: "block",
-          //           }}
-          //         ></Box>
-          //       );
-          //     });
-          //   }
-          //   return;
-          //   return (
-          //     <Box
-          //       key={`answer-box-${index}`}
-          //       className="playBoxBoxes solution-box"
-          //       sx={{
-          //         border: "green 10px solid",
-          //         margin: "10px",
-          //         padding: "0",
-          //         // position: "inherit",
-          //         // transition: "left 0.5s ease-out, top 0.7s ease-out",
-          //         display: "block",
-          //       }}
-          //     ></Box>
-          //   );
-        }
       </Paper>
       <Paper
         className="question-container"
         sx={{
           display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           backgroundColor: "grey",
+          flexWrap: "wrap",
         }}
       >
-        {questionArr.map((word, index) => {
+        {questionWords.map((word, index) => {
           return (
-            <>
-              <Paper
-                sx={{
-                  backgroundColor: "black",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  marginBottom: "1em",
-                  flexWrap: "wrap",
-                  margin: "auto",
-                }}
-              >
-                {makeQuestionBoxes(word, index)}
-              </Paper>
-            </>
-          );
-          console.log(word, "WORD");
-          console.log(index, "INDEX");
-          console.log(formattedAnswer.length, "LENGTH");
-        })}
-        {/* {question1.split("").map((letter, index) => {
-          return (
-            <Box
-              className=" question-box"
-              key={`question-box-${index}`}
+            <Paper
               sx={{
-                width: "5em",
-                height: "5em",
-                display: "block",
-                margin: "10px",
-                border: "2px blue solid",
+                backgroundColor: "black",
+                display: "flex",
+                justifyContent: "space-evenly",
+                marginBottom: "1em",
+                flexWrap: "wrap",
+                margin: "auto",
               }}
             >
-              <Button
-                className="letter-button"
-                sx={{
-                  color: "red",
-                  margin: "auto",
-                  padding: "auto",
-                  backgroundColor: "white",
-                  position: "absolute",
-                  margin: "0",
-                  display: "block",
-
-                  //   fontSize: "large",
-                  //   margin: "0",
-                  transition: "left 0.5s ease-out, top 0.7s ease-out",
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const currX = letters[index].offsetLeft;
-                  const currY = letters[index].offsetTop;
-                  const targetX =
-                    solutionBoxes[solutionAttempt.length].offsetLeft;
-                  const targetY =
-                    solutionBoxes[solutionAttempt.length].offsetTop;
-                  handleAttempt(letter, currX, currY, targetX, targetY, index);
-                }}
-              >
-                {letter}
-              </Button>
-            </Box>
+              {makeQuestionBoxes(word, index)}{" "}
+            </Paper>
           );
-        })} */}
+        })}
       </Paper>
-    </Paper>
+    </>
   );
 };
