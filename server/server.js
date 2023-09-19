@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
       roomId,
       players: [{ id: socket.id, username: socket.data?.username }],
     });
-    
+
     callback(rooms.get(roomId));
   });
 
@@ -74,9 +74,18 @@ io.on("connection", (socket) => {
         { id: socket.id, username: socket.data?.username },
       ],
     };
-   
+
     rooms.set(roomId, roomUpdate);
     callback(roomUpdate);
+  });
+
+  socket.on("startTimerRequest", () => {
+    let roomId;
+    socket.rooms.forEach((socketRoom) => {
+      if (rooms.has(socketRoom)) roomId = socketRoom;
+    });
+    console.log(roomId);
+    io.in(roomId).emit("startTimer");
   });
 });
 

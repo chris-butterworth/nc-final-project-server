@@ -8,18 +8,16 @@ import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
 import { Typography } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
+import socket from "../socket";
 
 export const Timer = () => {
   const Ref = useRef(null);
 
-  // The state for our timer
   const [timer, setTimer] = useState("120");
 
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
     const seconds = Math.floor(total / 1000);
-    // const minutes = Math.floor((total / 1000 / 60) % 60);
-    // const hours = Math.floor((total / 1000 / 60 / 60) % 24);
     return {
       total,
       seconds,
@@ -29,26 +27,19 @@ export const Timer = () => {
   const startTimer = (e) => {
     let { total, seconds } = getTimeRemaining(e);
     if (total >= 0) {
-      // update the timer
-      // check if less than 10 then we need to
-      // add '0' at the beginning of the variable
+      // update the timer check if less than 10 then we need to add '0' at the beginning of the variable
       setTimer(
-        // (hours > 9 ? hours : '0' + hours) + ':' +
-        // (minutes > 9 ? minutes : '0' + minutes) + ':'
+        // (hours > 9 ? hours : '0' + hours) + ':' + (minutes > 9 ? minutes : '0' + minutes) + ':'
         seconds
       );
     }
   };
 
   const clearTimer = (e) => {
-    // If you adjust it you should also need to
-    // adjust the Endtime formula we are about
-    // to code next
+    // If you adjust it you should also need to adjust the Endtime formula we are about to code next
     setTimer("120");
 
-    // If you try to remove this line the
-    // updating of timer Variable will be
-    // after 1000ms or 1sec
+    // If you try to remove this line the updating of timer Variable will be after 1000ms or 1sec
     if (Ref.current) clearInterval(Ref.current);
     const id = setInterval(() => {
       startTimer(e);
@@ -59,28 +50,16 @@ export const Timer = () => {
   const getDeadTime = () => {
     let deadline = new Date();
 
-    // This is where you need to adjust if
-    // you entend to add more time
+    // This is where you need to adjust if you entend to add more time
     deadline.setSeconds(deadline.getSeconds() + 120);
     return deadline;
   };
-
-  // We can use useEffect so that w hen the component
-  // mount the timer will start as soon as possible
-
-  // We put empty array to act as componentDid
-  // mount only
+  
   useEffect(() => {
-    clearTimer(getDeadTime());
+    socket.on("startTimer", () => {
+      clearTimer(getDeadTime());
+    });
   }, []);
-
-  // Another way to call the clearTimer() to start
-  // the countdown is via action event from the
-  // button first we create function to be called
-  // by the button
-  const onClickReset = () => {
-    clearTimer(getDeadTime());
-  };
 
   return (
     <Box>
@@ -90,7 +69,13 @@ export const Timer = () => {
       >
         {timer} Seconds{" "}
       </Typography>
-      <button onClick={onClickReset}>Reset</button>
+      <button
+        onClick={(e) => {
+          socket.emit("startTimerRequest");
+        }}
+      >
+        Start
+      </button>
     </Box>
   );
 };

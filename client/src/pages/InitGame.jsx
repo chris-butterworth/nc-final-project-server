@@ -93,7 +93,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                     console.log(response);
                     if (response.error)
                       return setJoinRoomError(response.message);
-                    setRoomAndPlayers(room.roomId, room.players);
+                    setRoomAndPlayers(response.roomId, response.players);
                   }
                 );
               }}
