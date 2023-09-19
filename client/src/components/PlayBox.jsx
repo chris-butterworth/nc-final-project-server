@@ -1,9 +1,18 @@
-import { Typography, Box, Button, Paper, Card } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Button,
+  Paper,
+  Card,
+  AppBar,
+  Toolbar,
+} from "@mui/material";
 import { useState } from "react";
 import "../App.css";
 
 export const PlayBox = () => {
   const [solutionAttempt, setSolutionAttempt] = useState([]);
+  // const [] = useState([])
   //do this without direct DOM manipulation
   const letters = document.getElementsByClassName("letter-button");
   const solutionBoxes = document.getElementsByClassName("solution-box");
@@ -19,7 +28,8 @@ export const PlayBox = () => {
     document.getElementsByClassName("letter-button-1"),
     document.getElementsByClassName("letter-button-2"),
   ];
-  console.log(solutionAttempt);
+  console.log("attempt:", solutionAttempt);
+
   const handleAttempt = (
     attemptLetter,
     currX,
@@ -35,6 +45,7 @@ export const PlayBox = () => {
     setSolutionAttempt((currSolution) => {
       return [...currSolution, attemptLetter];
     });
+
     console.log(wordIndex);
     wordLetters[wordIndex][letterIndex].style.left = currX + "px";
     wordLetters[wordIndex][letterIndex].style.top = currY + "px";
@@ -102,10 +113,10 @@ export const PlayBox = () => {
             }}
             onClick={(e) => {
               e.preventDefault();
-              const currX = wordLetters[wordIndex][letterIndex].offsetLeft;
-              const currY = wordLetters[wordIndex][letterIndex].offsetTop;
-              const targetX = solutionBoxes[solutionAttempt.length].offsetLeft;
-              const targetY = solutionBoxes[solutionAttempt.length].offsetTop;
+              const currX = wordLetters[wordIndex][letterIndex].offsetLeft; // initial position
+              const currY = wordLetters[wordIndex][letterIndex].offsetTop; // initial position
+              const targetX = solutionBoxes[solutionAttempt.length].offsetLeft; // target position
+              const targetY = solutionBoxes[solutionAttempt.length].offsetTop; // target position
               handleAttempt(
                 letter,
                 currX,
@@ -131,7 +142,18 @@ export const PlayBox = () => {
 
   return (
     <>
-      <Typography variant="h4">PLAY BOX</Typography>
+      <AppBar position="static">
+        <Button
+          onClick={() => {
+            setSolutionAttempt([]);
+            // makeQuestionBoxes;
+          }}
+        >
+          Clear
+        </Button>
+
+        <Button>Hint</Button>
+      </AppBar>
       <Paper>
         <Button></Button>
       </Paper>

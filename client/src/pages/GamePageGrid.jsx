@@ -74,7 +74,7 @@ const GamePageGrid = ({ players }) => {
       <Box
         sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
       >
-        <Paper
+        {/* <Paper
           elevation={3}
           sx={{
             minWidth: "25vw",
@@ -85,8 +85,8 @@ const GamePageGrid = ({ players }) => {
           }}
         >
           <Typography variant="span">Player Controls</Typography>
-        </Paper>
-        <Paper
+        </Paper> */}
+        {/* <Paper
           elevation={3}
           sx={{
             minWidth: "25vw",
@@ -97,7 +97,7 @@ const GamePageGrid = ({ players }) => {
           }}
         >
           <Typography variant="span">Chat Box</Typography>
-        </Paper>
+        </Paper> */}
       </Box>
     </Box>
 
