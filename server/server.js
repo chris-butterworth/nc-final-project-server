@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
       roomId,
       players: [{ id: socket.id, username: socket.data?.username }],
     });
-    callback(roomId);
+    callback(rooms.get(roomId));
   });
   socket.on("createMultiPlayerRoom", async (callback) => {
     const roomId = `mp${socket.id}`;
@@ -42,7 +42,8 @@ io.on("connection", (socket) => {
       roomId,
       players: [{ id: socket.id, username: socket.data?.username }],
     });
-    callback(roomId);
+    
+    callback(rooms.get(roomId));
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
@@ -73,7 +74,7 @@ io.on("connection", (socket) => {
         { id: socket.id, username: socket.data?.username },
       ],
     };
-
+   
     rooms.set(roomId, roomUpdate);
     callback(roomUpdate);
   });
