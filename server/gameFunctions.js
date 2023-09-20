@@ -90,10 +90,10 @@ const serverTimer = (time, roomId) => {
     updatedRoom.timer = --timer;
     roomsMap.set(roomId, updatedRoom);
 
-    console.log(roomsMap.get(roomId));
+   ;
     if (timer === 0) {
       clearInterval(id);
-      return;
+      return "Timer over";
     }
   };
   const id = setInterval(secondEvent, 1000);

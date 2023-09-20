@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
-  socket.on("playerReady", () => {
+  socket.on("playerReady",  () => {
     const roomPlayers = playerReady(socket);
     let playerReadyStatus = [];
     roomPlayers.forEach((player) => {
@@ -65,7 +65,11 @@ io.on("connection", (socket) => {
     if (playerReadyStatus.every((item) => item)) {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
       io.in(getRoomIdFromSocket(socket)).emit("startMatch", 5);
-      serverTimer(5, getRoomIdFromSocket(socket));
+      const promise = new Promise(() =>{
+        return serverTimer(5, getRoomIdFromSocket(socket));
+      }).then(()=>{
+        console.log("in the promise")
+      })
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
