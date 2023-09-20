@@ -1,6 +1,5 @@
 import { useState } from "react";
 import socket from "../socket";
-import LetterArrayComponent from "../components/Test";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -26,7 +25,6 @@ const Login = ({ setUsername }) => {
         ></input>
         <button>Submit Username</button>
       </form>
-      <LetterArrayComponent />
     </div>
   );
 };

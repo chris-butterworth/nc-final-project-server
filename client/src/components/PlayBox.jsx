@@ -4,37 +4,53 @@ import { useState, useEffect } from "react";
 export const PlayBox = () => {
   const [anagramWords, setAnagramWords] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
-  const [clickedLetters, setClickedLetters] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
-  useEffect(() => {
-    // Simulating data fetching, replace with your actual data retrieval logic
-    const fetchData = async () => {
-      // Example data
-      const anagramData = {
-        anagramWords: ["Flip", "Into", "Cup"],
-        anagramAnswer: "Pulp Fiction",
-      };
-
-      setAnagramWords(anagramData.anagramWords);
-      setFormattedAnswerArray(
-        anagramData.anagramAnswer
-          .split(" ")
-          .map((word) => Array.from({ length: word.length }, () => ""))
-      );
+  // this will be our call to the api to get the anagram and answer
+  const fetchData = async () => {
+    // Example data
+    const anagramData = {
+      anagramWords: ["Flip", "Into", "Cup"],
+      anagramAnswer: "Pulp Fiction",
     };
 
+    setAnagramWords(anagramData.anagramWords);
+    setFormattedAnswerArray(
+      anagramData.anagramAnswer
+        .split(" ")
+        .map((word) => Array.from({ length: word.length }, () => ""))
+    );
+  };
+
+  useEffect(() => {
+    // Fetch data when the component mounts
     fetchData();
   }, []);
 
-  const handleAttempt = (questionLetter) => {
+  const handleClearButtonClick = () => {
+    setDisabledButtons([]);
+    // Fetch the data again to reset the game
+    fetchData();
+  };
+
+  const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
+    // Create a copy of the formattedAnswerArray
     const updatedArray = [...formattedAnswerArray];
 
+    // Iterate through the words and letters in the answer array
     for (let i = 0; i < updatedArray.length; i++) {
       for (let j = 0; j < updatedArray[i].length; j++) {
+        // Check if the current cell in the answer array is empty
         if (updatedArray[i][j] === "") {
+          // Place the clicked letter in the empty cell
           updatedArray[i][j] = questionLetter;
           setFormattedAnswerArray(updatedArray);
-          setClickedLetters((prev) => [...prev, questionLetter]);
+
+          // Disable the button by updating the disabledButtons state
+          const newDisabledButtons = [...disabledButtons];
+          newDisabledButtons.push({ wordIndex, letterIndex });
+          setDisabledButtons(newDisabledButtons);
+
           return; // Exit the function after adding the letter
         }
       }
@@ -58,13 +74,25 @@ export const PlayBox = () => {
           }}
         >
           <Button
-            className={`button`}
+            className={`button anagram-button ${
+              formattedAnswerArray &&
+              formattedAnswerArray[wordIndex] &&
+              formattedAnswerArray[wordIndex][letterIndex] !== ""
+                ? "disabled"
+                : ""
+            }`}
             sx={{
               backgroundColor: "purple",
               padding: "0",
               minWidth: "40px",
             }}
-            onClick={() => handleAttempt(questionLetter)}
+            onClick={() =>
+              handleAttempt(questionLetter, wordIndex, letterIndex)
+            }
+            disabled={disabledButtons.some(
+              (btn) =>
+                btn.wordIndex === wordIndex && btn.letterIndex === letterIndex
+            )}
           >
             {questionLetter}
           </Button>
@@ -75,6 +103,7 @@ export const PlayBox = () => {
 
   return (
     <>
+      <Button onClick={handleClearButtonClick}> Clear</Button>
       <Paper
         className="solution-container"
         sx={{
