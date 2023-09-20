@@ -7,7 +7,8 @@ const templatePlayerObject = {
   avatar_alt: "",
   readyToStartRound: false,
   isSolved: false,
-  score: 0,
+  score: 0, // just for this word
+  totalScore: 0 // for the whole game
 };
 
 const createNewRoom = (socket, roomId) => {
