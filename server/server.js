@@ -1,8 +1,11 @@
 const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
-const { roomsMap, createNewRoom } = require("./gameFunctions.js");
-
+const {
+  roomsMap,
+  createNewRoom,
+  joinMultiPlayerRoom,
+} = require("./gameFunctions.js");
 
 const app = express(); // initialize express
 
@@ -25,44 +28,32 @@ io.on("connection", (socket) => {
     socket.data.username = username;
   });
 
-
   socket.on("createSinglePlayerRoom", async (callback) => {
     const roomId = `sp${socket.id}`;
     await socket.join(roomId);
-    createNewRoom(socket, roomId)
+    createNewRoom(socket, roomId);
     callback(roomsMap.get(roomId));
   });
   socket.on("createMultiPlayerRoom", async (callback) => {
     const roomId = `mp${socket.id}`;
     await socket.join(roomId);
-    createNewRoom(socket, roomId)
+    createNewRoom(socket, roomId);
     callback(roomsMap.get(roomId));
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
-    const room = roomsMap.get(roomId);
-    let error, message;
-    if (!room) {
-      error = true;
-      message = "room does not exist";
-    } else if (room.length <= 0) {
-      error = true;
-      message = "room is empty";
-    } else if (room.length >= 10) {
-      error = true;
-      message = "room is full";
-    }
+    const response = joinMultiPlayerRoom(socket, roomId);
 
-    if (error) {
-      callback({ error, message });
+    if (response.error) {
+      callback(response);
       return;
     }
 
     await socket.join(roomId);
 
-    const roomUpdate = joinMultiplayerRoom(socket, room, roomId)
-    socket.to(roomId).emit('playerJoined', roomUpdate.players)
-    callback(roomUpdate);
+    socket.to(roomId).emit("playerJoined", roomUpdate.players);
+
+    callback(response);
   });
 
   socket.on("startTimerRequest", () => {
