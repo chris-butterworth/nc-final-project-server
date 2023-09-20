@@ -5,23 +5,19 @@ const {
   roomsMap,
   createNewRoom,
   joinMultiPlayerRoom,
+  getRoomIdFromSocket,
 } = require("./gameFunctions.js");
 
-const app = express(); // initialize express
+const app = express();
 
 const server = http.createServer(app);
 
-// set port to value received from environment variable or 8080 if null
 const port = process.env.PORT || 8080;
 
-// upgrade http server to websocket server
 const io = new Server(server, {
-  cors: "*", // allow connection from any origin
+  cors: "*",
 });
 
-const rooms = new Map(); /////rooms map
-
-// io.on('connection');
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
     console.log(socket.id, "=", username);
@@ -34,6 +30,7 @@ io.on("connection", (socket) => {
     createNewRoom(socket, roomId);
     callback(roomsMap.get(roomId));
   });
+
   socket.on("createMultiPlayerRoom", async (callback) => {
     const roomId = `mp${socket.id}`;
     await socket.join(roomId);
@@ -43,25 +40,17 @@ io.on("connection", (socket) => {
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     const response = joinMultiPlayerRoom(socket, roomId);
-
     if (response.error) {
       callback(response);
       return;
     }
-
     await socket.join(roomId);
-
-    socket.to(roomId).emit("playerJoined", roomUpdate.players);
-
+    socket.to(roomId).emit("playerJoined", response.players);
     callback(response);
   });
 
   socket.on("startTimerRequest", () => {
-    let roomId;
-    socket.rooms.forEach((socketRoom) => {
-      if (rooms.has(socketRoom)) roomId = socketRoom;
-    });
-    io.in(roomId).emit("startTimer");
+    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 });
 

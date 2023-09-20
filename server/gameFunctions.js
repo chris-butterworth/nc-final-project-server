@@ -1,9 +1,25 @@
 const roomsMap = new Map();
 
+const templatePlayerObject = {
+  id: 0,
+  username: "",
+  avatar: "",
+  avatar_alt: "",
+  readyToStartRound: false,
+  isSolved: false,
+  score: 0,
+};
+
 const createNewRoom = (socket, roomId) => {
   roomsMap.set(roomId, {
     roomId,
-    players: [{ id: socket.id, username: socket.data?.username }],
+    players: [
+      {
+        ...templatePlayerObject,
+        id: socket.id,
+        username: socket.data?.username,
+      },
+    ],
   });
 };
 
@@ -29,7 +45,11 @@ const joinMultiPlayerRoom = (socket, roomId) => {
       ...room,
       players: [
         ...room.players,
-        { id: socket.id, username: socket.data?.username },
+        {
+          ...templatePlayerObject,
+          id: socket.id,
+          username: socket.data?.username,
+        },
       ],
     };
     roomsMap.set(roomId, roomUpdate);
@@ -37,4 +57,17 @@ const joinMultiPlayerRoom = (socket, roomId) => {
   }
 };
 
-module.exports = { roomsMap, createNewRoom, joinMultiPlayerRoom };
+const getRoomIdFromSocket = (socket) => {
+  let roomId;
+  socket.rooms.forEach((socketRoom) => {
+    if (roomsMap.has(socketRoom)) roomId = socketRoom;
+  });
+  return roomId;
+};
+
+module.exports = {
+  roomsMap,
+  createNewRoom,
+  joinMultiPlayerRoom,
+  getRoomIdFromSocket,
+};

@@ -55,11 +55,13 @@ function App() {
       id: "MOREID",
     },
   ]);
-useEffect(()=>{
-	socket.on('playerJoined', (players)=>{
-		setPlayers(players)
-	})
-}, [])
+
+  useEffect(() => {
+    socket.on("playerJoined", (players) => {
+      setPlayers(players);
+    });
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={mode}>
@@ -81,7 +83,7 @@ useEffect(()=>{
                   username={username}
                   setUsername={setUsername}
                   players={players}
-				  setPlayers={setPlayers}
+                  setPlayers={setPlayers}
                 />
               }
             />
