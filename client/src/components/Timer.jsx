@@ -34,7 +34,7 @@ export const Timer = ({timer, setTimer}) => {
 
   const clearTimer = (e) => {
     // If you adjust it you should also need to adjust the Endtime formula we are about to code next
-    setTimer("120"§);
+    setTimer("120");
 
     // If you try to remove this line the updating of timer Variable will be after 1000ms or 1sec
     if (Ref.current) clearInterval(Ref.current);
