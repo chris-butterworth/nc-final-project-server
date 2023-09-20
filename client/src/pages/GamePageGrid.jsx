@@ -2,7 +2,8 @@ import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import socket from "../socket";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -29,11 +30,12 @@ const GamePageGrid = ({ players, room }) => {
   const [roundNumber, setRoundNumber] = useState(1);
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
 
-  // useEffect(() => {
-  //   socket.on("playerJoined", (players) => {
-  //     setPlayers(players);
-  //   });
-  // }, []);
+  useEffect(() => {
+    socket.on("startMatch", () => {
+      setAllPlayersReady(true);
+    });
+  }, []);
+
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -52,7 +54,13 @@ const GamePageGrid = ({ players, room }) => {
             variant: "h3",
           }}
         >
-          <Timer timer={timer} setTimer={setTimer} sx={{ maxHeight: "25px" }} />
+          <Timer
+            timer={timer}
+            setTimer={setTimer}
+            playerReady={playerReady}
+            setPlayerReady={setPlayerReady}
+            sx={{ maxHeight: "25px" }}
+          />
         </Paper>
         <Paper
           elevation={3}

@@ -75,10 +75,6 @@ const playerReady = (socket) =>{
     }
   })
   return room.players
-  
-  
-      
-
 }
 
 module.exports = {

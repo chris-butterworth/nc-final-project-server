@@ -10,7 +10,7 @@ import { Typography } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import socket from "../socket";
 
-export const Timer = ({timer, setTimer}) => {
+export const Timer = ({ timer, setTimer, playerReady, setPlayerReady }) => {
   const Ref = useRef(null);
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -51,7 +51,7 @@ export const Timer = ({timer, setTimer}) => {
     deadline.setSeconds(deadline.getSeconds() + 120);
     return deadline;
   };
-  
+
   useEffect(() => {
     socket.on("startTimer", () => {
       clearTimer(getDeadTime());
@@ -66,13 +66,16 @@ export const Timer = ({timer, setTimer}) => {
       >
         {timer} Seconds{" "}
       </Typography>
-      <button
-        onClick={(e) => {
-          socket.emit("playerReady");
-        }}
-      >
-        Start
-      </button>
+      {!playerReady && (
+        <button
+          onClick={(e) => {
+            socket.emit("playerReady");
+            setPlayerReady(true);
+          }}
+        >
+          Ready
+        </button>
+      )}
     </Box>
   );
 };
