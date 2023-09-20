@@ -66,9 +66,25 @@ const getRoomIdFromSocket = (socket) => {
   return roomId;
 };
 
+const playerReady = (socket) =>{
+  const roomId = getRoomIdFromSocket(socket)
+  const room = roomsMap.get(roomId)
+  room.players.forEach((player) => {
+    if (player.id === socket.id){
+      player.readyToStartRound = true
+    }
+  })
+  return room.players
+  
+  
+      
+
+}
+
 module.exports = {
   roomsMap,
   createNewRoom,
   joinMultiPlayerRoom,
   getRoomIdFromSocket,
+  playerReady
 };

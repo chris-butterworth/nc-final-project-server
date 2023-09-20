@@ -57,10 +57,11 @@ function App() {
   ]);
 
   useEffect(() => {
-    socket.on("playerJoined", (players) => {
+    socket.on("updatePlayers", (players) => {
       setPlayers(players);
     });
   }, []);
+  console.log(players)
 
   return (
     <>

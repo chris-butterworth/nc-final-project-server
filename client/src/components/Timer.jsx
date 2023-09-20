@@ -68,7 +68,7 @@ export const Timer = ({timer, setTimer}) => {
       </Typography>
       <button
         onClick={(e) => {
-          socket.emit("startTimerRequest");
+          socket.emit("playerReady");
         }}
       >
         Start
