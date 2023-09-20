@@ -2,15 +2,11 @@ import { useState, useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { ModeContext } from "./context/Mode.jsx";
-import { Paper, Button } from "@mui/material";
+import { Paper } from "@mui/material";
 import NavBar from "./components/NavBar";
-import HomePage from "./pages/HomePage";
+import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
-import GamePage from "./pages/GamePage";
-import GamePageGrid from "./pages/GamePageGrid";
 import "./App.css";
-import socket from "./socket";
-import Login from "./pages/Login.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -58,6 +54,7 @@ function App() {
       id: "MOREID",
     },
   ]);
+
   return (
     <>
       <ThemeProvider theme={mode}>
@@ -73,12 +70,13 @@ function App() {
             <Route
               path="/"
               element={
-                <HomePage
+                <AppContainer
                   room={room}
                   setRoom={setRoom}
                   username={username}
                   setUsername={setUsername}
                   players={players}
+                  setPlayers={setPlayers}
                 />
               }
             />
