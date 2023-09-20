@@ -19,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
   const [allPlayersReady, setAllPlayersReady] = useState(false);
+  const [gameMessage, setGameMessage] = useState("");
   const [roundStarting, setRoundStarting] = useState(false); // 3 second countdown
   const [timer, setTimer] = useState("0"); // this will change for between rounds/ in a word
   const [roundActive, setRoundActive] = useState(false); // a set of 3 words with breaks
@@ -29,15 +30,38 @@ const GamePageGrid = ({ players, room }) => {
   const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [roundNumber, setRoundNumber] = useState(1);
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
+  const [gameScores, setGameScores] = useState("");
   const Ref = useRef(null);
 
   useEffect(() => {
-    socket.on("startMatch", (time) => {
+    socket.on("allPlayersReady", () => {
       setAllPlayersReady(true);
-      setRoundStarting(true);
+    });
+  }, []);
+  useEffect(() => {
+    socket.on("roundCountdown", (time, message) => {
+      setAnagram("");
+      setGameMessage(message);
       timerFunction(time);
     });
   }, []);
+  useEffect(() => {
+    socket.on("anagram", (time, anagram) => {
+      setGameMessage("");
+      setAnagram(anagram);
+      timerFunction(time);
+    });
+  }, []);
+  useEffect(() => {
+    socket.on("endMatch", (scores) => {
+      setGameMessage("");
+      setGameOver(true);
+      setGameScores(scores);
+    });
+  }, []);
+  console.log(anagram);
+  console.log(gameOver)
+  
 
   const timerFunction = (time) => {
     const clearTimer = (e) => {

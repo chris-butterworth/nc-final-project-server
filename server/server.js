@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
-  socket.on("playerReady",  () => {
+  socket.on("playerReady", () => {
     const roomPlayers = playerReady(socket);
     let playerReadyStatus = [];
     roomPlayers.forEach((player) => {
@@ -63,16 +63,45 @@ io.on("connection", (socket) => {
     });
 
     if (playerReadyStatus.every((item) => item)) {
-      io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
-      io.in(getRoomIdFromSocket(socket)).emit("startMatch", 5);
-      const promise = new Promise(() =>{
-        return serverTimer(5, getRoomIdFromSocket(socket));
-      }).then(()=>{
-        console.log("in the promise")
-      })
+      const roomId = getRoomIdFromSocket(socket);
+      const roomData = roomsMap.get(roomId);
+      io.in(roomId).emit("allPlayersReady");
+      let currentAnagramNumber = 0;
+
+      let endMatch = () => {
+        io.in(roomId).emit("endMatch", roomData.anagrams);
+      };
+
+      let roundCountdown = () => {
+        io.in(roomId).emit("roundCountdown", 1, "Next word coming up...");
+        serverTimer(5, roomId, roundInProgress);
+      };
+
+      let roundInProgress = () => {
+        if (currentAnagramNumber >= 9) {
+          endMatch();
+          return;
+        }
+        serverTimer(1, roomId, roundCountdown);
+        io.in(roomId).emit(
+          "anagram",
+          1,
+          roomData.anagrams[currentAnagramNumber++].anagram
+        );
+        io.in(roomId).emit("gameData", roomData.game);
+      };
+
+      io.in(roomId).emit("updatePlayers", roomPlayers);
+      roundCountdown();
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
+  });
+
+  socket.on("updateScore", (anagramNumber) => {
+    const roomId = getRoomIdFromSocket(socket);
+    const roomData = roomsMap.get(roomId);
+    //update room object with players score from last round
   });
 });
 

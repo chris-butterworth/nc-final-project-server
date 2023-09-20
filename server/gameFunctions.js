@@ -15,6 +15,18 @@ const createNewRoom = (socket, roomId) => {
   roomsMap.set(roomId, {
     roomId,
     timer: 0,
+    anagrams: [
+      { anagram: "anagram1", scores: [{}] },
+      { anagram: "anagram2", scores: [{}] },
+      { anagram: "anagram3", scores: [{}] },
+      { anagram: "anagram4", scores: [{}] },
+      { anagram: "anagram5", scores: [{}] },
+      { anagram: "anagram6", scores: [{}] },
+      { anagram: "anagram7", scores: [{}] },
+      { anagram: "anagram8", scores: [{}] },
+      { anagram: "anagram9", scores: [{}] },
+    ],
+    game: { round: 0, word: 0 },
     players: [
       {
         ...templatePlayerObject,
@@ -79,24 +91,28 @@ const playerReady = (socket) => {
   return room.players;
 };
 
-const serverTimer = (time, roomId) => {
+const serverTimer = (time, roomId, callback) => {
   let timer = time;
   const updatedRoom = roomsMap.get(roomId);
   updatedRoom.timer = timer;
-  roomsMap.set(roomId, updatedRoom)
+  roomsMap.set(roomId, updatedRoom);
 
   const secondEvent = () => {
     const updatedRoom = roomsMap.get(roomId);
     updatedRoom.timer = --timer;
     roomsMap.set(roomId, updatedRoom);
 
-   ;
     if (timer === 0) {
       clearInterval(id);
-      return "Timer over";
+      callback();
     }
   };
   const id = setInterval(secondEvent, 1000);
+};
+
+const getNextAnagram = (roomId) => {
+  const room = roomsMap.get(roomId);
+  return;
 };
 
 module.exports = {
