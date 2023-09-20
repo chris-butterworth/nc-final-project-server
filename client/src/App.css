@@ -22,3 +22,7 @@
 .letter-button :active {
   background-color: white;
 }
+
+.disabled {
+  font-size: 100px;
+}
