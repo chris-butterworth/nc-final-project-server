@@ -30,47 +30,38 @@ const GamePageGrid = ({ players, room }) => {
   const [roundNumber, setRoundNumber] = useState(1);
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
   const Ref = useRef(null);
+
   useEffect(() => {
-    socket.on("startMatch", () => {
+    socket.on("startMatch", (time) => {
       setAllPlayersReady(true);
-      setRoundStarting(true)
-      timerFunction(50)
+      setRoundStarting(true);
+      timerFunction(time);
     });
   }, []);
-  const timerFunction = (time) =>{
-    
-    console.log(time, "< int imer")
+
+  const timerFunction = (time) => {
     const clearTimer = (e) => {
-      // If you adjust it you should also need to adjust the Endtime formula we are about to code next
       setTimer(time.toString());
-  
-      // If you try to remove this line the updating of timer Variable will be after 1000ms or 1sec
       if (Ref.current) clearInterval(Ref.current);
       const id = setInterval(() => {
         startTimer(e);
       }, 1000);
       Ref.current = id;
     };
-  
+
     const getDeadline = () => {
       let deadline = new Date();
-  
-      // This is where you need to adjust if you entend to add more time
       deadline.setSeconds(deadline.getSeconds() + time);
       return deadline;
     };
-    
+
     const startTimer = (e) => {
       let { total, seconds } = getTimeRemaining(e);
       if (total >= 0) {
-        
-        setTimer(
-         
-          seconds
-        );
+        setTimer(seconds);
       }
     };
-  
+
     const getTimeRemaining = (e) => {
       const total = Date.parse(e) - Date.parse(new Date());
       const seconds = Math.floor(total / 1000);
@@ -79,10 +70,9 @@ const GamePageGrid = ({ players, room }) => {
         seconds,
       };
     };
-  
-    clearTimer(getDeadline())
-  
-  }
+
+    clearTimer(getDeadline());
+  };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>

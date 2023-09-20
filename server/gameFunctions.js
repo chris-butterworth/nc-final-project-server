@@ -8,12 +8,13 @@ const templatePlayerObject = {
   readyToStartRound: false,
   isSolved: false,
   score: 0, // just for this word
-  totalScore: 0 // for the whole game
+  totalScore: 0, // for the whole game
 };
 
 const createNewRoom = (socket, roomId) => {
   roomsMap.set(roomId, {
     roomId,
+    timer: 0,
     players: [
       {
         ...templatePlayerObject,
@@ -22,6 +23,7 @@ const createNewRoom = (socket, roomId) => {
       },
     ],
   });
+  console.log(roomsMap.get(roomId));
 };
 
 const joinMultiPlayerRoom = (socket, roomId) => {
@@ -66,21 +68,42 @@ const getRoomIdFromSocket = (socket) => {
   return roomId;
 };
 
-const playerReady = (socket) =>{
-  const roomId = getRoomIdFromSocket(socket)
-  const room = roomsMap.get(roomId)
+const playerReady = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const room = roomsMap.get(roomId);
   room.players.forEach((player) => {
-    if (player.id === socket.id){
-      player.readyToStartRound = true
+    if (player.id === socket.id) {
+      player.readyToStartRound = true;
     }
-  })
-  return room.players
-}
+  });
+  return room.players;
+};
+
+const serverTimer = (time, roomId) => {
+  let timer = time;
+  const updatedRoom = roomsMap.get(roomId);
+  updatedRoom.timer = timer;
+  roomsMap.set(roomId, updatedRoom)
+
+  const secondEvent = () => {
+    const updatedRoom = roomsMap.get(roomId);
+    updatedRoom.timer = --timer;
+    roomsMap.set(roomId, updatedRoom);
+
+    console.log(roomsMap.get(roomId));
+    if (timer === 0) {
+      clearInterval(id);
+      return;
+    }
+  };
+  const id = setInterval(secondEvent, 1000);
+};
 
 module.exports = {
   roomsMap,
   createNewRoom,
   joinMultiPlayerRoom,
   getRoomIdFromSocket,
-  playerReady
+  playerReady,
+  serverTimer,
 };

@@ -7,6 +7,7 @@ const {
   joinMultiPlayerRoom,
   getRoomIdFromSocket,
   playerReady,
+  serverTimer,
 } = require("./gameFunctions.js");
 
 const app = express();
@@ -63,7 +64,8 @@ io.on("connection", (socket) => {
 
     if (playerReadyStatus.every((item) => item)) {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
-      io.in(getRoomIdFromSocket(socket)).emit("startMatch");
+      io.in(getRoomIdFromSocket(socket)).emit("startMatch", 5);
+      serverTimer(5, getRoomIdFromSocket(socket));
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
