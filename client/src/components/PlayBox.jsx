@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 export const PlayBox = () => {
   const [anagramWords, setAnagramWords] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+  const [clickedLetters, setClickedLetters] = useState([]);
 
   useEffect(() => {
+    // Simulating data fetching, replace with your actual data retrieval logic
     const fetchData = async () => {
+      // Example data
       const anagramData = {
         anagramWords: ["Flip", "Into", "Cup"],
         anagramAnswer: "Pulp Fiction",
@@ -14,22 +17,27 @@ export const PlayBox = () => {
 
       setAnagramWords(anagramData.anagramWords);
       setFormattedAnswerArray(
-        Array.from({ length: anagramData.anagramWords.length }, () => [])
+        anagramData.anagramAnswer
+          .split(" ")
+          .map((word) => Array.from({ length: word.length }, () => ""))
       );
     };
 
     fetchData();
   }, []);
 
-  const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
-    if (
-      formattedAnswerArray[wordIndex].length < anagramWords[wordIndex].length
-    ) {
-      setFormattedAnswerArray((prev) => {
-        const updatedArray = [...prev];
-        updatedArray[wordIndex].push(questionLetter);
-        return updatedArray;
-      });
+  const handleAttempt = (questionLetter) => {
+    const updatedArray = [...formattedAnswerArray];
+
+    for (let i = 0; i < updatedArray.length; i++) {
+      for (let j = 0; j < updatedArray[i].length; j++) {
+        if (updatedArray[i][j] === "") {
+          updatedArray[i][j] = questionLetter;
+          setFormattedAnswerArray(updatedArray);
+          setClickedLetters((prev) => [...prev, questionLetter]);
+          return; // Exit the function after adding the letter
+        }
+      }
     }
   };
 
@@ -42,7 +50,7 @@ export const PlayBox = () => {
         display: "flex",
       }}
     >
-      {word.split("").map((questionLetter, letterIndex) => (
+      {Array.from(word).map((questionLetter, letterIndex) => (
         <Box
           key={`letter-${letterIndex}`}
           sx={{
@@ -50,20 +58,13 @@ export const PlayBox = () => {
           }}
         >
           <Button
-            className={`button ${
-              formattedAnswerArray[wordIndex].length >= word.length
-                ? "disabled"
-                : ""
-            }`}
+            className={`button`}
             sx={{
               backgroundColor: "purple",
               padding: "0",
               minWidth: "40px",
             }}
-            onClick={() =>
-              handleAttempt(questionLetter, wordIndex, letterIndex)
-            }
-            disabled={formattedAnswerArray[wordIndex].length >= word.length}
+            onClick={() => handleAttempt(questionLetter)}
           >
             {questionLetter}
           </Button>
@@ -94,7 +95,7 @@ export const PlayBox = () => {
           >
             {answerWord.map((answerLetter, letterIndex) => (
               <Box key={`answer-letter-${letterIndex}`}>
-                {answerLetter ? (
+                {answerLetter !== "" ? (
                   <Button>{answerLetter}</Button>
                 ) : (
                   <Box
