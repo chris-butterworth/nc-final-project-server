@@ -36,6 +36,7 @@ const GamePageGrid = ({ players, room }) => {
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
 
+  const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
 
@@ -98,7 +99,6 @@ const GamePageGrid = ({ players, room }) => {
       setGameScores(scores);
     });
   }, []);
-
 
   useEffect(() => {
     // Tests answer validity
@@ -207,7 +207,7 @@ const GamePageGrid = ({ players, room }) => {
       <CustomDialog // Game ready CustomDialog
         open={betweenWords}
         title={gameMessage}
-        contentText={roundStarting}
+        contentText={gameScroll[gameScroll.length - 1]}
       />
 
       <Box sx={{ flexGrow: 1 }}>
@@ -237,11 +237,11 @@ const GamePageGrid = ({ players, room }) => {
             <Item>
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
-                <ul>
+                
                   {gameScroll.map((item, index) => {
-                    return <li key={index}>{item}</li>;
+                    return <p key={index}>{item}</p>;
                   })}
-                </ul>
+                
               </Typography>
             </Item>
           </Grid>
