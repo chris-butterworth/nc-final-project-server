@@ -88,6 +88,10 @@ const playerReady = (socket) => {
   return room.players;
 };
 
+
+
+
+
 const serverTimer = (time, roomId, callback) => {
   let timer = time;
   const updatedRoom = roomsMap.get(roomId);

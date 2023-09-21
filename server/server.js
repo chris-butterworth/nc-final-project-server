@@ -55,6 +55,10 @@ io.on("connection", (socket) => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
+
+/////////////////////
+
+
   socket.on("playerReady", () => {
     const roomPlayers = playerReady(socket);
     let playerReadyStatus = [];
@@ -66,12 +70,10 @@ io.on("connection", (socket) => {
       const roomId = getRoomIdFromSocket(socket);
       const roomData = roomsMap.get(roomId);
 
-      
       io.in(roomId).emit("allPlayersReady");
-      
+
       let currentAnagramNumber = 0;
 
-      
       let endMatch = () => {
         io.in(roomId).emit("endMatch", roomData.anagrams);
       };
@@ -95,7 +97,6 @@ io.on("connection", (socket) => {
 
         io.in(roomId).emit("gameData", roomData.game);
         serverTimer(15, roomId, roundCountdown);
-
       };
 
       io.in(roomId).emit("updatePlayers", roomPlayers);
@@ -103,12 +104,16 @@ io.on("connection", (socket) => {
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
-  
   });
 
+  socket.on("anagramAttempt", (attempt) => {
 
+    const attemptString = attempt.map((word) => {
+      return word.join('')
+    }).join(' ')
 
-
+    // if (attemptString !== )
+  });
 
   socket.on("updateScore", (anagramNumber) => {
     const roomId = getRoomIdFromSocket(socket);

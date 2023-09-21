@@ -42,8 +42,7 @@ export const PlayBox = ({
           return "";
         });
       });
-      //  return current.split(" ")
-      //       .map((word) => Array.from({ length: word.length }, () => ""));
+
     });
     //  console.log(formattedAnswerArray, "FORMATTED");
     //  console.log(initialAnswerArray, "INITIAL");

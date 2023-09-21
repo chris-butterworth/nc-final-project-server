@@ -28,8 +28,8 @@ const GamePageGrid = ({ players, room }) => {
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
   const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
   const [anagramNumber, setAnagramNumber] = useState(0);
-  const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [roundNumber, setRoundNumber] = useState(1);
+  const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
   const [gameScores, setGameScores] = useState("");
 
@@ -68,8 +68,13 @@ const GamePageGrid = ({ players, room }) => {
     });
   }, []);
   useEffect(() => {
-   
-  }, []);
+    if (
+      disabledButtons.length > 0 &&
+      disabledButtons.length === formattedAnswerArray.flat().length
+    ) {
+      socket.emit("anagramAttempt", formattedAnswerArray);
+    }
+  }, [disabledButtons]);
 
   useEffect(() => {
     socket.on("endMatch", (scores) => {
