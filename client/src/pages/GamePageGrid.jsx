@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
+import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 
@@ -13,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   minHeight: "50vh",
-  maxHeight: "50vh",
+  maxHeight: "50vh",,
 }));
 
 const GamePageGrid = ({ players, room }) => {
@@ -144,12 +145,14 @@ const GamePageGrid = ({ players, room }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
             <Item sx={{ overflow: "auto" }}>
+          <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
+            <Item sx={{ overflow: "auto" }}>
               <PlayerList players={players} />
             </Item>
           </Grid>
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
-              <Typography variant="h4">Play Box</Typography>
+              <PlayBox />
             </Item>
           </Grid>
 
@@ -190,64 +193,6 @@ const GamePageGrid = ({ players, room }) => {
         </Paper>
       </Box>
     </Box>
-
-    // <Box sx={{ display: "flex", flexDirection: "column" }}>
-    //   <Box
-    //     sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
-    //   >
-    //     <Paper
-    //       elevation={3}
-    //       sx={{
-    //         minWidth: "25vw",
-    //         minHeight: "5vh",
-    //         margin: "2em",
-    //         padding: "1em",
-    //         textAlign: "center",
-    //       }}
-    //     >
-    //       <Typography variant="span">i identify as a timer</Typography>
-    //     </Paper>
-    //   </Box>
-    //   <Box sx={{ display: "flex", flexDirection: "row" }}>
-    //     <Paper
-    //       elevation={3}
-    //       sx={{
-    //         minWidth: "10%",
-    //         minHeight: "50vh",
-    //         margin: "2em",
-    //         padding: "1em",
-    //         textAlign: "center",
-    //       }}
-    //     >
-    //       <Typography variant="span">player list</Typography>
-    //     </Paper>
-    //     <Paper
-    //       elevation={3}
-    //       sx={{
-    //         minWidth: "60%",
-    //         minHeight: "50vh",
-    //         margin: "2em",
-    //         padding: "1em",
-    //         textAlign: "center",
-    //       }}
-    //     >
-    //       <Typography variant="span">play box</Typography>
-    //     </Paper>
-    //     <Paper
-    //       elevation={3}
-    //       sx={{
-    //         minWidth: "10%",
-    //         minHeight: "50vh",
-    //         margin: "2em",
-    //         padding: "1em",
-    //         textAlign: "center",
-    //       }}
-    //     >
-    //       <Typography variant="span">winners list</Typography>
-    //     </Paper>
-    //   </Box>
-    //   <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
-    // </Box>
   );
 };
 
