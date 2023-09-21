@@ -13,13 +13,14 @@ import {
   Typography,
   Input,
   Box,
+  Paper
 } from "@mui/material";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
 
   return (
-    <Box
+    <Paper
       sx={{
         margin: "10vh 10vw",
         display: "flex",
@@ -70,7 +71,7 @@ const Login = ({ setUsername }) => {
       >
         Generate a random username
       </Button>
-    </Box>
+    </Paper>
   );
 };
 
