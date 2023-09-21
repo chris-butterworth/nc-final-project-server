@@ -1,3 +1,5 @@
+const { getNineAnagrams } = require("./api");
+
 const roomsMap = new Map();
 
 const templatePlayerObject = {
@@ -11,33 +13,25 @@ const templatePlayerObject = {
   totalScore: 0, // for the whole game
 };
 
+const getAnagrams = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const room = roomsMap.get(roomId);
+  getNineAnagrams()
+    .then((anagrams) => {
+      console.log(anagrams);
+      room.anagrams = anagrams;
+      updateRoomsMap(room);
+    })
+    .catch(({ code }) => {
+      console.log(code);
+    });
+};
+
 const createNewRoom = (socket, roomId) => {
   roomsMap.set(roomId, {
     roomId,
     timer: 0,
-    anagrams: [
-      {
-        anagram: ["Flip", "Into", "Cup"],
-        answer: "Pulp Fiction",
-        scores: [],
-      },
-      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
-      {
-        anagram: ["Flip", "Into", "Cup"],
-        answer: "Pulp Fiction",
-        scores: [],
-      },
-      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
-      {
-        anagram: ["Flip", "Into", "Cup"],
-        answer: "Pulp Fiction",
-        scores: [],
-      },
-      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
-    ],
+    anagrams: [],
     currentWord: 0,
     round: { round: 1, anagram: 1 },
     players: [
@@ -48,6 +42,7 @@ const createNewRoom = (socket, roomId) => {
       },
     ],
   });
+  getAnagrams(socket);
 };
 
 const numOfWords = 9;

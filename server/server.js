@@ -29,7 +29,7 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
-    console.log(socket.id, "=", username);
+    console.log(socket.id, "=", username); // This is a good one
     socket.data.username = username;
   });
 
@@ -168,7 +168,7 @@ io.on("connection", (socket) => {
       socket.emit("correctAttempt");
       roomData.anagrams[roomData.currentWord].scores.push(socket.data.username);
       updateRoomsMap(roomData);
-      console.log(roomData.anagrams[0].scores, "Winners List");
+
       io.in(roomId).emit(
         "gameScroll",
         `${socket.data.username} guessed correctly`
