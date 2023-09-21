@@ -53,7 +53,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                 textAlign: "center",
               }}
             >
-              <PersonIcon fontSize="large" />
+              <PersonIcon fontSize="large" color="primary" />
               <Typography variant="h3">Single Player</Typography>
             </Paper>
           </Link>
@@ -75,7 +75,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                 textAlign: "center",
               }}
             >
-              <GroupIcon fontSize="large" />
+              <GroupIcon fontSize="large" color="primary" />
               <Typography variant="h3">New Multi-Player</Typography>
             </Paper>
           </Link>
@@ -89,7 +89,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
               textAlign: "center",
             }}
           >
-            <GroupIcon fontSize="large" />
+            <GroupIcon fontSize="large" color="primary" />
             <Typography variant="h3">Join game</Typography>
 
             <FormControl>
@@ -131,8 +131,10 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
               textAlign: "center",
             }}
           >
-            <SchoolIcon fontSize="large" />
-            <Typography variant="h3">Tutorial</Typography>
+            <SchoolIcon fontSize="large" color="primary" />
+            <Typography variant="h3">
+              Tutorial
+            </Typography>
           </Paper>
         </Link>
       </Box>
