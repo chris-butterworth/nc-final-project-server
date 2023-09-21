@@ -1,82 +1,107 @@
 const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
+const {
+  roomsMap,
+  createNewRoom,
+  joinMultiPlayerRoom,
+  getRoomIdFromSocket,
+  playerReady,
+  serverTimer,
+} = require("./gameFunctions.js");
 
-const app = express(); // initialize express
+const app = express();
 
 const server = http.createServer(app);
 
-// set port to value received from environment variable or 8080 if null
 const port = process.env.PORT || 8080;
 
-// upgrade http server to websocket server
 const io = new Server(server, {
-  cors: "*", // allow connection from any origin
+  cors: "*",
 });
 
-const rooms = new Map(); /////rooms map
-
-// io.on('connection');
 io.on("connection", (socket) => {
-  console.log(socket.id, "connected");
-
   socket.on("username", (username) => {
-    console.log(username);
+    console.log(socket.id, "=", username);
     socket.data.username = username;
-    console.log(socket.data);
   });
 
   socket.on("createSinglePlayerRoom", async (callback) => {
     const roomId = `sp${socket.id}`;
     await socket.join(roomId);
-    rooms.set(roomId, {
-      roomId,
-      players: [{ id: socket.id, username: socket.data?.username }],
-    });
-    callback(rooms.get(roomId));
+    createNewRoom(socket, roomId);
+    callback(roomsMap.get(roomId));
   });
+
   socket.on("createMultiPlayerRoom", async (callback) => {
     const roomId = `mp${socket.id}`;
     await socket.join(roomId);
-    rooms.set(roomId, {
-      roomId,
-      players: [{ id: socket.id, username: socket.data?.username }],
-    });
-    
-    callback(rooms.get(roomId));
+    createNewRoom(socket, roomId);
+    callback(roomsMap.get(roomId));
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
-    const room = rooms.get(roomId);
-    let error, message;
-    if (!room) {
-      error = true;
-      message = "room does not exist";
-    } else if (room.length <= 0) {
-      error = true;
-      message = "room is empty";
-    } else if (room.length >= 10) {
-      error = true;
-      message = "room is full";
-    }
-
-    if (error) {
-      callback({ error, message });
+    const response = joinMultiPlayerRoom(socket, roomId);
+    if (response.error) {
+      callback(response);
       return;
     }
-
     await socket.join(roomId);
+    socket.to(roomId).emit("updatePlayers", response.players);
+    callback(response);
+  });
 
-    const roomUpdate = {
-      ...room,
-      players: [
-        ...room.players,
-        { id: socket.id, username: socket.data?.username },
-      ],
-    };
-   
-    rooms.set(roomId, roomUpdate);
-    callback(roomUpdate);
+  socket.on("allReady", () => {
+    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
+  });
+
+  socket.on("playerReady", () => {
+    const roomPlayers = playerReady(socket);
+    let playerReadyStatus = [];
+    roomPlayers.forEach((player) => {
+      playerReadyStatus.push(player.readyToStartRound);
+    });
+
+    if (playerReadyStatus.every((item) => item)) {
+      const roomId = getRoomIdFromSocket(socket);
+      const roomData = roomsMap.get(roomId);
+      io.in(roomId).emit("allPlayersReady");
+      let currentAnagramNumber = 0;
+
+      let endMatch = () => {
+        io.in(roomId).emit("endMatch", roomData.anagrams);
+      };
+
+      let roundCountdown = () => {
+        io.in(roomId).emit("roundCountdown", 3, "Next word coming up...");
+        serverTimer(3, roomId, roundInProgress);
+      };
+
+      let roundInProgress = () => {
+        if (currentAnagramNumber >= 9) {
+          endMatch();
+          return;
+        }
+        serverTimer(10, roomId, roundCountdown);
+        io.in(roomId).emit(
+          "anagram",
+          10,
+          roomData.anagrams[currentAnagramNumber++].anagram
+        );
+        io.in(roomId).emit("gameData", roomData.game);
+      };
+
+      io.in(roomId).emit("updatePlayers", roomPlayers);
+      roundCountdown();
+    } else {
+      io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
+    }
+  });
+
+  socket.on("updateScore", (anagramNumber) => {
+    const roomId = getRoomIdFromSocket(socket);
+    const roomData = roomsMap.get(roomId);
+    //update room object with players score from last round
   });
 });
 

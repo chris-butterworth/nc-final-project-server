@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
 import "./App.css";
+import socket from "./socket.js";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -54,7 +55,14 @@ function App() {
       id: "MOREID",
     },
   ]);
-console.log(room)
+
+  useEffect(() => {
+    socket.on("updatePlayers", (players) => {
+      setPlayers(players);
+    });
+  }, []);
+  console.log(players)
+
   return (
     <>
       <ThemeProvider theme={mode}>
@@ -76,7 +84,7 @@ console.log(room)
                   username={username}
                   setUsername={setUsername}
                   players={players}
-				  setPlayers={setPlayers}
+                  setPlayers={setPlayers}
                 />
               }
             />
