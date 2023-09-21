@@ -20,23 +20,23 @@ const Item = styled(Paper)(({ theme }) => ({
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
   const [allPlayersReady, setAllPlayersReady] = useState(false);
-  const [gameMessage, setGameMessage] = useState("");
-  const [roundStarting, setRoundStarting] = useState(false); // 3 second countdown
+
   const [timer, setTimer] = useState("0"); // this will change for between rounds/ in a word
-  const [roundActive, setRoundActive] = useState(false); // a set of 3 words with breaks
-  const [anagram, setAnagram] = useState(""); // when roundActive = true this is loaded with an anagram
+
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
-  const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
-  const [anagramNumber, setAnagramNumber] = useState(0);
+
+  const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
+
+  const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
   const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
+  const [anagramWords, setAnagramWords] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
+  const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
-
-  const [disabledButtons, setDisabledButtons] = useState([]);
-  const [anagramWords, setAnagramWords] = useState([]);
-  const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
 
   const Ref = useRef(null);
   useEffect(() => {
@@ -52,20 +52,30 @@ const GamePageGrid = ({ players, room }) => {
       setAllPlayersReady(true);
     });
   }, []);
+
   useEffect(() => {
-    socket.on("roundCountdown", (time, message) => {
-      setAnagram("");
-      setGameMessage(message);
+    socket.on("betweenWordsCountdown", (time) => {
       setAnagramWords([]);
       setFormattedAnswerArray([]);
+      setBetweenWords(true);
       timerFunction(time);
     });
   }, []);
   useEffect(() => {
-    socket.on("anagram", (time, anagram, answer) => {
+    socket.on("betweenRoundsCountdown", (time) => {
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenRounds(true);
+      timerFunction(time);
+    });
+  }, []);
+  useEffect(() => {
+    socket.on("anagram", (time, anagram, answer, round) => {
+      setRoundNumber(round.round);
+      setAnagramNumber(round.anagram);
+      setBetweenRounds(false);
+      setBetweenWords(false);
       setDisabledButtons([]);
-      setGameMessage("");
-      setAnagram(anagram);
       setAnagramWords(anagram);
       setFormattedAnswerArray(
         answer
@@ -78,6 +88,19 @@ const GamePageGrid = ({ players, room }) => {
   }, []);
 
   useEffect(() => {
+    socket.on("endGame", (scores) => {
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenWords(false);
+      setBetweenRounds(false);
+      setGameOver(true);
+      setGameScores(scores);
+    });
+  }, []);
+
+
+  useEffect(() => {
+    // Tests answer validity
     if (
       disabledButtons.length > 0 &&
       disabledButtons.length === formattedAnswerArray.flat().length
@@ -88,6 +111,7 @@ const GamePageGrid = ({ players, room }) => {
 
   useEffect(() => {
     socket.on("correctAttempt", () => {});
+    setScore(1);
   }, []);
   useEffect(() => {
     socket.on("incorrectAttempt", () => {
@@ -99,14 +123,6 @@ const GamePageGrid = ({ players, room }) => {
           });
         });
       });
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("endMatch", (scores) => {
-      setGameMessage("");
-      setGameOver(true);
-      setGameScores(scores);
     });
   }, []);
 
@@ -203,16 +219,24 @@ const GamePageGrid = ({ players, room }) => {
                 setAnagramWords={setAnagramWords}
                 formattedAnswerArray={formattedAnswerArray}
                 setFormattedAnswerArray={setFormattedAnswerArray}
-                gameMessage={gameMessage}
                 disabledButtons={disabledButtons}
                 setDisabledButtons={setDisabledButtons}
+                roundNumber={roundNumber}
+                anagramNumber={anagramNumber}
               />
             </Item>
           </Grid>
 
           <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
             <Item>
-              <Typography variant="h4">Game Scroll {gameScroll}</Typography>
+              <Typography variant="h4">Game Scroll </Typography>
+              <Typography>
+                <ul>
+                  {gameScroll.map((item, index) => {
+                    return <li key={index}>{item}</li>;
+                  })}
+                </ul>
+              </Typography>
             </Item>
           </Grid>
         </Grid>
