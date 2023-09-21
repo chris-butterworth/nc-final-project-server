@@ -99,7 +99,7 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Paper>
+    <Paper sx={{ minHeight: "100vh" }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box
           sx={{
