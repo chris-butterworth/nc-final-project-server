@@ -61,15 +61,16 @@ function App() {
       setPlayers(players);
     });
   }, []);
-  console.log(players)
-
   return (
     <>
       <ThemeProvider theme={mode}>
         <Paper
           sx={{
-            minHeight: "100vh",
-            borderRadius: 0,
+            ...(mode.palette.mode === "dark" && {
+              backgroundImage: `url(${matrix})`,
+              backgroundSize: "cover",
+            }),
+            height: "100vh",
           }}
         >
           <NavBar />
