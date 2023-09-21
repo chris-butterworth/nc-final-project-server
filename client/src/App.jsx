@@ -8,6 +8,7 @@ import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
 import "./App.css";
 import socket from "./socket.js";
+import matrix from "./assets/matrix.gif";
 
 function App() {
   const { mode } = useContext(ModeContext);
