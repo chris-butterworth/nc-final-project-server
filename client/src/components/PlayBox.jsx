@@ -1,36 +1,54 @@
-import { Paper, Box, Button } from "@mui/material";
+import { Paper, Box, Button, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-
-export const PlayBox = () => {
-  const [anagramWords, setAnagramWords] = useState([]);
-  const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
-  const [disabledButtons, setDisabledButtons] = useState([]);
+export const PlayBox = ({
+  anagramWords,
+  setAnagramWords,
+  formattedAnswerArray,
+  setFormattedAnswerArray,
+  gameMessage,
+  disabledButtons,
+  setDisabledButtons,
+}) => {
+  // const [anagramWords, setAnagramWords] = useState([]);
+  // const [disabledButtons, setDisabledButtons] = useState([]);
 
   // this will be our call to the api to get the anagram and answer
-  const fetchData = async () => {
-    // Example data
-    const anagramData = {
-      anagramWords: ["Flip", "Into", "Cup"],
-      anagramAnswer: "Pulp Fiction",
-    };
+  // const fetchData = async () => {
+  // Example data
+  // const anagramData = {
+  //   anagramWords: ["Flip", "Into", "Cup"],
+  //   anagramAnswer: "Pulp Fiction",
+  // };
 
-    setAnagramWords(anagramData.anagramWords);
-    setFormattedAnswerArray(
-      anagramData.anagramAnswer
-        .split(" ")
-        .map((word) => Array.from({ length: word.length }, () => ""))
-    );
-  };
+  //   setAnagramWords(anagramData.anagramWords);
+  //   setFormattedAnswerArray(
+  //     anagramData.anagramAnswer
+  //       .split(" ")
+  //       .map((word) => Array.from({ length: word.length }, () => ""))
+  //   );
+  // };
 
-  useEffect(() => {
-    // Fetch data when the component mounts
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   // Fetch data when the component mounts
+  //   fetchData();
+  // }, []);
 
   const handleClearButtonClick = () => {
     setDisabledButtons([]);
+
+    setFormattedAnswerArray((current) => {
+      return current.map((word) => {
+        return word.map((letter) => {
+          return "";
+        });
+      });
+      //  return current.split(" ")
+      //       .map((word) => Array.from({ length: word.length }, () => ""));
+    });
+    //  console.log(formattedAnswerArray, "FORMATTED");
+    //  console.log(initialAnswerArray, "INITIAL");
     // Fetch the data again to reset the game
-    fetchData();
+    // fetchData();
   };
 
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
@@ -103,6 +121,7 @@ export const PlayBox = () => {
 
   return (
     <>
+      <Typography>{gameMessage}</Typography>
       <Button onClick={handleClearButtonClick}> Clear</Button>
       <Paper
         className="solution-container"
@@ -113,33 +132,34 @@ export const PlayBox = () => {
           justifyContent: "center",
         }}
       >
-        {formattedAnswerArray.map((answerWord, wordIndex) => (
-          <Paper
-            key={`answer-word-${wordIndex}`}
-            sx={{
-              backgroundColor: "blue",
-              margin: "1em",
-              display: "flex",
-            }}
-          >
-            {answerWord.map((answerLetter, letterIndex) => (
-              <Box key={`answer-letter-${letterIndex}`}>
-                {answerLetter !== "" ? (
-                  <Button>{answerLetter}</Button>
-                ) : (
-                  <Box
-                    sx={{
-                      width: "40px",
-                      height: "40px",
-                      border: "5px green solid",
-                      display: "block",
-                    }}
-                  ></Box>
-                )}
-              </Box>
-            ))}
-          </Paper>
-        ))}
+        {formattedAnswerArray &&
+          formattedAnswerArray.map((answerWord, wordIndex) => (
+            <Paper
+              key={`answer-word-${wordIndex}`}
+              sx={{
+                backgroundColor: "blue",
+                margin: "1em",
+                display: "flex",
+              }}
+            >
+              {answerWord.map((answerLetter, letterIndex) => (
+                <Box key={`answer-letter-${letterIndex}`}>
+                  {answerLetter !== "" ? (
+                    <Button>{answerLetter}</Button>
+                  ) : (
+                    <Box
+                      sx={{
+                        width: "40px",
+                        height: "40px",
+                        border: "5px green solid",
+                        display: "block",
+                      }}
+                    ></Box>
+                  )}
+                </Box>
+              ))}
+            </Paper>
+          ))}
       </Paper>
       <Paper
         className="question-container"

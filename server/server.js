@@ -65,9 +65,13 @@ io.on("connection", (socket) => {
     if (playerReadyStatus.every((item) => item)) {
       const roomId = getRoomIdFromSocket(socket);
       const roomData = roomsMap.get(roomId);
+
+      
       io.in(roomId).emit("allPlayersReady");
+      
       let currentAnagramNumber = 0;
 
+      
       let endMatch = () => {
         io.in(roomId).emit("endMatch", roomData.anagrams);
       };
@@ -78,17 +82,20 @@ io.on("connection", (socket) => {
       };
 
       let roundInProgress = () => {
-        if (currentAnagramNumber >= 9) {
+        if (currentAnagramNumber >= 3) {
           endMatch();
           return;
         }
-        serverTimer(10, roomId, roundCountdown);
         io.in(roomId).emit(
           "anagram",
-          10,
-          roomData.anagrams[currentAnagramNumber++].anagram
+          15,
+          roomData.anagrams[currentAnagramNumber].anagram,
+          roomData.anagrams[currentAnagramNumber++].answer
         );
+
         io.in(roomId).emit("gameData", roomData.game);
+        serverTimer(15, roomId, roundCountdown);
+
       };
 
       io.in(roomId).emit("updatePlayers", roomPlayers);
@@ -96,7 +103,12 @@ io.on("connection", (socket) => {
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
+  
   });
+
+
+
+
 
   socket.on("updateScore", (anagramNumber) => {
     const roomId = getRoomIdFromSocket(socket);

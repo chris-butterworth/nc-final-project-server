@@ -32,8 +32,12 @@ const GamePageGrid = ({ players, room }) => {
   const [roundNumber, setRoundNumber] = useState(1);
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
   const [gameScores, setGameScores] = useState("");
-  const Ref = useRef(null);
 
+  const [disabledButtons, setDisabledButtons] = useState([]);
+  const [anagramWords, setAnagramWords] = useState([]);
+  const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+
+  const Ref = useRef(null);
   useEffect(() => {
     socket.on("allPlayersReady", () => {
       setAllPlayersReady(true);
@@ -43,16 +47,30 @@ const GamePageGrid = ({ players, room }) => {
     socket.on("roundCountdown", (time, message) => {
       setAnagram("");
       setGameMessage(message);
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
       timerFunction(time);
     });
   }, []);
   useEffect(() => {
-    socket.on("anagram", (time, anagram) => {
+    socket.on("anagram", (time, anagram, answer) => {
+      setDisabledButtons([]);
       setGameMessage("");
       setAnagram(anagram);
+      setAnagramWords(anagram);
+      setFormattedAnswerArray(
+        answer
+          .split(" ")
+          .map((word) => Array.from({ length: word.length }, () => ""))
+      );
+
       timerFunction(time);
     });
   }, []);
+  useEffect(() => {
+   
+  }, []);
+
   useEffect(() => {
     socket.on("endMatch", (scores) => {
       setGameMessage("");
@@ -60,8 +78,6 @@ const GamePageGrid = ({ players, room }) => {
       setGameScores(scores);
     });
   }, []);
-  console.log(anagram);
-  console.log(gameOver);
 
   const timerFunction = (time) => {
     const clearTimer = (e) => {
@@ -151,7 +167,15 @@ const GamePageGrid = ({ players, room }) => {
 
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
-              <PlayBox />
+              <PlayBox
+                anagramWords={anagramWords}
+                setAnagramWords={setAnagramWords}
+                formattedAnswerArray={formattedAnswerArray}
+                setFormattedAnswerArray={setFormattedAnswerArray}
+                gameMessage={gameMessage}
+                disabledButtons={disabledButtons}
+                setDisabledButtons={setDisabledButtons}
+              />
             </Item>
           </Grid>
 

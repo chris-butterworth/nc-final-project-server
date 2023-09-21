@@ -16,15 +16,13 @@ const createNewRoom = (socket, roomId) => {
     roomId,
     timer: 0,
     anagrams: [
-      { anagram: "anagram1", scores: [{}] },
-      { anagram: "anagram2", scores: [{}] },
-      { anagram: "anagram3", scores: [{}] },
-      { anagram: "anagram4", scores: [{}] },
-      { anagram: "anagram5", scores: [{}] },
-      { anagram: "anagram6", scores: [{}] },
-      { anagram: "anagram7", scores: [{}] },
-      { anagram: "anagram8", scores: [{}] },
-      { anagram: "anagram9", scores: [{}] },
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [{}],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [{}] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [{}] },
     ],
     game: { round: 0, word: 0 },
     players: [
