@@ -19,12 +19,27 @@ const createNewRoom = (socket, roomId) => {
       {
         anagram: ["Flip", "Into", "Cup"],
         answer: "Pulp Fiction",
-        scores: [{}],
+        scores: [],
       },
-      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [{}] },
-      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [{}] },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
     ],
-    game: { round: 0, word: 0 },
+    currentWord: 0,
+    round: { round: 1, anagram: 1 },
     players: [
       {
         ...templatePlayerObject,
@@ -33,6 +48,15 @@ const createNewRoom = (socket, roomId) => {
       },
     ],
   });
+};
+
+const numOfWords = 9;
+const timeBetweenWords = 3;
+const timeBetweenRounds = 10;
+const anagramTime = 10;
+
+const updateRoomsMap = (roomData) => {
+  roomsMap.set(roomData.roomId, roomData);
 };
 
 const joinMultiPlayerRoom = (socket, roomId) => {
@@ -88,7 +112,20 @@ const playerReady = (socket) => {
   return room.players;
 };
 
-const serverTimer = (time, roomId, callback) => {
+const nextWord = (roomId) => {
+  const room = roomsMap.get(roomId);
+  room.currentWord++;
+  if (room.currentWord % 3 === 0 && room.currentWord !== 0) {
+    room.round.round++;
+    room.round.anagram = 1;
+  } else {
+    room.round.anagram++;
+  }
+  updateRoomsMap(room);
+  return room.round;
+};
+
+const serverTimer = (time, roomId, callback1, callback2) => {
   let timer = time;
   const updatedRoom = roomsMap.get(roomId);
   updatedRoom.timer = timer;
@@ -101,15 +138,11 @@ const serverTimer = (time, roomId, callback) => {
 
     if (timer === 0) {
       clearInterval(id);
-      callback();
+      callback1();
+      if (callback2) callback2(roomId);
     }
   };
   const id = setInterval(secondEvent, 1000);
-};
-
-const getNextAnagram = (roomId) => {
-  const room = roomsMap.get(roomId);
-  return;
 };
 
 module.exports = {
@@ -119,4 +152,10 @@ module.exports = {
   getRoomIdFromSocket,
   playerReady,
   serverTimer,
+  updateRoomsMap,
+  nextWord,
+  numOfWords,
+  timeBetweenRounds,
+  timeBetweenWords,
+  anagramTime,
 };

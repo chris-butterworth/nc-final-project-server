@@ -8,6 +8,8 @@ export const PlayBox = ({
   gameMessage,
   disabledButtons,
   setDisabledButtons,
+  roundNumber,
+  anagramNumber,
 }) => {
   // const [anagramWords, setAnagramWords] = useState([]);
   // const [disabledButtons, setDisabledButtons] = useState([]);
@@ -42,8 +44,6 @@ export const PlayBox = ({
           return "";
         });
       });
-      //  return current.split(" ")
-      //       .map((word) => Array.from({ length: word.length }, () => ""));
     });
     //  console.log(formattedAnswerArray, "FORMATTED");
     //  console.log(initialAnswerArray, "INITIAL");
@@ -121,8 +121,10 @@ export const PlayBox = ({
 
   return (
     <>
-      <Typography>{gameMessage}</Typography>
       <Button onClick={handleClearButtonClick}> Clear</Button>
+      <Typography>
+        Round: {roundNumber}. Word: {anagramNumber}
+      </Typography>
       <Paper
         className="solution-container"
         sx={{
