@@ -9,6 +9,7 @@ import TutorialPage from "./pages/TutorialPage";
 import "./App.css";
 import socket from "./socket.js";
 import matrix from "./assets/matrix.gif";
+import light from "./assets/light.avif";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -71,7 +72,11 @@ function App() {
               backgroundImage: `url(${matrix})`,
               backgroundSize: "cover",
             }),
-            height: "100vh",
+            ...(mode.palette.mode === "light" && {
+              backgroundImage: `url(${light})`,
+              backgroundSize: "cover",
+            }),
+            minHeight: "100vh",
           }}
         >
           <NavBar />
