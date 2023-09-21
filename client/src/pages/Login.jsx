@@ -6,33 +6,59 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Typography,
+  Input,
+  Box,
+} from "@mui/material";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
 
   return (
-    <div>
-      <h2>This is the login component</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setUsername(usernameInput);
-          socket.emit("username", usernameInput);
-          setUsernameInput("");
-        }}
-      >
-        <label htmlFor="username"> Set a username:</label>
-
-        <input
+    <Box
+      sx={{
+        margin: "10vh 10vw",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        flexDirection: "column",
+        minHeight: "60vh",
+        minWidth: "40vw"
+      }}
+    >
+      <Typography sx={{ textAlign: "center" }} variant="h2">
+        Log In
+      </Typography>
+      <FormControl sx={{ width: "80%" }}>
+        <InputLabel sx={{ textAlign: "center" }} htmlFor="username">
+          Set a username
+        </InputLabel>
+        <Input
+          className="login-form-input"
           id="username"
           value={usernameInput}
           onChange={(e) => {
             setUsernameInput(e.target.value);
           }}
-        ></input>
-        <button>Submit Username</button>
-      </form>
-      <button
+        ></Input>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setUsername(usernameInput);
+            socket.emit("username", usernameInput);
+            setUsernameInput("");
+          }}
+        >
+          Submit username
+        </Button>
+      </FormControl>
+      <Button
+        sx={{ marginBottom: "10px" }}
+        className="login-random-username"
         onClick={() => {
           setUsernameInput(
             uniqueNamesGenerator({
@@ -42,9 +68,9 @@ const Login = ({ setUsername }) => {
           );
         }}
       >
-        Generate new random username
-      </button>
-    </div>
+        Generate a random username
+      </Button>
+    </Box>
   );
 };
 
