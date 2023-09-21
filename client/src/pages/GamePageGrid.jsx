@@ -14,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   minHeight: "50vh",
-  maxHeight: "50vh",,
+  maxHeight: "50vh",
 }));
 
 const GamePageGrid = ({ players, room }) => {
@@ -61,8 +61,7 @@ const GamePageGrid = ({ players, room }) => {
     });
   }, []);
   console.log(anagram);
-  console.log(gameOver)
-  
+  console.log(gameOver);
 
   const timerFunction = (time) => {
     const clearTimer = (e) => {
@@ -141,15 +140,15 @@ const GamePageGrid = ({ players, room }) => {
           </Typography>
         </Paper>
       </Box>
+
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
-            <Item sx={{ overflow: "auto" }}>
           <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
             <Item sx={{ overflow: "auto" }}>
               <PlayerList players={players} />
             </Item>
           </Grid>
+
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
               <PlayBox />
