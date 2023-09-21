@@ -73,8 +73,8 @@ io.on("connection", (socket) => {
       };
 
       let roundCountdown = () => {
-        io.in(roomId).emit("roundCountdown", 1, "Next word coming up...");
-        serverTimer(5, roomId, roundInProgress);
+        io.in(roomId).emit("roundCountdown", 3, "Next word coming up...");
+        serverTimer(3, roomId, roundInProgress);
       };
 
       let roundInProgress = () => {
@@ -82,10 +82,10 @@ io.on("connection", (socket) => {
           endMatch();
           return;
         }
-        serverTimer(1, roomId, roundCountdown);
+        serverTimer(10, roomId, roundCountdown);
         io.in(roomId).emit(
           "anagram",
-          1,
+          10,
           roomData.anagrams[currentAnagramNumber++].anagram
         );
         io.in(roomId).emit("gameData", roomData.game);

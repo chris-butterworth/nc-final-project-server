@@ -35,7 +35,6 @@ const createNewRoom = (socket, roomId) => {
       },
     ],
   });
-  console.log(roomsMap.get(roomId));
 };
 
 const joinMultiPlayerRoom = (socket, roomId) => {
