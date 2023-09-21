@@ -8,6 +8,7 @@ const {
   getRoomIdFromSocket,
   playerReady,
   serverTimer,
+  updateRoomsMap,
 } = require("./gameFunctions.js");
 
 const app = express();
@@ -55,9 +56,7 @@ io.on("connection", (socket) => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
-
-/////////////////////
-
+  /////////////////////
 
   socket.on("playerReady", () => {
     const roomPlayers = playerReady(socket);
@@ -72,30 +71,30 @@ io.on("connection", (socket) => {
 
       io.in(roomId).emit("allPlayersReady");
 
-      let currentAnagramNumber = 0;
-
       let endMatch = () => {
         io.in(roomId).emit("endMatch", roomData.anagrams);
       };
 
       let roundCountdown = () => {
+        // roomData.currentWord++;
+        updateRoomsMap(roomData);
+
         io.in(roomId).emit("roundCountdown", 3, "Next word coming up...");
         serverTimer(3, roomId, roundInProgress);
       };
 
       let roundInProgress = () => {
-        if (currentAnagramNumber >= 3) {
+        if (roomData.currentWord >= 3) {
           endMatch();
           return;
         }
         io.in(roomId).emit(
           "anagram",
           15,
-          roomData.anagrams[currentAnagramNumber].anagram,
-          roomData.anagrams[currentAnagramNumber++].answer
+          roomData.anagrams[roomData.currentWord].anagram,
+          roomData.anagrams[roomData.currentWord].answer
         );
 
-        io.in(roomId).emit("gameData", roomData.game);
         serverTimer(15, roomId, roundCountdown);
       };
 
@@ -107,12 +106,34 @@ io.on("connection", (socket) => {
   });
 
   socket.on("anagramAttempt", (attempt) => {
+    const attemptString = attempt
+      .map((word) => {
+        return word.join("");
+      })
+      .join(" ");
 
-    const attemptString = attempt.map((word) => {
-      return word.join('')
-    }).join(' ')
-
-    // if (attemptString !== )
+    const roomId = getRoomIdFromSocket(socket);
+    const roomData = roomsMap.get(roomId);
+    console.log(attemptString, roomData.anagrams[roomData.currentWord].answer);
+    if (
+      attemptString.toLowerCase() ===
+      roomData.anagrams[roomData.currentWord].answer.toLowerCase()
+    ) {
+      socket.emit("correctAttempt");
+      roomData.anagrams[roomData.currentWord].scores.push(socket.data.username);
+      updateRoomsMap(roomData);
+      console.log(roomsMap.get(roomId), "THE ROOM MAP");
+      io.in(roomId).emit(
+        "gameScroll",
+        `${socket.data.username} guessed correctly`
+      );
+    } else {
+      socket.emit("incorrectAttempt");
+      io.in(roomId).emit(
+        "gameScroll",
+        `${socket.data.username} guessed incorrectly`
+      );
+    }
   });
 
   socket.on("updateScore", (anagramNumber) => {

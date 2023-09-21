@@ -19,12 +19,12 @@ const createNewRoom = (socket, roomId) => {
       {
         anagram: ["Flip", "Into", "Cup"],
         answer: "Pulp Fiction",
-        scores: [{}],
+        scores: [],
       },
-      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [{}] },
-      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [{}] },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
     ],
-    game: { round: 0, word: 0 },
+    currentWord: 0,
     players: [
       {
         ...templatePlayerObject,
@@ -88,10 +88,6 @@ const playerReady = (socket) => {
   return room.players;
 };
 
-
-
-
-
 const serverTimer = (time, roomId, callback) => {
   let timer = time;
   const updatedRoom = roomsMap.get(roomId);
@@ -116,6 +112,10 @@ const getNextAnagram = (roomId) => {
   return;
 };
 
+const updateRoomsMap = (roomData) => {
+  roomsMap.set(roomData.roomId, roomData);
+};
+
 module.exports = {
   roomsMap,
   createNewRoom,
@@ -123,4 +123,5 @@ module.exports = {
   getRoomIdFromSocket,
   playerReady,
   serverTimer,
+  updateRoomsMap
 };

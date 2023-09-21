@@ -32,12 +32,21 @@ const GamePageGrid = ({ players, room }) => {
   const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
   const [gameScores, setGameScores] = useState("");
+  const [gameScroll, setGameScroll] = useState([]);
 
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [anagramWords, setAnagramWords] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
 
   const Ref = useRef(null);
+  useEffect(() => {
+    socket.on("gameScroll", (message) => {
+      setGameScroll((current) => {
+        return [...current, message];
+      });
+    });
+  }, []);
+
   useEffect(() => {
     socket.on("allPlayersReady", () => {
       setAllPlayersReady(true);
@@ -67,6 +76,7 @@ const GamePageGrid = ({ players, room }) => {
       timerFunction(time);
     });
   }, []);
+
   useEffect(() => {
     if (
       disabledButtons.length > 0 &&
@@ -75,6 +85,22 @@ const GamePageGrid = ({ players, room }) => {
       socket.emit("anagramAttempt", formattedAnswerArray);
     }
   }, [disabledButtons]);
+
+  useEffect(() => {
+    socket.on("correctAttempt", () => {});
+  }, []);
+  useEffect(() => {
+    socket.on("incorrectAttempt", () => {
+      setDisabledButtons([]);
+      setFormattedAnswerArray((current) => {
+        return current.map((word) => {
+          return word.map((letter) => {
+            return "";
+          });
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
     socket.on("endMatch", (scores) => {
@@ -186,7 +212,7 @@ const GamePageGrid = ({ players, room }) => {
 
           <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
             <Item>
-              <Typography variant="h4">Winners List</Typography>
+              <Typography variant="h4">Game Scroll {gameScroll}</Typography>
             </Item>
           </Grid>
         </Grid>
