@@ -5,6 +5,7 @@ import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
+import CustomDialog from "../components/CustomDialog";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -156,6 +157,11 @@ const GamePageGrid = ({ players, room }) => {
           </Typography>
         </Paper>
       </Box>
+      <CustomDialog // Game ready CustomDialog
+        open={betweenWords}
+        title={gameMessage}
+        contentText={roundStarting}
+      />
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
