@@ -30,6 +30,11 @@ io.on("connection", (socket) => {
     socket.data.username = username;
   });
 
+  socket.on("avatar", (avatar) => {
+    console.log(socket.id, "=", avatar);
+    socket.data.avatar = avatar;
+  });
+
   socket.on("createSinglePlayerRoom", async (callback) => {
     createNewRoom(socket, callback);
   });
@@ -41,10 +46,11 @@ io.on("connection", (socket) => {
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     joinMultiPlayerRoom(socket, roomId, callback);
   });
-  
+
   socket.on("allReady", () => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
+ 
 
   socket.on("playerReady", () => {
     playerReady(socket);

@@ -16,12 +16,13 @@ const createNewRoom = (socket, callback) => {
         ...templatePlayerObject,
         id: socket.id,
         username: socket.data?.username,
+        avatar: socket.data?.avatar,
       },
     ],
   });
 
   socket.join(roomId);
-  getAnagrams(roomId)
+  getAnagrams(roomId);
   callback(roomsMap.get(roomId));
 };
 
