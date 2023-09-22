@@ -170,7 +170,7 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Paper>
+    <Paper sx={{minWidth:"80vw"}}>
       <Grid container>
         <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
           <Paper
@@ -298,7 +298,7 @@ const GamePageGrid = ({ players, room }) => {
           </Grid>
 
           <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-            <Item>
+          <Item sx={{ overflow: "auto" }}>
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
                 {gameScroll.map((item, index) => {

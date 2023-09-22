@@ -80,6 +80,7 @@ function App() {
               backgroundSize: "cover",
             }),
             minHeight: "100vh",
+            minWidth: "100vh",
           }}
         >
           <NavBar />

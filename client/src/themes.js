@@ -107,6 +107,7 @@ export const lightTheme = createTheme({
           // fontSize: "1rem",
           borderRadius: "10px",
           backgroundColor: "#d9d0b6",
+  
         },
       },
     },
