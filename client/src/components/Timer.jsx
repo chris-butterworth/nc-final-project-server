@@ -5,11 +5,10 @@ import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import socket from "../socket";
 
 export const Timer = ({ timer, playerReady, setPlayerReady }) => {
-
   return (
     <Box>
       <Typography
@@ -19,17 +18,15 @@ export const Timer = ({ timer, playerReady, setPlayerReady }) => {
         {timer} Seconds{" "}
       </Typography>
       {!playerReady && (
-        <button
+        <Button
           onClick={(e) => {
             socket.emit("playerReady");
             setPlayerReady(true);
           }}
         >
           Ready
-        </button>
+        </Button>
       )}
     </Box>
   );
 };
-
- 
