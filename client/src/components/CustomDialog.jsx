@@ -11,16 +11,19 @@ const CustomDialog = ({
   title,
   contentText,
   secondaryText,
+  roundScores,
   handleContinue,
 }) => {
   return (
-    <Dialog open={open} sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "100%",
-      height: "100vh",
-    }}
+    <Dialog
+      open={open}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100vh",
+      }}
     >
       {" "}
       {/*dialog container*/}
@@ -32,6 +35,8 @@ const CustomDialog = ({
           {" "}
           {/* main text */}
           {contentText}
+          {secondaryText}
+          {roundScores}
         </DialogContentText>
         {children} {/* Other content */}
       </DialogContent>

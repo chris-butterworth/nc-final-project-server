@@ -65,6 +65,7 @@ function App() {
       setPlayers(players);
     });
   }, []);
+
   return (
     <>
       <ThemeProvider theme={mode}>

@@ -20,18 +20,16 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
-  const [allPlayersReady, setAllPlayersReady] = useState(false);
-
-  const [timer, setTimer] = useState("0"); // this will change for between rounds/ in a word
+  const [timer, setTimer] = useState(0);
 
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
 
   const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
 
-  const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
-  const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
-  const [gameOver, setGameOver] = useState(false); // true after 3 rounds
+  const [betweenWords, setBetweenWords] = useState(false);
+  const [betweenRounds, setBetweenRounds] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
   const [anagramWords, setAnagramWords] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
@@ -42,6 +40,7 @@ const GamePageGrid = ({ players, room }) => {
   const [gameScroll, setGameScroll] = useState([]);
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
+  const [lastRoundScores, setLastRoundScores] = useState([]);
   const Ref = useRef(null);
 
   useEffect(() => {
@@ -60,12 +59,6 @@ const GamePageGrid = ({ players, room }) => {
       setGameScroll((current) => {
         return [...current, message];
       });
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("allPlayersReady", () => {
-      setAllPlayersReady(true);
     });
   }, []);
 
@@ -143,7 +136,7 @@ const GamePageGrid = ({ players, room }) => {
 
   const timerFunction = (time) => {
     const clearTimer = (e) => {
-      setTimer(time.toString());
+      setTimer(time);
       if (Ref.current) clearInterval(Ref.current);
       const id = setInterval(() => {
         startTimer(e);
@@ -188,7 +181,6 @@ const GamePageGrid = ({ players, room }) => {
         >
           <Timer
             timer={timer}
-            setTimer={setTimer}
             playerReady={playerReady}
             setPlayerReady={setPlayerReady}
             sx={{ maxHeight: "25px" }}
@@ -231,6 +223,21 @@ const GamePageGrid = ({ players, room }) => {
         title={gameMessage}
         contentText={fullScreenCustomDialog}
         secondaryText={lastPlayedAnswer}
+        roundScores={lastRoundScores}
+      >
+        <Timer
+          timer={timer}
+          setTimer={setTimer}
+          playerReady={playerReady}
+          setPlayerReady={setPlayerReady}
+          sx={{ maxHeight: "25px" }}
+        /> 
+      </CustomDialog>
+      <CustomDialog
+        open={gameOver}
+        title={gameMessage}
+        contentText={fullScreenCustomDialog}
+        // secondaryText={gameScores}
       >
         <Timer
           timer={timer}
