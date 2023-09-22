@@ -9,6 +9,15 @@ export const darkTheme = createTheme({
         },
       },
     },
+    MuiInput
+    
+    : {
+      styleOverrides: {
+        root: {
+          fontFamily: `"Share Tech Mono", monospace`,
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
@@ -60,6 +69,13 @@ export const lightTheme = createTheme({
         },
       },
     },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          fontFamily: `"Grandstander", handwriting`,
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
@@ -69,11 +85,7 @@ export const lightTheme = createTheme({
           fontWeightMedium: 500,
           color: "#118ab2",
         },
-        // h3: { color: "#118ab2" },
         h6: { color: "#ffd166" },
-        // h3: {
-        //   color: "#06d6a0",
-        // },
       },
     },
     MuiButton: {
@@ -94,6 +106,7 @@ export const lightTheme = createTheme({
           // padding: "5px",
           // fontSize: "1rem",
           borderRadius: "10px",
+          backgroundColor: "#d9d0b6",
         },
       },
     },
@@ -102,6 +115,7 @@ export const lightTheme = createTheme({
     mode: "light",
     primary: {
       main: "#ef476f",
+      
     },
     secondary: {
       main: "#06d6a0",

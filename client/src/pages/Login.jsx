@@ -13,7 +13,7 @@ import {
   Typography,
   Input,
   Box,
-  Paper
+  Paper,
 } from "@mui/material";
 
 const Login = ({ setUsername }) => {
@@ -28,7 +28,7 @@ const Login = ({ setUsername }) => {
         alignItems: "center",
         flexDirection: "column",
         minHeight: "60vh",
-        minWidth: "40vw"
+        minWidth: "40vw",
       }}
     >
       <Typography sx={{ textAlign: "center" }} variant="h2">

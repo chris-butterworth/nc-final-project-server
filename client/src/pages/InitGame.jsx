@@ -29,7 +29,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
     <>
       <Box
         sx={{
-          display: "flex",
+          display: "flex-wrap",
           flexDirection: "column",
           alignItems: "center",
         }}

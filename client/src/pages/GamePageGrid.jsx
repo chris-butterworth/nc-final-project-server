@@ -8,7 +8,7 @@ import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   margin: theme.spacing(1),
