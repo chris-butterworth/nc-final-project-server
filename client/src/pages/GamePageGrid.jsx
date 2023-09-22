@@ -226,6 +226,7 @@ const GamePageGrid = ({ players, room }) => {
             <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
               <Item>
                 <PlayBox
+                  sx={{ minWidth: "50vw" }}
                   anagramWords={anagramWords}
                   setAnagramWords={setAnagramWords}
                   formattedAnswerArray={formattedAnswerArray}
