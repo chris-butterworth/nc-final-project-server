@@ -30,7 +30,7 @@ const anagramTimer = (roomId) => {
     .emit(
       "anagram",
       anagramTime,
-      roomData.anagrams[roomData.currentWord].anagram,
+      roomData.anagrams[roomData.currentWord].question,
       roomData.anagrams[roomData.currentWord].answer,
       roomData.round
     );

@@ -11,26 +11,59 @@ const templatePlayerObject = {
 
 const templateAnagrams = [
   {
-    anagram: ["Flip", "Into", "Cup"],
+    question: ["Flip", "Into", "Cup"],
     answer: "Pulp Fiction",
+    category: "film",
     scores: [],
   },
-  { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-  { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
   {
-    anagram: ["Flip", "Into", "Cup"],
-    answer: "Pulp Fiction",
+    question: ["Tied", "Emotion"],
+    answer: "No Time To Die",
+    category: "film",
     scores: [],
   },
-  { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-  { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
   {
-    anagram: ["Flip", "Into", "Cup"],
-    answer: "Pulp Fiction",
+    question: ["Highest", "Inn"],
+    answer: "The Shining",
+    category: "film",
     scores: [],
   },
-  { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
-  { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+  {
+    question: ["Flip", "Into", "Cup"],
+    answer: "Pulp Fiction",
+    category: "film",
+    scores: [],
+  },
+  {
+    question: ["Tied", "Emotion"],
+    answer: "No Time To Die",
+    category: "film",
+    scores: [],
+  },
+  {
+    question: ["Highest", "Inn"],
+    answer: "The Shining",
+    category: "film",
+    scores: [],
+  },
+  {
+    question: ["Flip", "Into", "Cup"],
+    answer: "Pulp Fiction",
+    category: "film",
+    scores: [],
+  },
+  {
+    question: ["Tied", "Emotion"],
+    answer: "No Time To Die",
+    category: "film",
+    scores: [],
+  },
+  {
+    question: ["Highest", "Inn"],
+    answer: "The Shining",
+    category: "film",
+    scores: [],
+  },
 ];
 
 module.exports = { templateAnagrams, templatePlayerObject };
