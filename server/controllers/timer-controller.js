@@ -8,9 +8,11 @@ const {
   timeBetweenWords,
   anagramTime,
   numOfWords,
+  populateScoreboard,
 } = require("../utils/gameUtils");
 
 const startGame = (roomId) => {
+  populateScoreboard(roomId)
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
@@ -58,11 +60,7 @@ const betweenWordTimer = (roomId, message = "Next word coming up...") => {
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
-    .emit(
-      "fullScreenCustomDialog",
-      "Next word coming up...",
-      `Last Answer: ${lastWordAnswer}`
-    );
+    .emit("fullScreenCustomDialog", message, `Last Answer: ${lastWordAnswer}`);
 
   serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
@@ -85,10 +83,11 @@ const betweenRoundTimer = (roomId) => {
 
   io.ioObject
     .in(roomId)
-    .emit("fullScreenCustomDialog", 
+    .emit(
+      "fullScreenCustomDialog",
       "Take a little break, here are the scores from the last 3 words",
       `Last Answer: ${lastWordAnswer}`,
-      lastRoundAnswers,
+      lastRoundAnswers
     );
   serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
 };

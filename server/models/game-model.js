@@ -6,6 +6,7 @@ const getAnagrams = (roomId) => {
   const room = roomsMap.get(roomId);
   getNineAnagrams()
     .then((anagrams) => {
+        console.log(anagrams);
       anagrams.forEach((anagram) => {
         anagram.scores = [];
         anagram.question = anagram.question.split(" ");

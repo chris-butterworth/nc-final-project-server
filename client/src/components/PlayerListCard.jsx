@@ -28,7 +28,7 @@ export const PlayerListCard = ({ player, position }) => {
           </Grid>
           <Grid item>
             {" "}
-            <Typography variant="body1">{player.score}</Typography>
+            <Typography variant="body1">{player.totalScore}</Typography>
           </Grid>
         </Grid>
       </Grid>
