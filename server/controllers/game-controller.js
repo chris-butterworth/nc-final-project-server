@@ -45,11 +45,9 @@ const testAttempt = (socket, attempt, time, hintCount) => {
     roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
   ) {
     const score = calculateScore(time, hintCount);
-    updatePlayerScore(roomId, socket, score);
+    updatePlayerScore(roomId, socket.data.username, score);
+    pushPlayerlistToClients(roomId);
 
-    io.ioObject
-      .in(getRoomIdFromSocket(socket))
-      .emit("updatePlayers", roomData.players);
     socket.emit("correctAttempt");
     io.ioObject
       .in(roomId)
@@ -67,12 +65,19 @@ const testAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
+const pushPlayerlistToClients = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  io.ioObject.in(roomId).emit("updatePlayers", roomData.players);
+};
+
 const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
+
   if (
-    roomData.anagrams[roomData.currentWord - 1].scores.length ===
-    roomData.players.length
+    roomData.anagrams[roomData.currentWord - 1].scores.every(
+      (player) => player.isSolved
+    )
   ) {
     betweenWordTimer(
       roomId,

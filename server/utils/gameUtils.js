@@ -59,14 +59,22 @@ const calculateScore = (time, hints) => {
   }
 };
 
-const updatePlayerScore = (roomId, socket, score) => {
+const updatePlayerScore = (roomId, username, score) => {
   const roomData = roomsMap.get(roomId);
   roomData.anagrams[roomData.currentWord - 1].scores.forEach((user) => {
-    if ((user.username = socket.username)) user.score = score;
+
+    if ((user.username === username)) {
+      user.score = score;
+      user.isSolved = true;
+    }
   });
+
+
   roomData.players.forEach((user) => {
-    user.score = score;
-    user.totalScore += score;
+    if (user.username === username) {
+      user.score = score;
+      user.totalScore += score;
+    }
   });
 
   updateRoomsMap(roomData);
@@ -74,12 +82,14 @@ const updatePlayerScore = (roomId, socket, score) => {
 
 const populateScoreboard = (roomId) => {
   const room = roomsMap.get(roomId);
+
   const blankScoreBoard = room.players.map((user) => {
-    return { username: user.username, score: 0 };
+    return { username: user.username, score: 0, isSolved: false };
   });
   room.anagrams.forEach((anagram) => {
     anagram.scores = blankScoreBoard;
   });
+
   updateRoomsMap(room);
 };
 

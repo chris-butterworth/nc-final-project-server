@@ -108,7 +108,6 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                     "joinMultiPlayerRoom",
                     roomCodeInput,
                     (response) => {
-                      console.log(response);
                       if (response.error)
                         return setJoinRoomError(response.message);
                       setRoomAndPlayers(response.roomId, response.players);
