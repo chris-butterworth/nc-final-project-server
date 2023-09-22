@@ -229,6 +229,20 @@ const GamePageGrid = ({ players, room }) => {
           sx={{ maxHeight: "25px" }}
         />
       </CustomDialog>
+      <CustomDialog 
+        open={betweenRounds}
+        title={gameMessage}
+        contentText={fullScreenCustomDialog}
+        secondaryText={lastPlayedAnswer}
+      >
+        <Timer
+          timer={timer}
+          setTimer={setTimer}
+          playerReady={playerReady}
+          setPlayerReady={setPlayerReady}
+          sx={{ maxHeight: "25px" }}
+        />
+      </CustomDialog>
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
