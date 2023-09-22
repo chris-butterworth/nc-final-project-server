@@ -159,6 +159,7 @@ export const PlayBox = ({
   return (
     <>
       <Button onClick={handleClearButtonClick}> Clear</Button>
+      <Button onClick={handleHintButtonClick}> Clear</Button>
       <Typography>
         Round: {roundNumber}. Word: {anagramNumber}
       </Typography>
