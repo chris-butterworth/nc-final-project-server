@@ -34,5 +34,5 @@ export const PlayerListCard = ({ player, position }) => {
       </Grid>
     </Card>
   );
-  console.log(player);
+
 };

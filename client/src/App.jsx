@@ -65,7 +65,7 @@ function App() {
       id: "MOREID",
     },
   ]);
-console.log(players, 'players')
+
   useEffect(() => {
     socket.on("updatePlayers", (players) => {
       setPlayers(players);
