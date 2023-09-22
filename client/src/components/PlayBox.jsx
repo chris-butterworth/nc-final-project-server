@@ -45,8 +45,8 @@ export const PlayBox = ({
         });
       });
     });
-    //  console.log(formattedAnswerArray, "FORMATTED");
-    //  console.log(initialAnswerArray, "INITIAL");
+     console.log(formattedAnswerArray, "FORMATTED");
+     console.log(initialAnswerArray, "INITIAL");
     // Fetch the data again to reset the game
     // fetchData();
   };

@@ -8,9 +8,9 @@ import SchoolIcon from "@mui/icons-material/School";
 import { Typography, Button } from "@mui/material";
 import socket from "../socket";
 
-export const Timer = ({ timer, playerReady, setPlayerReady }) => {
+export const Timer = ({ timer, playerReady, setPlayerReady, sx }) => {
   return (
-    <Box>
+    <Box sx={ sx }>
       <Typography
         variant="h4"
         sx={{ textAlign: "center", justifyContent: "center" }}
@@ -18,7 +18,7 @@ export const Timer = ({ timer, playerReady, setPlayerReady }) => {
         {timer} Seconds{" "}
       </Typography>
       {!playerReady && (
-        <Button
+        <Button sx={{fontSize: "x-large"}}
           onClick={(e) => {
             socket.emit("playerReady");
             setPlayerReady(true);
@@ -30,3 +30,4 @@ export const Timer = ({ timer, playerReady, setPlayerReady }) => {
     </Box>
   );
 };
+ 

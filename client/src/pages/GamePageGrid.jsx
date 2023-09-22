@@ -6,9 +6,10 @@ import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   margin: theme.spacing(1),
@@ -171,39 +172,64 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Paper>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Timer
-            timer={timer}
-            playerReady={playerReady}
-            setPlayerReady={setPlayerReady}
-            sx={{ maxHeight: "25px" }}
-          />
-        </Box>
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            maxHeight: "auto",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-            variant: "h3",
-          }}
-        >
-          <Typography sx={{ maxHeight: "25px" }}>
-            Game Room ID: {room}
-          </Typography>
-        </Paper>
-      </Box>
+    <Paper sx={{minWidth:"80vw"}}>
+      <Grid container>
+        <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "8em",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
+            }}
+          >
+            <Timer
+              timer={timer}
+              playerReady={playerReady}
+              setPlayerReady={setPlayerReady}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "8em", // maxHeight: "auto",
+              margin: "2em",
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "2.25em",
+              cursor: "pointer",
+             
+            }}
+            onClick={() => {
+              navigator.clipboard.writeText(room);
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                maxHeight: "25px",
+                paddingRight: "1em",
+                
+              }}
+              
+            >
+              Game Room ID: {room}
+            </Typography>
+            <ContentCopyIcon
+      fontSize="large"
+      
+              onClick={() => {
+                navigator.clipboard.writeText(room);
+              }}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
 
       <CustomDialog
         open={betweenWords}
@@ -272,16 +298,17 @@ const GamePageGrid = ({ players, room }) => {
               />
             </Item>
           </Grid>
-        </Grid>
-        <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-          <Item>
-            <Typography variant="h4">Game Scroll </Typography>
-            <Typography>
-              {gameScroll.map((item, index) => {
-                return <p key={index}>{item}</p>;
-              })}
-            </Typography>
-          </Item>
+
+          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+          <Item sx={{ overflow: "auto" }}>
+              <Typography variant="h4">Game Scroll </Typography>
+              <Typography>
+                {gameScroll.map((item, index) => {
+                  return <p key={index}>{item}</p>;
+                })}
+              </Typography>
+            </Item>
+          </Grid>
         </Grid>
       </Box>
 
