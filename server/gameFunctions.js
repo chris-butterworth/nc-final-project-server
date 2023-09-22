@@ -31,7 +31,29 @@ const createNewRoom = (socket, roomId) => {
   roomsMap.set(roomId, {
     roomId,
     timer: 0,
-    anagrams: [],
+    anagrams: [
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+      {
+        anagram: ["Flip", "Into", "Cup"],
+        answer: "Pulp Fiction",
+        scores: [],
+      },
+      { anagram: ["Tied", "Emotion"], answer: "No Time To Die", scores: [] },
+      { anagram: ["Highest", "Inn"], answer: "The Shining", scores: [] },
+    ],
     currentWord: 0,
     round: { round: 1, anagram: 1 },
     players: [
@@ -42,7 +64,7 @@ const createNewRoom = (socket, roomId) => {
       },
     ],
   });
-  getAnagrams(socket);
+  // getAnagrams(socket);
 };
 
 const numOfWords = 9;
