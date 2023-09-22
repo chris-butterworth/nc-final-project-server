@@ -75,6 +75,43 @@ export const PlayBox = ({
     }
   };
 
+  const handleHintButtonClick = () => {
+    // Combine the words in formattedAnswerArray into a single string
+    const currentAnswer = formattedAnswerArray.map((word) => word.join("")).join(" ");
+    
+    // Get the full anagram answer
+    const fullAnswer = anagramAnswer.replace(/\s/g, "");
+  
+    // Find the index of the first incorrect character
+    const firstIncorrectIndex = currentAnswer.split("").findIndex(
+      (char, index) => char !== fullAnswer.charAt(index)
+    );
+  
+    if (firstIncorrectIndex !== -1) {
+      // Extract the correct letter from the full answer
+      const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
+      
+      // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
+      let wordIndex = 0;
+      let letterIndex = 0;
+  
+      for (let i = 0; i < formattedAnswerArray.length; i++) {
+        const wordLength = formattedAnswerArray[i].length;
+        if (firstIncorrectIndex >= letterIndex + wordLength) {
+          letterIndex += wordLength;
+          wordIndex++;
+        } else {
+          break;
+        }
+      }
+  
+      // Update formattedAnswerArray with the correct letter
+      const updatedArray = [...formattedAnswerArray];
+      updatedArray[wordIndex][letterIndex] = correctLetter;
+      setFormattedAnswerArray(updatedArray);
+    }
+  };
+
   const renderWord = (word, wordIndex) => (
     <Paper
       key={`word-${wordIndex}`}
