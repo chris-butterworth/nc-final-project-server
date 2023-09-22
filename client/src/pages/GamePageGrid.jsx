@@ -35,6 +35,7 @@ const GamePageGrid = ({ players, room }) => {
   const [anagramWords, setAnagramWords] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+  const [hint, setHint] = useState("");
 
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
@@ -97,7 +98,7 @@ const GamePageGrid = ({ players, room }) => {
           .split(" ")
           .map((word) => Array.from({ length: word.length }, () => ""))
       );
-
+      setHint(answer);
       timerFunction(time);
     });
   }, []);
@@ -260,6 +261,7 @@ const GamePageGrid = ({ players, room }) => {
                 setDisabledButtons={setDisabledButtons}
                 roundNumber={roundNumber}
                 anagramNumber={anagramNumber}
+                hint={hint}
               />
             </Item>
           </Grid>

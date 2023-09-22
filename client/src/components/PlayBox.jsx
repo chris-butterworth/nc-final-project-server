@@ -10,6 +10,7 @@ export const PlayBox = ({
   setDisabledButtons,
   roundNumber,
   anagramNumber,
+  hint,
 }) => {
   // const [anagramWords, setAnagramWords] = useState([]);
   // const [disabledButtons, setDisabledButtons] = useState([]);
@@ -77,24 +78,29 @@ export const PlayBox = ({
 
   const handleHintButtonClick = () => {
     // Combine the words in formattedAnswerArray into a single string
-    const currentAnswer = formattedAnswerArray.map((word) => word.join("")).join(" ");
-    
+    const currentAnswer = formattedAnswerArray
+      .map((word) => word.join(""))
+      .join(" ");
+
     // Get the full anagram answer
-    const fullAnswer = anagramAnswer.replace(/\s/g, "");
-  
+    console.log(formattedAnswerArray);
+    const fullAnswer = hint;
+    // anagramAnswer.replace(/\s/g, "");
+    console.log(fullAnswer)
+
     // Find the index of the first incorrect character
-    const firstIncorrectIndex = currentAnswer.split("").findIndex(
-      (char, index) => char !== fullAnswer.charAt(index)
-    );
-  
+    const firstIncorrectIndex = currentAnswer
+      .split("")
+      .findIndex((char, index) => char !== fullAnswer.charAt(index));
+
     if (firstIncorrectIndex !== -1) {
       // Extract the correct letter from the full answer
       const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
-      
+
       // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
       let wordIndex = 0;
       let letterIndex = 0;
-  
+
       for (let i = 0; i < formattedAnswerArray.length; i++) {
         const wordLength = formattedAnswerArray[i].length;
         if (firstIncorrectIndex >= letterIndex + wordLength) {
@@ -104,7 +110,7 @@ export const PlayBox = ({
           break;
         }
       }
-  
+
       // Update formattedAnswerArray with the correct letter
       const updatedArray = [...formattedAnswerArray];
       updatedArray[wordIndex][letterIndex] = correctLetter;
@@ -162,7 +168,7 @@ export const PlayBox = ({
   return (
     <>
       <Button onClick={handleClearButtonClick}> Clear</Button>
-      <Button onClick={handleHintButtonClick}> Clear</Button>
+      <Button onClick={handleHintButtonClick}> Hint</Button>
       <Typography>
         Round: {roundNumber}. Word: {anagramNumber}
       </Typography>
