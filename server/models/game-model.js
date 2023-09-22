@@ -7,7 +7,8 @@ const getAnagrams = (roomId) => {
   getNineAnagrams()
     .then((anagrams) => {
       anagrams.forEach((anagram) => {
-        anagram.scores = [];
+          anagram.scores = [];
+          
         anagram.question = anagram.question.split(" ");
       });
 

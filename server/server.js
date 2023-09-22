@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
     playerReady(socket);
   });
 
-  socket.on("anagramAttempt", (attempt) => {
-    testAttempt(socket, attempt);
+  socket.on("anagramAttempt", (attempt, time, hintCount) => {
+    testAttempt(socket, attempt, time, hintCount);
   });
 });
 
