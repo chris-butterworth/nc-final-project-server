@@ -171,56 +171,63 @@ const GamePageGrid = ({ players, room }) => {
 
   return (
     <Paper>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Timer
-            timer={timer}
-            playerReady={playerReady}
-            setPlayerReady={setPlayerReady}
-            sx={{ maxHeight: "25px" }}
-          />
-        </Box>
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            maxHeight: "auto",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-            variant: "h3",
-          }}
-        >
-          <div
-            style={{
+      <Grid container>
+        <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "8em",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
+            }}
+          >
+            <Timer
+              timer={timer}
+              playerReady={playerReady}
+              setPlayerReady={setPlayerReady}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "8em", // maxHeight: "auto",
+              margin: "2em",
               display: "flex",
-              flexDirection: "row",
               justifyContent: "center",
+              paddingTop: "2.25em",
+              cursor: "pointer",
+             
+            }}
+            onClick={() => {
+              navigator.clipboard.writeText(room);
             }}
           >
             <Typography
-              sx={{ maxHeight: "25px", paddingRight: "1em", cursor: "pointer" }}
-              onClick={() => {
-                navigator.clipboard.writeText(room);
+              variant="h4"
+              sx={{
+                maxHeight: "25px",
+                paddingRight: "1em",
+                
               }}
+              
             >
               Game Room ID: {room}
             </Typography>
             <ContentCopyIcon
+      fontSize="large"
+      
               onClick={() => {
                 navigator.clipboard.writeText(room);
               }}
             />
-          </div>
-        </Paper>
-      </Box>
+          </Paper>
+        </Grid>
+      </Grid>
 
       <CustomDialog
         open={betweenWords}
@@ -289,16 +296,17 @@ const GamePageGrid = ({ players, room }) => {
               />
             </Item>
           </Grid>
-        </Grid>
-        <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-          <Item>
-            <Typography variant="h4">Game Scroll </Typography>
-            <Typography>
-              {gameScroll.map((item, index) => {
-                return <p key={index}>{item}</p>;
-              })}
-            </Typography>
-          </Item>
+
+          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+            <Item>
+              <Typography variant="h4">Game Scroll </Typography>
+              <Typography>
+                {gameScroll.map((item, index) => {
+                  return <p key={index}>{item}</p>;
+                })}
+              </Typography>
+            </Item>
+          </Grid>
         </Grid>
       </Box>
 

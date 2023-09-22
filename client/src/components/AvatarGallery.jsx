@@ -54,8 +54,6 @@ const AvatarGallery = ({
   setCurrentAvatarIndex,
 }) => {
   const { mode, setMode } = useContext(ModeContext);
-  console.log(mode.palette.mode);
-  console.log(avatars);
 
   useEffect(() => {
     if (mode.palette.mode === "light") {
