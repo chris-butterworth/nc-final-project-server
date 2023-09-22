@@ -10,6 +10,8 @@ import "./App.css";
 import socket from "./socket.js";
 import matrix from "./assets/matrix.gif";
 import light from "./assets/light.avif";
+import SingleTutorial from "./pages/SingleTutorial.jsx";
+import MultiTutorial from "./pages/MultiTutorial.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -82,6 +84,8 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
+            <Route path="/tutorial/single" element={<SingleTutorial />} />
+            <Route path="/tutorial/multi" element={<MultiTutorial />} />
             <Route
               path="/"
               element={
