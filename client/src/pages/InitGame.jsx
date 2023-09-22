@@ -6,7 +6,13 @@ import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+} from "@mui/material";
 import socket from "../socket";
 import { useState } from "react";
 
@@ -47,7 +53,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                 textAlign: "center",
               }}
             >
-              <PersonIcon fontSize="large" />
+              <PersonIcon fontSize="large" color="primary" />
               <Typography variant="h3">Single Player</Typography>
             </Paper>
           </Link>
@@ -69,7 +75,7 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
                 textAlign: "center",
               }}
             >
-              <GroupIcon fontSize="large" />
+              <GroupIcon fontSize="large" color="primary" />
               <Typography variant="h3">New Multi-Player</Typography>
             </Paper>
           </Link>
@@ -83,32 +89,36 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
               textAlign: "center",
             }}
           >
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                socket.emit(
-                  "joinMultiPlayerRoom",
-                  roomCodeInput,
-                  (response) => {
-                    console.log(response);
-                    if (response.error)
-                      return setJoinRoomError(response.message);
-                    setRoomAndPlayers(response.roomId, response.players);
-                  }
-                );
-              }}
-            >
-              <label htmlFor="roomcode"> room code:</label>
-              <input
+            <GroupIcon fontSize="large" color="primary" />
+            <Typography variant="h3">Join game</Typography>
+
+            <FormControl>
+              <InputLabel htmlFor="roomcode">Paste room code</InputLabel>
+              <Input
                 id="roomcode"
                 value={roomCodeInput}
                 onChange={(e) => {
                   setRoomCodeInput(e.target.value);
                 }}
-              ></input>
-              <button>Submit room code</button>
-            </form>
-            <Typography variant="h3">Join game</Typography>
+              />
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  socket.emit(
+                    "joinMultiPlayerRoom",
+                    roomCodeInput,
+                    (response) => {
+                      console.log(response);
+                      if (response.error)
+                        return setJoinRoomError(response.message);
+                      setRoomAndPlayers(response.roomId, response.players);
+                    }
+                  );
+                }}
+              >
+                Join Room
+              </Button>
+            </FormControl>
           </Paper>
         </Box>
         <Link to={`/tutorial`} style={{ textDecoration: "none" }}>
@@ -121,8 +131,10 @@ const InitGame = ({ numberofPlayers, room, setRoom, setPlayers }) => {
               textAlign: "center",
             }}
           >
-            <SchoolIcon fontSize="large" />
-            <Typography variant="h3">Tutorial</Typography>
+            <SchoolIcon fontSize="large" color="primary" />
+            <Typography variant="h3">
+              Tutorial
+            </Typography>
           </Paper>
         </Link>
       </Box>

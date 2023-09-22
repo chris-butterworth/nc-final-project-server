@@ -8,6 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { ModeContext } from "../context/Mode.jsx";
 import { lightTheme, darkTheme } from "../themes";
+import pills from "../assets/red-pill-blue-pill.jpg";
+import crayon from "../assets/crayon.png";
 
 const NavBar = () => {
   const { mode, setMode } = useContext(ModeContext);
@@ -20,10 +22,10 @@ const NavBar = () => {
     }
   };
   return (
-    <Box sx={{ flexGrow: 1, }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1,}}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Anagram Game
           </Typography>
           <IconButton
@@ -31,10 +33,18 @@ const NavBar = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, height: "40px" }}
             onClick={handleModeChange}
           >
-            <LightModeIcon />
+            {mode.palette.mode === "dark" ? (
+              <Box component="img" sx={{ height: "40px" }} src={crayon}></Box>
+            ) : (
+              <Box
+                component="img"
+                sx={{ height: "40px", mixBlendMode: "multiply" }}
+                src={pills}
+              ></Box>
+            )}
           </IconButton>
           <Button color="inherit">Login</Button>
         </Toolbar>
