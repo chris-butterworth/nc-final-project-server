@@ -33,7 +33,7 @@ const GamePageGrid = ({ players, room }) => {
   const [anagramWords, setAnagramWords] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
-  const [hint, setHint] = useState('');
+  const [hint, setHint] = useState("");
   const [hintCount, setHintCount] = useState(0);
 
   const [gameMessage, setGameMessage] = useState("");
@@ -114,13 +114,13 @@ const GamePageGrid = ({ players, room }) => {
       disabledButtons.length > 0 &&
       disabledButtons.length === formattedAnswerArray.flat().length
     ) {
-      socket.emit("anagramAttempt", formattedAnswerArray);
+      socket.emit("anagramAttempt", formattedAnswerArray, timer, hintCount);
     }
   }, [disabledButtons]);
 
   useEffect(() => {
-    socket.on("correctAttempt", () => {});
-    setScore(1);
+    socket.on("correctAttempt", (score) => {});
+    setScore(score);
   }, []);
   useEffect(() => {
     socket.on("incorrectAttempt", () => {
@@ -232,7 +232,7 @@ const GamePageGrid = ({ players, room }) => {
           playerReady={playerReady}
           setPlayerReady={setPlayerReady}
           sx={{ maxHeight: "25px" }}
-        /> 
+        />
       </CustomDialog>
       <CustomDialog
         open={gameOver}

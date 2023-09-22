@@ -1,6 +1,11 @@
 const roomsMap = require("../roomsDatabase");
 const { startGame } = require("../controllers/timer-controller");
-const { getRoomIdFromSocket, updateRoomsMap } = require("../utils/gameUtils");
+const {
+  getRoomIdFromSocket,
+  updateRoomsMap,
+  calculateScore,
+  updatePlayerScore,
+} = require("../utils/gameUtils");
 const { betweenWordTimer } = require("./timer-controller");
 const io = require("../server.js");
 
@@ -26,7 +31,7 @@ const playerReady = (socket) => {
   if (playerReadyStatus.every((item) => item)) startGame(roomId);
 };
 
-const testAttempt = (socket, attempt) => {
+const testAttempt = (socket, attempt, time, hintCount) => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   const attemptString = attempt
@@ -39,32 +44,40 @@ const testAttempt = (socket, attempt) => {
     attemptString.toLowerCase() ===
     roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
   ) {
-    roomData.anagrams[roomData.currentWord - 1].scores.push(
-      socket.data.username
-    );
-    updateRoomsMap(roomData);
+    const score = calculateScore(time, hintCount);
+    updatePlayerScore(roomId, socket, score);
+
+    io.ioObject
+      .in(getRoomIdFromSocket(socket))
+      .emit("updatePlayers", roomData.players);
     socket.emit("correctAttempt");
     io.ioObject
       .in(roomId)
-      .emit("gameScroll", `${socket.data.username} guessed correctly`);
+      .emit(
+        "gameScroll",
+        `${socket.data.username} guessed correctly for ${score} points!`
+      );
+    testAllPlayersGuessedCorrectly(socket, score);
   } else {
-    console.log("HERE");
     socket.emit("incorrectAttempt");
     io.ioObject
       .in(roomId)
       .emit("gameScroll", `${socket.data.username} guessed incorrectly`);
+    testAllPlayersGuessedCorrectly(socket);
   }
-  testAllPlayersGuessedCorrectly(socket);
 };
 
-const testAllPlayersGuessedCorrectly = (socket) => {
+const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   if (
     roomData.anagrams[roomData.currentWord - 1].scores.length ===
     roomData.players.length
   ) {
-    betweenWordTimer(roomId, "All players guessed correctly");
+    betweenWordTimer(
+      roomId,
+      `All players guessed correctly, you got ${score} points`
+    );
   }
 };
 module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
