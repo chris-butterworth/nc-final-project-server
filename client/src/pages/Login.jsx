@@ -19,6 +19,8 @@ import AvatarGallery from "../components/AvatarGallery";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
+  const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
+  const [avatars, setAvatars] = useState([]);
 
   return (
     <Paper
@@ -35,13 +37,15 @@ const Login = ({ setUsername }) => {
       <Typography sx={{ textAlign: "center" }} variant="h2">
         Log In
       </Typography>
-      <AvatarGallery/>
+      <AvatarGallery
+        avatars={avatars}
+        setAvatars={setAvatars}
+        currentAvatarIndex={currentAvatarIndex}
+        setCurrentAvatarIndex={setCurrentAvatarIndex}
+      />
       <FormControl sx={{ width: "80%" }}>
-        <InputLabel sx={{ textAlign: "center" }} htmlFor="username">
-          Set a username
-        </InputLabel>
+        <InputLabel htmlFor="username">Set a username</InputLabel>
         <Input
-          className="login-form-input"
           id="username"
           value={usernameInput}
           onChange={(e) => {
@@ -53,6 +57,7 @@ const Login = ({ setUsername }) => {
             e.preventDefault();
             setUsername(usernameInput);
             socket.emit("username", usernameInput);
+            socket.emit("avatar", avatars[currentAvatarIndex]);
             setUsernameInput("");
           }}
         >

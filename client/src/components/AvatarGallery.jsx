@@ -47,10 +47,13 @@ const lightAvatars = [
   personI,
 ];
 
-const AvatarGallery = () => {
+const AvatarGallery = ({
+  avatars,
+  setAvatars,
+  currentAvatarIndex,
+  setCurrentAvatarIndex,
+}) => {
   const { mode, setMode } = useContext(ModeContext);
-  const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
-  const [avatars, setAvatars] = useState([]);
   console.log(mode.palette.mode);
   console.log(avatars);
 
