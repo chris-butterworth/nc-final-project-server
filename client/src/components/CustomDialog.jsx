@@ -10,10 +10,18 @@ const CustomDialog = ({
   children,
   title,
   contentText,
+  secondaryText,
   handleContinue,
 }) => {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+      height: "100vh",
+    }}
+    >
       {" "}
       {/*dialog container*/}
       <DialogTitle>{title}</DialogTitle>
