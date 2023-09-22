@@ -12,6 +12,8 @@ const {
   testAttempt,
 } = require("./controllers/game-controller.js");
 
+const { start } = require("repl");
+
 const app = express();
 
 const server = http.createServer(app);
@@ -24,7 +26,7 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
-    console.log(socket.id, "=", username); // This is a good one
+    console.log(socket.id, "=", username); // Don't delete
     socket.data.username = username;
   });
 
@@ -38,6 +40,10 @@ io.on("connection", (socket) => {
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     joinMultiPlayerRoom(socket, roomId, callback);
+  });
+  
+  socket.on("allReady", () => {
+    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
   socket.on("playerReady", () => {

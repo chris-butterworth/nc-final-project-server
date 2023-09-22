@@ -39,6 +39,7 @@ const GamePageGrid = ({ players, room }) => {
   const [gameScroll, setGameScroll] = useState([]);
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
+  const [lastRoundScores, setLastRoundScores] = useState([]);
   const Ref = useRef(null);
 
   useEffect(() => {
@@ -221,6 +222,21 @@ const GamePageGrid = ({ players, room }) => {
         title={gameMessage}
         contentText={fullScreenCustomDialog}
         secondaryText={lastPlayedAnswer}
+        roundScores={lastRoundScores}
+      >
+        <Timer
+          timer={timer}
+          setTimer={setTimer}
+          playerReady={playerReady}
+          setPlayerReady={setPlayerReady}
+          sx={{ maxHeight: "25px" }}
+        />
+      </CustomDialog>
+      <CustomDialog
+        open={gameOver}
+        title={gameMessage}
+        contentText={fullScreenCustomDialog}
+        secondaryText={gameScores}
       >
         <Timer
           timer={timer}

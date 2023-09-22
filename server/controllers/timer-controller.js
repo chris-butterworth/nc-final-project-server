@@ -17,6 +17,10 @@ const startGame = (roomId) => {
     .emit("gameScroll", "Game starting. First word coming up...");
   serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
+const endGame = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
+};
 
 const anagramTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
@@ -44,33 +48,49 @@ const anagramTimer = (roomId) => {
 
 const betweenWordTimer = (roomId, message = "Next word coming up...") => {
   const roomData = roomsMap.get(roomId);
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord - 1].answer;
 
   if (roomData.currentWord >= numOfWords) {
-    endGame();
+    endGame(roomId);
     return;
   }
 
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
-  io.ioObject.in(roomId).emit("fullScreenCustomDialog", message);
+  io.ioObject
+    .in(roomId)
+    .emit(
+      "fullScreenCustomDialog",
+      "Next word coming up...",
+      `Last Answer: ${lastWordAnswer}`
+    );
 
   serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
 
-const betweenRoundTimer = () => {
+const betweenRoundTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord - 1].answer;
+
+  const lastRoundAnswers = roomData.anagrams.filter((anagram, index) => {
+    if (index < roomData.currentWord && index > roomData.currentWord - 4)
+      return anagram;
+  });
+  console.log(lastRoundAnswers);
 
   if (roomData.currentWord >= numOfWords) {
-    endGame();
+    endGame(roomId);
     return;
   }
 
   io.ioObject.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
+
   io.ioObject
     .in(roomId)
-    .emit(
-      "gameScroll",
-      "Take a little break, here are the scores from the last 3 words"
-    );
+    .emit("fullScreenCustomDialog", [
+      "Take a little break, here are the scores from the last 3 words",
+      `Last Answer: ${lastWordAnswer}`,
+      lastRoundAnswers,
+    ]);
   serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
 };
 
