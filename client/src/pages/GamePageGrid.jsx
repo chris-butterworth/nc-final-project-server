@@ -5,6 +5,7 @@ import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
+import CustomDialog from "../components/CustomDialog";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,48 +21,111 @@ const Item = styled(Paper)(({ theme }) => ({
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
   const [allPlayersReady, setAllPlayersReady] = useState(false);
-  const [gameMessage, setGameMessage] = useState("");
-  const [roundStarting, setRoundStarting] = useState(false); // 3 second countdown
+
   const [timer, setTimer] = useState("0"); // this will change for between rounds/ in a word
-  const [roundActive, setRoundActive] = useState(false); // a set of 3 words with breaks
-  const [anagram, setAnagram] = useState(""); // when roundActive = true this is loaded with an anagram
+
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
-  const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
-  const [anagramNumber, setAnagramNumber] = useState(0);
-  const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
+
+  const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
+
+  const [betweenWords, setBetweenWords] = useState(false); // 5 second between words
+  const [betweenRounds, setBetweenRounds] = useState(false); // 30 seconds, can be skipped with ready
   const [gameOver, setGameOver] = useState(false); // true after 3 rounds
+  const [anagramWords, setAnagramWords] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
+  const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+
+  const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
+  const [gameScroll, setGameScroll] = useState([]);
+
   const Ref = useRef(null);
+  useEffect(() => {
+    socket.on("gameScroll", (message) => {
+      setGameScroll((current) => {
+        return [...current, message];
+      });
+    });
+  }, []);
 
   useEffect(() => {
     socket.on("allPlayersReady", () => {
       setAllPlayersReady(true);
     });
   }, []);
+
   useEffect(() => {
-    socket.on("roundCountdown", (time, message) => {
-      setAnagram("");
-      setGameMessage(message);
+    socket.on("betweenWordsCountdown", (time) => {
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenWords(true);
       timerFunction(time);
     });
   }, []);
   useEffect(() => {
-    socket.on("anagram", (time, anagram) => {
-      setGameMessage("");
-      setAnagram(anagram);
+    socket.on("betweenRoundsCountdown", (time) => {
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenRounds(true);
       timerFunction(time);
     });
   }, []);
   useEffect(() => {
-    socket.on("endMatch", (scores) => {
-      setGameMessage("");
+    socket.on("anagram", (time, anagram, answer, round) => {
+      setRoundNumber(round.round);
+      setAnagramNumber(round.anagram);
+      setBetweenRounds(false);
+      setBetweenWords(false);
+      setDisabledButtons([]);
+      setAnagramWords(anagram);
+      setFormattedAnswerArray(
+        answer
+          .split(" ")
+          .map((word) => Array.from({ length: word.length }, () => ""))
+      );
+
+      timerFunction(time);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("endGame", (scores) => {
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenWords(false);
+      setBetweenRounds(false);
       setGameOver(true);
       setGameScores(scores);
     });
   }, []);
-  console.log(anagram);
-  console.log(gameOver);
+
+  useEffect(() => {
+    // Tests answer validity
+    if (
+      disabledButtons.length > 0 &&
+      disabledButtons.length === formattedAnswerArray.flat().length
+    ) {
+      socket.emit("anagramAttempt", formattedAnswerArray);
+    }
+  }, [disabledButtons]);
+
+  useEffect(() => {
+    socket.on("correctAttempt", () => {});
+    setScore(1);
+  }, []);
+  useEffect(() => {
+    socket.on("incorrectAttempt", () => {
+      setDisabledButtons([]);
+      setFormattedAnswerArray((current) => {
+        return current.map((word) => {
+          return word.map((letter) => {
+            return "";
+          });
+        });
+      });
+    });
+  }, []);
 
   const timerFunction = (time) => {
     const clearTimer = (e) => {
@@ -99,52 +163,52 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Paper sx={{ minHeight: "100vh" }}>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+      >
+        <Paper
+          elevation={3}
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
+            minWidth: "25vw",
+            minHeight: "5vh",
+            maxHeight: "auto",
+            margin: "2em",
+            padding: "1em",
+            textAlign: "center",
+            variant: "h3",
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              minWidth: "25vw",
-              minHeight: "5vh",
-              maxHeight: "auto",
-              margin: "2em",
-              padding: "1em",
-              textAlign: "center",
-              variant: "h3",
-            }}
-          >
-            <Timer
-              timer={timer}
-              setTimer={setTimer}
-              playerReady={playerReady}
-              setPlayerReady={setPlayerReady}
-              sx={{ maxHeight: "25px" }}
-            />
-          </Paper>
-          <Paper
-            elevation={3}
-            sx={{
-              minWidth: "25vw",
-              minHeight: "5vh",
-              maxHeight: "auto",
-              margin: "2em",
-              padding: "1em",
-              textAlign: "center",
-              variant: "h3",
-            }}
-          >
-            <Typography sx={{ maxHeight: "25px" }}>
-              Game Room ID: {room}
-            </Typography>
-          </Paper>
-        </Box>
+          <Timer
+            timer={timer}
+            setTimer={setTimer}
+            playerReady={playerReady}
+            setPlayerReady={setPlayerReady}
+            sx={{ maxHeight: "25px" }}
+          />
+        </Paper>
+        <Paper
+          elevation={3}
+          sx={{
+            minWidth: "25vw",
+            minHeight: "5vh",
+            maxHeight: "auto",
+            margin: "2em",
+            padding: "1em",
+            textAlign: "center",
+            variant: "h3",
+          }}
+        >
+          <Typography sx={{ maxHeight: "25px" }}>
+            Game Room ID: {room}
+          </Typography>
+        </Paper>
+      </Box>
+      <CustomDialog // Game ready CustomDialog
+        open={betweenWords}
+        title={gameMessage}
+        contentText={gameScroll[gameScroll.length - 1]}
+      />
 
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -154,19 +218,35 @@ const GamePageGrid = ({ players, room }) => {
               </Item>
             </Grid>
 
-            <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
-              <Item>
-                <PlayBox />
-              </Item>
-            </Grid>
-
-            <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-              <Item>
-                <Typography variant="h4">Winners List</Typography>
-              </Item>
-            </Grid>
+          <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
+            <Item>
+              <PlayBox
+                anagramWords={anagramWords}
+                setAnagramWords={setAnagramWords}
+                formattedAnswerArray={formattedAnswerArray}
+                setFormattedAnswerArray={setFormattedAnswerArray}
+                disabledButtons={disabledButtons}
+                setDisabledButtons={setDisabledButtons}
+                roundNumber={roundNumber}
+                anagramNumber={anagramNumber}
+              />
+            </Item>
           </Grid>
-        </Box>
+
+          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+            <Item>
+              <Typography variant="h4">Game Scroll </Typography>
+              <Typography>
+                
+                  {gameScroll.map((item, index) => {
+                    return <p key={index}>{item}</p>;
+                  })}
+                
+              </Typography>
+            </Item>
+          </Grid>
+        </Grid>
+      </Box>
 
         <Box
           sx={{

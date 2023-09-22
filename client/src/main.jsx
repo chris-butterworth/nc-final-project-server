@@ -7,13 +7,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ModeProvider>
         <CssBaseline />
         <App />
       </ModeProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
