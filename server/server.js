@@ -27,6 +27,7 @@ const io = new Server(server, {
   cors: "*",
 });
 
+
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
     console.log(socket.id, "=", username);
@@ -114,7 +115,7 @@ io.on("connection", (socket) => {
         );
       };
 
-      const betweenWordTimer = () => {
+      const betweenWordTimer = (message = "Next word coming up...") => {
         const roomData = roomsMap.get(roomId);
 
         if (roomData.currentWord >= numOfWords) {
@@ -123,27 +124,12 @@ io.on("connection", (socket) => {
         }
 
         io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
-        io.in(roomId).emit("gameScroll", "Next word coming up...");
+        io.in(roomId).emit("gameScroll", message);
 
         serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
       };
 
-      const betweenRoundTimer = () => {
-        const roomData = roomsMap.get(roomId);
-
-        if (roomData.currentWord >= numOfWords) {
-          endGame();
-          return;
-        }
-
-        io.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
-        io.in(roomId).emit(
-          "gameScroll",
-          "Take a little break, here are the scores from the last 3 words"
-        );
-        serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
-      };
-
+      
       io.in(roomId).emit("updatePlayers", roomPlayers);
 
       startGameTimer();
@@ -171,13 +157,12 @@ io.on("connection", (socket) => {
       );
       updateRoomsMap(roomData);
       io.in(roomId).emit(
-
         "gameScroll",
         `${socket.data.username} guessed correctly`
       );
 
       if (roomData.anagrams[0].scores.length === roomData.players.length) {
-        console.log("end round");
+        betweenWordTimer("All players guessed correctly");
       }
     } else {
       socket.emit("incorrectAttempt");
