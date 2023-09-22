@@ -86,7 +86,7 @@ io.on("connection", (socket) => {
       const startGameTimer = () => {
         io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
         io.in(roomId).emit(
-          "gameScroll",
+          "fullScreenCustomDialog",
           "Game starting. First word coming up..."
         );
         serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
@@ -123,7 +123,7 @@ io.on("connection", (socket) => {
         }
 
         io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
-        io.in(roomId).emit("gameScroll", "Next word coming up...");
+        io.in(roomId).emit("fullScreenCustomDialog", [`Last Answer: ${roomData.anagrams[roomData.currentWord-1].answer}`,"Next word coming up..."]);
 
         serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
       };
@@ -138,7 +138,7 @@ io.on("connection", (socket) => {
 
         io.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
         io.in(roomId).emit(
-          "gameScroll",
+          "fullScreenCustomDialog",
           "Take a little break, here are the scores from the last 3 words"
         );
         serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);

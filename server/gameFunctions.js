@@ -69,8 +69,8 @@ const createNewRoom = (socket, roomId) => {
 
 const numOfWords = 9;
 const timeBetweenWords = 3;
-const timeBetweenRounds = 10;
-const anagramTime = 30;
+const timeBetweenRounds = 5;
+const anagramTime = 5;
 
 const updateRoomsMap = (roomData) => {
   roomsMap.set(roomData.roomId, roomData);
