@@ -40,15 +40,18 @@ const GamePageGrid = ({ players, room }) => {
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
-  const [lastPlayedAnswer, setLastPlayedAnswer] = useState("")
+  const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const Ref = useRef(null);
 
   useEffect(() => {
-    socket.on("fullScreenCustomDialog", (message, lastPlayedAnswer, scores="") => {
-      setFullScreenCustomDialog(message);
-      setGameScores(scores)
-      setLastPlayedAnswer (lastPlayedAnswer)
-    });
+    socket.on(
+      "fullScreenCustomDialog",
+      (message, lastPlayedAnswer, scores = "") => {
+        setFullScreenCustomDialog(message);
+        setGameScores(scores);
+        setLastPlayedAnswer(lastPlayedAnswer);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -173,20 +176,13 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <Box
-        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
-      >
-        <Paper
-          elevation={3}
+    <Paper>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
           sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            maxHeight: "auto",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-            variant: "h3",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
           }}
         >
           <Timer
@@ -196,7 +192,7 @@ const GamePageGrid = ({ players, room }) => {
             setPlayerReady={setPlayerReady}
             sx={{ maxHeight: "25px" }}
           />
-        </Paper>
+        </Box>
         <Paper
           elevation={3}
           sx={{
@@ -215,7 +211,7 @@ const GamePageGrid = ({ players, room }) => {
         </Paper>
       </Box>
 
-      <CustomDialog 
+      <CustomDialog
         open={betweenWords}
         title={gameMessage}
         contentText={fullScreenCustomDialog}
@@ -229,7 +225,7 @@ const GamePageGrid = ({ players, room }) => {
           sx={{ maxHeight: "25px" }}
         />
       </CustomDialog>
-      <CustomDialog 
+      <CustomDialog
         open={betweenRounds}
         title={gameMessage}
         contentText={fullScreenCustomDialog}
@@ -255,6 +251,7 @@ const GamePageGrid = ({ players, room }) => {
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
               <PlayBox
+                sx={{ minWidth: "50vw" }}
                 anagramWords={anagramWords}
                 setAnagramWords={setAnagramWords}
                 formattedAnswerArray={formattedAnswerArray}
@@ -266,22 +263,25 @@ const GamePageGrid = ({ players, room }) => {
               />
             </Item>
           </Grid>
-
-          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-            <Item>
-              <Typography variant="h4">Game Scroll </Typography>
-              <Typography>
-                {gameScroll.map((item, index) => {
-                  return <p key={index}>{item}</p>;
-                })}
-              </Typography>
-            </Item>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+          <Item>
+            <Typography variant="h4">Game Scroll </Typography>
+            <Typography>
+              {gameScroll.map((item, index) => {
+                return <p key={index}>{item}</p>;
+              })}
+            </Typography>
+          </Item>
         </Grid>
       </Box>
 
       <Box
-        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
       >
         <Paper
           elevation={3}
@@ -308,7 +308,7 @@ const GamePageGrid = ({ players, room }) => {
           <Typography variant="span">Chat Box</Typography>
         </Paper>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

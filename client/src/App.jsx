@@ -8,6 +8,10 @@ import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
 import "./App.css";
 import socket from "./socket.js";
+import matrix from "./assets/matrix.gif";
+import light from "./assets/light.avif";
+import SingleTutorial from "./pages/SingleTutorial.jsx";
+import MultiTutorial from "./pages/MultiTutorial.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -61,20 +65,27 @@ function App() {
       setPlayers(players);
     });
   }, []);
-  console.log(players)
-
   return (
     <>
       <ThemeProvider theme={mode}>
         <Paper
           sx={{
+            ...(mode.palette.mode === "dark" && {
+              backgroundImage: `url(${matrix})`,
+              backgroundSize: "cover",
+            }),
+            ...(mode.palette.mode === "light" && {
+              backgroundImage: `url(${light})`,
+              backgroundSize: "cover",
+            }),
             minHeight: "100vh",
-            borderRadius: 0,
           }}
         >
           <NavBar />
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
+            <Route path="/tutorial/single" element={<SingleTutorial />} />
+            <Route path="/tutorial/multi" element={<MultiTutorial />} />
             <Route
               path="/"
               element={

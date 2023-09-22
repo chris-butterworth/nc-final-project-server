@@ -116,18 +116,13 @@ export const PlayBox = ({
     <Paper
       key={`word-${wordIndex}`}
       sx={{
-        backgroundColor: "red",
+        // backgroundColor: "red",
         margin: "1em",
         display: "flex",
       }}
     >
       {Array.from(word).map((questionLetter, letterIndex) => (
-        <Box
-          key={`letter-${letterIndex}`}
-          sx={{
-            backgroundColor: "yellow",
-          }}
-        >
+        <Box key={`letter-${letterIndex}`}>
           <Button
             className={`button anagram-button ${
               formattedAnswerArray &&
@@ -137,7 +132,15 @@ export const PlayBox = ({
                 : ""
             }`}
             sx={{
-              backgroundColor: "purple",
+              ...(letterIndex % 3 === 0 && {
+                backgroundColor: "#fdde99",
+              }),
+              ...(letterIndex % 3 === 1 && {
+                backgroundColor: "#ebddeb",
+              }),
+              ...(letterIndex % 3 === 2 && {
+                backgroundColor: "#cdf0a9",
+              }),
               padding: "0",
               minWidth: "40px",
             }}
@@ -168,7 +171,7 @@ export const PlayBox = ({
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          backgroundColor: "chartreuse",
+          //   backgroundColor: "chartreuse",
           justifyContent: "center",
         }}
       >
@@ -177,8 +180,8 @@ export const PlayBox = ({
             <Paper
               key={`answer-word-${wordIndex}`}
               sx={{
-                backgroundColor: "blue",
-                margin: "1em",
+                // backgroundColor: "blue",
+                // margin: "1em",
                 display: "flex",
               }}
             >
@@ -191,7 +194,7 @@ export const PlayBox = ({
                       sx={{
                         width: "40px",
                         height: "40px",
-                        border: "5px green solid",
+                        // border: "5px green solid",
                         display: "block",
                       }}
                     ></Box>
@@ -204,7 +207,7 @@ export const PlayBox = ({
       <Paper
         className="question-container"
         sx={{
-          backgroundColor: "grey",
+          // backgroundColor: "grey",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
