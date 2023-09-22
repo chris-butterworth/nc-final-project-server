@@ -163,16 +163,22 @@ io.on("connection", (socket) => {
     const roomData = roomsMap.get(roomId);
     if (
       attemptString.toLowerCase() ===
-      roomData.anagrams[roomData.currentWord].answer.toLowerCase()
+      roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
     ) {
       socket.emit("correctAttempt");
-      roomData.anagrams[roomData.currentWord].scores.push(socket.data.username);
+      roomData.anagrams[roomData.currentWord - 1].scores.push(
+        socket.data.username
+      );
       updateRoomsMap(roomData);
-      console.log(roomData.anagrams[0].scores, "Winners List");
       io.in(roomId).emit(
+
         "gameScroll",
         `${socket.data.username} guessed correctly`
       );
+
+      if (roomData.anagrams[0].scores.length === roomData.players.length) {
+        console.log("end round");
+      }
     } else {
       socket.emit("incorrectAttempt");
       io.in(roomId).emit(

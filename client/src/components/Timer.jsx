@@ -9,7 +9,6 @@ import { Typography } from "@mui/material";
 import socket from "../socket";
 
 export const Timer = ({ timer, playerReady, setPlayerReady }) => {
-
   return (
     <Box>
       <Typography
@@ -31,5 +30,3 @@ export const Timer = ({ timer, playerReady, setPlayerReady }) => {
     </Box>
   );
 };
-
- 
