@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import matrix from "./assets/matrix.gif";
 
 export const darkTheme = createTheme({
   components: {
@@ -70,7 +69,8 @@ export const lightTheme = createTheme({
           fontWeightMedium: 500,
           color: "#118ab2",
         },
-        h3: { color: "#ffd166" },
+        // h3: { color: "#118ab2" },
+        h6: { color: "#ffd166" },
         // h3: {
         //   color: "#06d6a0",
         // },
@@ -79,10 +79,10 @@ export const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          margin: "5px",
-          padding: "5px",
-          fontSize: "1rem",
-          borderRadius: "50px",
+          // margin: "5px",
+          // padding: "5px",
+          // fontSize: "1rem",
+          borderRadius: "10px",
           fontFamily: `"Grandstander", handwriting`,
         },
       },
@@ -90,10 +90,10 @@ export const lightTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          margin: "5px",
-          padding: "5px",
-          fontSize: "1rem",
-          borderRadius: "50px",
+          // margin: "5px",
+          // padding: "5px",
+          // fontSize: "1rem",
+          borderRadius: "10px",
         },
       },
     },
