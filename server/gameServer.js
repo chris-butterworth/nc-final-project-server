@@ -1,11 +1,7 @@
+const roomsMap = require("./roomsDatabase");
+
 const {
-  roomsMap,
-  createNewRoom,
-  joinMultiPlayerRoom,
-  getRoomIdFromSocket,
-  playerReady,
   serverTimer,
-  updateRoomsMap,
   nextWord,
   timeBetweenRounds,
   timeBetweenWords,

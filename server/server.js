@@ -2,7 +2,6 @@ const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
 const {
-  roomsMap,
   createNewRoom,
   joinMultiPlayerRoom,
   getRoomIdFromSocket,
@@ -10,6 +9,7 @@ const {
   testAttempt,
   testAllPlayersGuessedCorrectly,
 } = require("./gameFunctions.js");
+const roomsMap = require("./roomsDatabase");
 
 const { startGame } = require("./gameServer.js");
 
