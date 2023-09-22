@@ -163,10 +163,12 @@ io.on("connection", (socket) => {
     const roomData = roomsMap.get(roomId);
     if (
       attemptString.toLowerCase() ===
-      roomData.anagrams[roomData.currentWord].answer.toLowerCase()
+      roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
     ) {
       socket.emit("correctAttempt");
-      roomData.anagrams[roomData.currentWord].scores.push(socket.data.username);
+      roomData.anagrams[roomData.currentWord - 1].scores.push(
+        socket.data.username
+      );
       updateRoomsMap(roomData);
 
       io.in(roomId).emit(
