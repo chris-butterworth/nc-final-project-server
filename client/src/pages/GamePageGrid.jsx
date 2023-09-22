@@ -33,6 +33,8 @@ const GamePageGrid = ({ players, room }) => {
   const [anagramWords, setAnagramWords] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
+  const [hint, setHint] = useState('');
+  const [hintCount, setHintCount] = useState(0);
 
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");

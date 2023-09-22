@@ -51,6 +51,10 @@ const serverTimer = (time, roomId, callback1, callback2) => {
   const id = setInterval(secondEvent, 1000);
 };
 
+const scoreCalculator = (time, hints) => {
+
+};
+
 module.exports = {
   getRoomIdFromSocket,
   serverTimer,
