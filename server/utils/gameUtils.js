@@ -51,11 +51,56 @@ const serverTimer = (time, roomId, callback1, callback2) => {
   const id = setInterval(secondEvent, 1000);
 };
 
+const calculateScore = (time, hints) => {
+  const timeUsed = anagramTime - time;
+  const score = 1000 - timeUsed * (1000 / anagramTime) - hints * 100;
+  if (score > 0) {
+    return Math.floor(score);
+  }
+};
+
+const updatePlayerScore = (roomId, username, score) => {
+  const roomData = roomsMap.get(roomId);
+  roomData.anagrams[roomData.currentWord - 1].scores.forEach((user) => {
+
+    if ((user.username === username)) {
+      user.score = score;
+      user.isSolved = true;
+    }
+  });
+
+
+  roomData.players.forEach((user) => {
+    if (user.username === username) {
+      user.score = score;
+      user.totalScore += score;
+    }
+  });
+
+  updateRoomsMap(roomData);
+};
+
+const populateScoreboard = (roomId) => {
+  const room = roomsMap.get(roomId);
+
+  const blankScoreBoard = room.players.map((user) => {
+    return { username: user.username, score: 0, isSolved: false };
+  });
+  room.anagrams.forEach((anagram) => {
+    anagram.scores = blankScoreBoard;
+  });
+
+  updateRoomsMap(room);
+};
+
 module.exports = {
   getRoomIdFromSocket,
   serverTimer,
   updateRoomsMap,
   nextWord,
+  calculateScore,
+  populateScoreboard,
+  updatePlayerScore,
   numOfWords,
   timeBetweenRounds,
   timeBetweenWords,

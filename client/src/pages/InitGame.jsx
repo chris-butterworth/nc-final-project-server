@@ -16,7 +16,7 @@ import {
 import socket from "../socket";
 import { useState } from "react";
 
-const InitGame = ({  room, setRoom, setPlayers }) => {
+const InitGame = ({ room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
   const [joinRoomError, setJoinRoomError] = useState("");
 
