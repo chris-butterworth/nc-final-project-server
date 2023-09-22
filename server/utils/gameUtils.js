@@ -55,7 +55,7 @@ const calculateScore = (time, hints) => {
   const timeUsed = anagramTime - time;
   const score = 1000 - timeUsed * (1000 / anagramTime) - hints * 100;
   if (score > 0) {
-    return score;
+    return Math.floor(score);
   }
 };
 
