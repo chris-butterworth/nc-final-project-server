@@ -163,52 +163,57 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <Box
-        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
-      >
-        <Paper
-          elevation={3}
+    <Paper>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
           sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            maxHeight: "auto",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-            variant: "h3",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
           }}
         >
-          <Timer
-            timer={timer}
-            setTimer={setTimer}
-            playerReady={playerReady}
-            setPlayerReady={setPlayerReady}
-            sx={{ maxHeight: "25px" }}
-          />
-        </Paper>
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            maxHeight: "auto",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-            variant: "h3",
-          }}
-        >
-          <Typography sx={{ maxHeight: "25px" }}>
-            Game Room ID: {room}
-          </Typography>
-        </Paper>
-      </Box>
-      <CustomDialog // Game ready CustomDialog
-        open={betweenWords}
-        title={gameMessage}
-        contentText={gameScroll[gameScroll.length - 1]}
-      />
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "5vh",
+              maxHeight: "auto",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
+              variant: "h3",
+            }}
+          >
+            <Timer
+              timer={timer}
+              setTimer={setTimer}
+              playerReady={playerReady}
+              setPlayerReady={setPlayerReady}
+              sx={{ maxHeight: "25px" }}
+            />
+          </Paper>
+          <Paper
+            elevation={3}
+            sx={{
+              minWidth: "25vw",
+              minHeight: "5vh",
+              maxHeight: "auto",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
+              variant: "h3",
+            }}
+          >
+            <Typography sx={{ maxHeight: "25px" }}>
+              Game Room ID: {room}
+            </Typography>
+          </Paper>
+        </Box>
+        <CustomDialog // Game ready CustomDialog
+          open={betweenWords}
+          title={gameMessage}
+          contentText={gameScroll[gameScroll.length - 1]}
+        />
 
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -218,35 +223,33 @@ const GamePageGrid = ({ players, room }) => {
               </Item>
             </Grid>
 
-          <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
-            <Item>
-              <PlayBox
-                anagramWords={anagramWords}
-                setAnagramWords={setAnagramWords}
-                formattedAnswerArray={formattedAnswerArray}
-                setFormattedAnswerArray={setFormattedAnswerArray}
-                disabledButtons={disabledButtons}
-                setDisabledButtons={setDisabledButtons}
-                roundNumber={roundNumber}
-                anagramNumber={anagramNumber}
-              />
-            </Item>
-          </Grid>
+            <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
+              <Item>
+                <PlayBox
+                  anagramWords={anagramWords}
+                  setAnagramWords={setAnagramWords}
+                  formattedAnswerArray={formattedAnswerArray}
+                  setFormattedAnswerArray={setFormattedAnswerArray}
+                  disabledButtons={disabledButtons}
+                  setDisabledButtons={setDisabledButtons}
+                  roundNumber={roundNumber}
+                  anagramNumber={anagramNumber}
+                />
+              </Item>
+            </Grid>
 
-          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-            <Item>
-              <Typography variant="h4">Game Scroll </Typography>
-              <Typography>
-                
+            <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+              <Item>
+                <Typography variant="h4">Game Scroll </Typography>
+                <Typography>
                   {gameScroll.map((item, index) => {
                     return <p key={index}>{item}</p>;
                   })}
-                
-              </Typography>
-            </Item>
+                </Typography>
+              </Item>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
 
         <Box
           sx={{
