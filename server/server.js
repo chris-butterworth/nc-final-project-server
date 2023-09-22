@@ -7,21 +7,11 @@ const {
   joinMultiPlayerRoom,
   getRoomIdFromSocket,
   playerReady,
-  serverTimer,
-  updateRoomsMap,
-  nextWord,
-  timeBetweenRounds,
-  timeBetweenWords,
-  anagramTime,
-  numOfWords,
+  testAttempt,
+  testAllPlayersGuessedCorrectly,
 } = require("./gameFunctions.js");
 
-const {
-  startGameTimer,
-  anagramTimer,
-  betweenWordTimer,
-  betweenRoundTimer,
-} = require("./gameServer.js");
+const { startGame } = require("./gameServer.js");
 
 const app = express();
 
@@ -33,10 +23,7 @@ const io = new Server(server, {
   cors: "*",
 });
 
-
-
 io.on("connection", (socket) => {
-
   socket.on("username", (username) => {
     console.log(socket.id, "=", username);
     socket.data.username = username;
@@ -68,36 +55,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("playerReady", () => {
-    const roomPlayers = playerReady(socket, startGameTimer);
+    const roomPlayers = playerReady(socket, startGame);
     io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
   });
 
   socket.on("anagramAttempt", (attempt) => {
-    const attemptString = attempt
-      .map((word) => {
-        return word.join("");
-      })
-      .join(" ");
-
-    const roomId = getRoomIdFromSocket(socket);
-    const roomData = roomsMap.get(roomId);
-    if (
-      attemptString.toLowerCase() ===
-      roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
-    ) {
+    const isCorrect = testAttempt(socket, attempt);
+    if (isCorrect) {
       socket.emit("correctAttempt");
-      roomData.anagrams[roomData.currentWord - 1].scores.push(
-        socket.data.username
-      );
-      updateRoomsMap(roomData);
       io.in(roomId).emit(
         "gameScroll",
         `${socket.data.username} guessed correctly`
       );
-
-      if (roomData.anagrams[0].scores.length === roomData.players.length) {
-        betweenWordTimer(roomId, "All players guessed correctly");
-      }
     } else {
       socket.emit("incorrectAttempt");
       io.in(roomId).emit(
@@ -105,6 +74,7 @@ io.on("connection", (socket) => {
         `${socket.data.username} guessed incorrectly`
       );
     }
+    testAllPlayersGuessedCorrectly(socket);
   });
 });
 

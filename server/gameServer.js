@@ -15,7 +15,7 @@ const {
 
 const io = require("./server.js");
 
-const startGameTimer = (roomId) => {
+const startGame = (roomId) => {
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
@@ -80,7 +80,7 @@ const betweenRoundTimer = () => {
 };
 
 module.exports = {
-  startGameTimer,
+  startGame,
   anagramTimer,
   betweenWordTimer,
   betweenRoundTimer,

@@ -1,5 +1,4 @@
-const roomsMap = new Map();
-
+const roomsMap = require('./roomsDatabase')
 const templatePlayerObject = {
   id: 0,
   username: "",
@@ -154,6 +153,36 @@ const serverTimer = (time, roomId, callback1, callback2) => {
   const id = setInterval(secondEvent, 1000);
 };
 
+const testAttempt = (socket, attempt) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const roomData = roomsMap.get(roomId);
+  const attemptString = attempt
+    .map((word) => {
+      return word.join("");
+    })
+    .join(" ");
+
+  if (
+    attemptString.toLowerCase() ===
+    roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
+  ) {
+    roomData.anagrams[roomData.currentWord - 1].scores.push(
+      socket.data.username
+    );
+    updateRoomsMap(roomData);
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const testAllPlayersGuessedCorrectly = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  if (roomData.anagrams[0].scores.length === roomData.players.length) {
+    betweenWordTimer(roomId, "All players guessed correctly");
+  }
+};
+
 module.exports = {
   roomsMap,
   createNewRoom,
@@ -167,4 +196,6 @@ module.exports = {
   timeBetweenRounds,
   timeBetweenWords,
   anagramTime,
+  testAttempt,
+  testAllPlayersGuessedCorrectly,
 };
