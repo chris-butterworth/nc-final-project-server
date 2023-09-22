@@ -230,13 +230,13 @@ const GamePageGrid = ({ players, room }) => {
           playerReady={playerReady}
           setPlayerReady={setPlayerReady}
           sx={{ maxHeight: "25px" }}
-        />
+        /> 
       </CustomDialog>
       <CustomDialog
         open={gameOver}
         title={gameMessage}
         contentText={fullScreenCustomDialog}
-        secondaryText={gameScores}
+        // secondaryText={gameScores}
       >
         <Timer
           timer={timer}

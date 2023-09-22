@@ -36,6 +36,7 @@ const CustomDialog = ({
           {/* main text */}
           {contentText}
           {secondaryText}
+          {roundScores}
         </DialogContentText>
         {children} {/* Other content */}
       </DialogContent>

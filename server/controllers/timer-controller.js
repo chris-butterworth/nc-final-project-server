@@ -14,7 +14,7 @@ const startGame = (roomId) => {
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
-    .emit("gameScroll", "Game starting. First word coming up...");
+    .emit("fullScreenCustomDialog", "Game starting. First word coming up...");
   serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
 const endGame = (roomId) => {
@@ -75,7 +75,6 @@ const betweenRoundTimer = (roomId) => {
     if (index < roomData.currentWord && index > roomData.currentWord - 4)
       return anagram;
   });
-  console.log(lastRoundAnswers);
 
   if (roomData.currentWord >= numOfWords) {
     endGame(roomId);
@@ -86,11 +85,11 @@ const betweenRoundTimer = (roomId) => {
 
   io.ioObject
     .in(roomId)
-    .emit("fullScreenCustomDialog", [
+    .emit("fullScreenCustomDialog", 
       "Take a little break, here are the scores from the last 3 words",
       `Last Answer: ${lastWordAnswer}`,
       lastRoundAnswers,
-    ]);
+    );
   serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
 };
 
