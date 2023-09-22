@@ -6,7 +6,6 @@ const io = require("../server.js");
 
 const playerReady = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
-
   const room = roomsMap.get(roomId);
 
   room.players.forEach((player) => {

@@ -1,3 +1,4 @@
+const { getAnagrams } = require("../models/game-model");
 const roomsMap = require("../roomsDatabase");
 const { templateAnagrams, templatePlayerObject } = require("../testData");
 
@@ -20,6 +21,7 @@ const createNewRoom = (socket, callback) => {
   });
 
   socket.join(roomId);
+  getAnagrams(roomId)
   callback(roomsMap.get(roomId));
 };
 
