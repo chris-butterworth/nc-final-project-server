@@ -6,6 +6,7 @@ import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -197,9 +198,27 @@ const GamePageGrid = ({ players, room }) => {
             variant: "h3",
           }}
         >
-          <Typography sx={{ maxHeight: "25px" }}>
-            Game Room ID: {room}
-          </Typography>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              sx={{ maxHeight: "25px", paddingRight: "1em", cursor: "pointer" }}
+              onClick={() => {
+                navigator.clipboard.writeText(room);
+              }}
+            >
+              Game Room ID: {room}
+            </Typography>
+            <ContentCopyIcon
+              onClick={() => {
+                navigator.clipboard.writeText(room);
+              }}
+            />
+          </div>
         </Paper>
       </Box>
 
@@ -230,7 +249,7 @@ const GamePageGrid = ({ players, room }) => {
           playerReady={playerReady}
           setPlayerReady={setPlayerReady}
           sx={{ maxHeight: "25px" }}
-        /> 
+        />
       </CustomDialog>
       <CustomDialog
         open={gameOver}

@@ -15,6 +15,7 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import AvatarGallery from "../components/AvatarGallery";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -34,6 +35,7 @@ const Login = ({ setUsername }) => {
       <Typography sx={{ textAlign: "center" }} variant="h2">
         Log In
       </Typography>
+      <AvatarGallery/>
       <FormControl sx={{ width: "80%" }}>
         <InputLabel sx={{ textAlign: "center" }} htmlFor="username">
           Set a username
