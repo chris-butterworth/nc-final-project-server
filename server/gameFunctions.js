@@ -101,7 +101,7 @@ const getRoomIdFromSocket = (socket) => {
   return roomId;
 };
 
-const playerReady = (socket) => {
+const playerReady = (socket, callback) => {
   const roomId = getRoomIdFromSocket(socket);
   const room = roomsMap.get(roomId);
   room.players.forEach((player) => {
@@ -109,6 +109,15 @@ const playerReady = (socket) => {
       player.readyToStartRound = true;
     }
   });
+
+  let playerReadyStatus = [];
+  room.players.forEach((player) => {
+    playerReadyStatus.push(player.readyToStartRound);
+  });
+
+  if (playerReadyStatus.every((item) => item)) {
+    callback(roomId);
+  }
   return room.players;
 };
 
@@ -138,7 +147,7 @@ const serverTimer = (time, roomId, callback1, callback2) => {
 
     if (timer === 0) {
       clearInterval(id);
-      callback1();
+      callback1(roomId);
       if (callback2) callback2(roomId);
     }
   };

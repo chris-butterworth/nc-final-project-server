@@ -15,7 +15,13 @@ const {
   anagramTime,
   numOfWords,
 } = require("./gameFunctions.js");
-const { start } = require("repl");
+
+const {
+  startGameTimer,
+  anagramTimer,
+  betweenWordTimer,
+  betweenRoundTimer,
+} = require("./gameServer.js");
 
 const app = express();
 
@@ -28,7 +34,9 @@ const io = new Server(server, {
 });
 
 
+
 io.on("connection", (socket) => {
+
   socket.on("username", (username) => {
     console.log(socket.id, "=", username);
     socket.data.username = username;
@@ -59,83 +67,9 @@ io.on("connection", (socket) => {
     callback(response);
   });
 
-  socket.on("allReady", () => {
-    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
-  });
-
-  /////////////////////
-
   socket.on("playerReady", () => {
-    const roomPlayers = playerReady(socket);
-    let playerReadyStatus = [];
-    roomPlayers.forEach((player) => {
-      playerReadyStatus.push(player.readyToStartRound);
-    });
-
-    if (playerReadyStatus.every((item) => item)) {
-      const roomId = getRoomIdFromSocket(socket);
-
-      io.in(roomId).emit("allPlayersReady");
-
-      const endGame = () => {
-        const roomData = roomsMap.get(roomId);
-
-        io.in(roomId).emit("endGame", roomData.anagrams);
-        io.in(roomId).emit("gameScroll", `Game over!`);
-      };
-
-      const startGameTimer = () => {
-        io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
-        io.in(roomId).emit(
-          "gameScroll",
-          "Game starting. First word coming up..."
-        );
-        serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
-      };
-
-      const anagramTimer = () => {
-        const roomData = roomsMap.get(roomId);
-
-        io.in(roomId).emit(
-          "anagram",
-          anagramTime,
-          roomData.anagrams[roomData.currentWord].anagram,
-          roomData.anagrams[roomData.currentWord].answer,
-          roomData.round
-        );
-
-        serverTimer(
-          anagramTime,
-          roomId,
-          roomData.currentWord <= 1
-            ? betweenWordTimer
-            : (roomData.currentWord + 1) % 3 === 0
-            ? betweenRoundTimer
-            : betweenWordTimer
-        );
-      };
-
-      const betweenWordTimer = (message = "Next word coming up...") => {
-        const roomData = roomsMap.get(roomId);
-
-        if (roomData.currentWord >= numOfWords) {
-          endGame();
-          return;
-        }
-
-        io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
-        io.in(roomId).emit("gameScroll", message);
-
-        serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
-      };
-
-      
-      io.in(roomId).emit("updatePlayers", roomPlayers);
-
-      startGameTimer();
-    } else {
-      io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
-    }
+    const roomPlayers = playerReady(socket, startGameTimer);
+    io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
   });
 
   socket.on("anagramAttempt", (attempt) => {
@@ -162,7 +96,7 @@ io.on("connection", (socket) => {
       );
 
       if (roomData.anagrams[0].scores.length === roomData.players.length) {
-        betweenWordTimer("All players guessed correctly");
+        betweenWordTimer(roomId, "All players guessed correctly");
       }
     } else {
       socket.emit("incorrectAttempt");
@@ -172,14 +106,11 @@ io.on("connection", (socket) => {
       );
     }
   });
-
-  //   socket.on("updateScore", (anagramNumber) => {
-  //     const roomId = getRoomIdFromSocket(socket);
-  //     const roomData = roomsMap.get(roomId);
-  //     //update room object with players score from last round
-  //   });
 });
 
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
 });
+
+const socketIoObject = io;
+module.exports.ioObject = socketIoObject;

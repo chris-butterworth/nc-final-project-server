@@ -20,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
-  const [allPlayersReady, setAllPlayersReady] = useState(false);
+  // const [allPlayersReady, setAllPlayersReady] = useState(false);
 
   const [timer, setTimer] = useState(0); 
 
@@ -46,12 +46,6 @@ const GamePageGrid = ({ players, room }) => {
       setGameScroll((current) => {
         return [...current, message];
       });
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("allPlayersReady", () => {
-      setAllPlayersReady(true);
     });
   }, []);
 
