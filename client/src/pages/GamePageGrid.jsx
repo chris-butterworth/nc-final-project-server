@@ -39,8 +39,18 @@ const GamePageGrid = ({ players, room }) => {
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
-
+  const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
+  const [lastPlayedAnswer, setLastPlayedAnswer] = useState("")
   const Ref = useRef(null);
+
+  useEffect(() => {
+    socket.on("fullScreenCustomDialog", (message, lastPlayedAnswer, scores="") => {
+      setFullScreenCustomDialog(message);
+      setGameScores(scores)
+      setLastPlayedAnswer (lastPlayedAnswer)
+    });
+  }, []);
+
   useEffect(() => {
     socket.on("gameScroll", (message) => {
       setGameScroll((current) => {
@@ -204,11 +214,35 @@ const GamePageGrid = ({ players, room }) => {
           </Typography>
         </Paper>
       </Box>
-      <CustomDialog // Game ready CustomDialog
+
+      <CustomDialog 
         open={betweenWords}
         title={gameMessage}
-        contentText={gameScroll[gameScroll.length - 1]}
-      />
+        contentText={fullScreenCustomDialog}
+        secondaryText={lastPlayedAnswer}
+      >
+        <Timer
+          timer={timer}
+          setTimer={setTimer}
+          playerReady={playerReady}
+          setPlayerReady={setPlayerReady}
+          sx={{ maxHeight: "25px" }}
+        />
+      </CustomDialog>
+      <CustomDialog 
+        open={betweenRounds}
+        title={gameMessage}
+        contentText={fullScreenCustomDialog}
+        secondaryText={lastPlayedAnswer}
+      >
+        <Timer
+          timer={timer}
+          setTimer={setTimer}
+          playerReady={playerReady}
+          setPlayerReady={setPlayerReady}
+          sx={{ maxHeight: "25px" }}
+        />
+      </CustomDialog>
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
@@ -237,11 +271,9 @@ const GamePageGrid = ({ players, room }) => {
             <Item>
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
-                
-                  {gameScroll.map((item, index) => {
-                    return <p key={index}>{item}</p>;
-                  })}
-                
+                {gameScroll.map((item, index) => {
+                  return <p key={index}>{item}</p>;
+                })}
               </Typography>
             </Item>
           </Grid>
