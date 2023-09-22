@@ -1,4 +1,5 @@
-const roomsMap = require("./roomsDatabase");
+const roomsMap = require("../roomsDatabase");
+const io = require("../server.js");
 
 const {
   serverTimer,
@@ -7,9 +8,7 @@ const {
   timeBetweenWords,
   anagramTime,
   numOfWords,
-} = require("./gameFunctions.js");
-
-const io = require("./server.js");
+} = require("../utils/gameUtils");
 
 const startGame = (roomId) => {
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);

@@ -61,7 +61,6 @@ function App() {
       setPlayers(players);
     });
   }, []);
-  console.log(players)
 
   return (
     <>

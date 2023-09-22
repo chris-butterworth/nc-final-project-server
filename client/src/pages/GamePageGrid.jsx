@@ -20,9 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const GamePageGrid = ({ players, room }) => {
   const [playerReady, setPlayerReady] = useState(false);
-  // const [allPlayersReady, setAllPlayersReady] = useState(false);
-
-  const [timer, setTimer] = useState(0); 
+  const [timer, setTimer] = useState(0);
 
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
 
@@ -31,7 +29,7 @@ const GamePageGrid = ({ players, room }) => {
 
   const [betweenWords, setBetweenWords] = useState(false);
   const [betweenRounds, setBetweenRounds] = useState(false);
-  const [gameOver, setGameOver] = useState(false); 
+  const [gameOver, setGameOver] = useState(false);
   const [anagramWords, setAnagramWords] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
@@ -121,7 +119,7 @@ const GamePageGrid = ({ players, room }) => {
     });
   }, []);
 
-  const timerFunction= (time) => {
+  const timerFunction = (time) => {
     const clearTimer = (e) => {
       setTimer(time);
       if (Ref.current) clearInterval(Ref.current);
