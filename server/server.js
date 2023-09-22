@@ -8,7 +8,14 @@ const {
   getRoomIdFromSocket,
   playerReady,
   serverTimer,
+  updateRoomsMap,
+  nextWord,
+  timeBetweenRounds,
+  timeBetweenWords,
+  anagramTime,
+  numOfWords,
 } = require("./gameFunctions.js");
+const { start } = require("repl");
 
 const app = express();
 
@@ -22,7 +29,7 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
-    console.log(socket.id, "=", username);
+    console.log(socket.id, "=", username); // This is a good one
     socket.data.username = username;
   });
 
@@ -55,6 +62,8 @@ io.on("connection", (socket) => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
 
+  /////////////////////
+
   socket.on("playerReady", () => {
     const roomPlayers = playerReady(socket);
     let playerReadyStatus = [];
@@ -64,57 +73,122 @@ io.on("connection", (socket) => {
 
     if (playerReadyStatus.every((item) => item)) {
       const roomId = getRoomIdFromSocket(socket);
-      const roomData = roomsMap.get(roomId);
 
-      
       io.in(roomId).emit("allPlayersReady");
-      
-      let currentAnagramNumber = 0;
 
-      
-      let endMatch = () => {
-        io.in(roomId).emit("endMatch", roomData.anagrams);
+      const endGame = () => {
+        const roomData = roomsMap.get(roomId);
+
+        io.in(roomId).emit("endGame", roomData.anagrams);
+        io.in(roomId).emit("gameScroll", `Game over!`);
       };
 
-      let roundCountdown = () => {
-        io.in(roomId).emit("roundCountdown", 3, "Next word coming up...");
-        serverTimer(3, roomId, roundInProgress);
+      const startGameTimer = () => {
+        io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
+        io.in(roomId).emit(
+          "fullScreenCustomDialog",
+          "Game starting. First word coming up..."
+        );
+        serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
       };
 
-      let roundInProgress = () => {
-        if (currentAnagramNumber >= 3) {
-          endMatch();
-          return;
-        }
+      const anagramTimer = () => {
+        const roomData = roomsMap.get(roomId);
+
         io.in(roomId).emit(
           "anagram",
-          15,
-          roomData.anagrams[currentAnagramNumber].anagram,
-          roomData.anagrams[currentAnagramNumber++].answer
+          anagramTime,
+          roomData.anagrams[roomData.currentWord].anagram,
+          roomData.anagrams[roomData.currentWord].answer,
+          roomData.round
         );
 
-        io.in(roomId).emit("gameData", roomData.game);
-        serverTimer(15, roomId, roundCountdown);
+        serverTimer(
+          anagramTime,
+          roomId,
+          roomData.currentWord <= 1
+            ? betweenWordTimer
+            : (roomData.currentWord + 1) % 3 === 0
+            ? betweenRoundTimer
+            : betweenWordTimer
+        );
+      };
 
+      const betweenWordTimer = () => {
+        const roomData = roomsMap.get(roomId);
+
+        if (roomData.currentWord >= numOfWords) {
+          endGame();
+          return;
+        }
+
+        io.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
+        io.in(roomId).emit("fullScreenCustomDialog", [`Last Answer: ${roomData.anagrams[roomData.currentWord-1].answer}`,"Next word coming up..."]);
+
+        serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
+      };
+
+      const betweenRoundTimer = () => {
+        const roomData = roomsMap.get(roomId);
+
+        if (roomData.currentWord >= numOfWords) {
+          endGame();
+          return;
+        }
+
+        io.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
+        io.in(roomId).emit(
+          "fullScreenCustomDialog",
+          "Take a little break, here are the scores from the last 3 words"
+        );
+        serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
       };
 
       io.in(roomId).emit("updatePlayers", roomPlayers);
-      roundCountdown();
+
+      startGameTimer();
     } else {
       io.in(getRoomIdFromSocket(socket)).emit("updatePlayers", roomPlayers);
     }
-  
   });
 
+  socket.on("anagramAttempt", (attempt) => {
+    const attemptString = attempt
+      .map((word) => {
+        return word.join("");
+      })
+      .join(" ");
 
-
-
-
-  socket.on("updateScore", (anagramNumber) => {
     const roomId = getRoomIdFromSocket(socket);
     const roomData = roomsMap.get(roomId);
-    //update room object with players score from last round
+    if (
+      attemptString.toLowerCase() ===
+      roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
+    ) {
+      socket.emit("correctAttempt");
+      roomData.anagrams[roomData.currentWord - 1].scores.push(
+        socket.data.username
+      );
+      updateRoomsMap(roomData);
+
+      io.in(roomId).emit(
+        "gameScroll",
+        `${socket.data.username} guessed correctly`
+      );
+    } else {
+      socket.emit("incorrectAttempt");
+      io.in(roomId).emit(
+        "gameScroll",
+        `${socket.data.username} guessed incorrectly`
+      );
+    }
   });
+
+  //   socket.on("updateScore", (anagramNumber) => {
+  //     const roomId = getRoomIdFromSocket(socket);
+  //     const roomData = roomsMap.get(roomId);
+  //     //update room object with players score from last round
+  //   });
 });
 
 server.listen(port, () => {
