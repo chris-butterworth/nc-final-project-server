@@ -2,9 +2,9 @@ const roomsMap = require("../roomsDatabase");
 const { startGame } = require("../controllers/timer-controller");
 const {
   getRoomIdFromSocket,
-  updateRoomsMap,
   calculateScore,
   updatePlayerScore,
+  killTimer,
 } = require("../utils/gameUtils");
 const { betweenWordTimer } = require("./timer-controller");
 const io = require("../server.js");
@@ -79,6 +79,7 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
       (player) => player.isSolved
     )
   ) {
+    killTimer(roomId);
     betweenWordTimer(
       roomId,
       `All players guessed correctly, you got ${score} points`

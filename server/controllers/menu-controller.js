@@ -8,6 +8,7 @@ const createNewRoom = (socket, callback) => {
   roomsMap.set(roomId, {
     roomId,
     timer: 0,
+    timerInterval: null,
     anagrams: templateAnagrams,
     currentWord: 0,
     round: { round: 1, anagram: 1 },
