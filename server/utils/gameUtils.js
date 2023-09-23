@@ -3,7 +3,7 @@ const roomsMap = require("../roomsDatabase");
 const numOfWords = 9;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
-const anagramTime = 60;
+const anagramTime = 10;
 
 const updateRoomsMap = (roomData) => {
   roomsMap.set(roomData.roomId, roomData);
@@ -30,25 +30,26 @@ const nextWord = (roomId) => {
   return room.round;
 };
 
-const serverTimer = (time, roomId, callback1, callback2) => {
-  let timer = time;
-  const updatedRoom = roomsMap.get(roomId);
-
-  updatedRoom.timer = timer;
-  roomsMap.set(roomId, updatedRoom);
-
+const startTimer = (time, roomId, callback1, callback2) => {
   const secondEvent = () => {
-    const updatedRoom = roomsMap.get(roomId);
-    updatedRoom.timer = --timer;
-    roomsMap.set(roomId, updatedRoom);
-
-    if (timer === 0) {
-      clearInterval(id);
+    const roomData = roomsMap.get(roomId);
+    roomData.timer = --roomData.timer;
+    if (roomData.timer === 0) {
+      clearInterval(roomData.timerInterval);
       callback1(roomId);
       if (callback2) callback2(roomId);
     }
+    roomsMap.set(roomId, roomData);
   };
-  const id = setInterval(secondEvent, 1000);
+  const roomData = roomsMap.get(roomId);
+  roomData.timer = time;
+  roomData.timerInterval = setInterval(secondEvent, 1000);
+  roomsMap.set(roomId, roomData);
+};
+
+const killTimer = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  clearInterval(roomData.timerInterval);
 };
 
 const calculateScore = (time, hints) => {
@@ -62,13 +63,11 @@ const calculateScore = (time, hints) => {
 const updatePlayerScore = (roomId, username, score) => {
   const roomData = roomsMap.get(roomId);
   roomData.anagrams[roomData.currentWord - 1].scores.forEach((user) => {
-
-    if ((user.username === username)) {
+    if (user.username === username) {
       user.score = score;
       user.isSolved = true;
     }
   });
-
 
   roomData.players.forEach((user) => {
     if (user.username === username) {
@@ -95,12 +94,13 @@ const populateScoreboard = (roomId) => {
 
 module.exports = {
   getRoomIdFromSocket,
-  serverTimer,
   updateRoomsMap,
   nextWord,
   calculateScore,
   populateScoreboard,
   updatePlayerScore,
+  startTimer,
+  killTimer,
   numOfWords,
   timeBetweenRounds,
   timeBetweenWords,

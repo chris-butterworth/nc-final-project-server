@@ -2,7 +2,8 @@ const roomsMap = require("../roomsDatabase");
 const io = require("../server.js");
 
 const {
-  serverTimer,
+  startTimer,
+  killTimer,
   nextWord,
   timeBetweenRounds,
   timeBetweenWords,
@@ -12,12 +13,12 @@ const {
 } = require("../utils/gameUtils");
 
 const startGame = (roomId) => {
-  populateScoreboard(roomId)
+  populateScoreboard(roomId);
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
     .emit("fullScreenCustomDialog", "Game starting. First word coming up...");
-  serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
+  startTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
 const endGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
@@ -37,7 +38,7 @@ const anagramTimer = (roomId) => {
       roomData.round
     );
 
-  serverTimer(
+  startTimer(
     anagramTime,
     roomId,
     roomData.currentWord <= 1
@@ -62,7 +63,7 @@ const betweenWordTimer = (roomId, message = "Next word coming up...") => {
     .in(roomId)
     .emit("fullScreenCustomDialog", message, `Last Answer: ${lastWordAnswer}`);
 
-  serverTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
+  startTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
 };
 
 const betweenRoundTimer = (roomId) => {
@@ -89,7 +90,7 @@ const betweenRoundTimer = (roomId) => {
       `Last Answer: ${lastWordAnswer}`,
       lastRoundAnswers
     );
-  serverTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
+  startTimer(timeBetweenRounds, roomId, anagramTimer, nextWord);
 };
 
 module.exports = {
