@@ -1,7 +1,14 @@
-const { getAnagrams } = require("../models/game-model");
 const roomsMap = require("../roomsDatabase");
 const { templateAnagrams, templatePlayerObject } = require("../testData");
-const { setAnagrams } = require("../utils/gameUtils");
+
+const resetReadyStateAndCurrentWord = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  roomData.players.forEach((player) => {
+    player.readyToStartGame = false;
+  });
+  roomData.currentWord = 0;
+  roomData.round = { round: 1, anagram: 1 };
+};
 
 const createNewRoom = (socket, callback) => {
   const roomId = `${socket.id.slice(0, 7)}`;
@@ -24,14 +31,12 @@ const createNewRoom = (socket, callback) => {
   });
 
   socket.join(roomId);
-  getAnagrams().then((anagrams) => {
-    setAnagrams(roomId, anagrams);
-  });
   callback(roomsMap.get(roomId));
+  return roomId;
 };
 
 const joinMultiPlayerRoom = (socket, roomId, callback) => {
-  const room = roomsMap.get(roomId);
+  const roomData = roomsMap.get(roomId);
 
   let error, message;
   if (!room) {
@@ -66,4 +71,21 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
     callback(roomUpdate);
   }
 };
-module.exports = { createNewRoom, joinMultiPlayerRoom };
+
+const populateScoreboard = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+
+  roomData.anagrams.forEach((anagram) => {
+    anagram.scores = roomData.players.map((user) => {
+      return { username: user.username, score: 0, isSolved: false };
+    });
+  });
+  roomsMap.set(roomData.roomId, roomData);
+};
+
+module.exports = {
+  resetReadyStateAndCurrentWord,
+  createNewRoom,
+  joinMultiPlayerRoom,
+  populateScoreboard,
+};

@@ -73,6 +73,7 @@ const GamePageGrid = ({ players, room }) => {
       timerFunction(time);
     });
   }, []);
+  console.log(betweenWords);
   useEffect(() => {
     socket.on("betweenRoundsCountdown", (time) => {
       setAnagramWords([]);
@@ -113,13 +114,13 @@ const GamePageGrid = ({ players, room }) => {
     });
   }, []);
   useEffect(() => {
-    socket.on("newGame", (scores) => {
-      setGameOver(false)
+    socket.on("newGame", () => {
+      setGameOver(false);
       setAnagramWords([]);
       setFormattedAnswerArray([]);
       setBetweenWords(false);
       setBetweenRounds(false);
-      setGameScores('');
+      setGameScores("");
       setGameMessage("");
       setFullScreenCustomDialog("");
     });

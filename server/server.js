@@ -2,15 +2,18 @@ const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
 
-const {
-  createNewRoom,
-  joinMultiPlayerRoom,
-} = require("./controllers/menu-controller.js");
+const { joinMultiPlayerRoom } = require("./controllers/room-controller.js");
 
+const { playerReady } = require("./controllers/player-controller.js");
 const {
-  playerReady,
-  testAttempt,
-} = require("./controllers/game-controller.js");
+  newSession,
+  resetSession,
+  handleTestAttempt,
+  handlePlayerReady,
+} = require("./circular-dependency.js");
+const { getRoomIdFromSocket } = require("./utils.js");
+const { betweenWordStage } = require("./controllers/game-controller.js");
+const { testAttempt } = require("./controllers/anagram-controller.js");
 
 const app = express();
 
@@ -34,28 +37,25 @@ io.on("connection", (socket) => {
   });
 
   socket.on("createSinglePlayerRoom", async (callback) => {
-    createNewRoom(socket, callback);
+    newSession(socket, callback);
   });
 
   socket.on("createMultiPlayerRoom", async (callback) => {
-    createNewRoom(socket, callback);
+    newSession(socket, callback);
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     joinMultiPlayerRoom(socket, roomId, callback);
   });
 
-
-
   socket.on("playerReady", () => {
-    playerReady(socket);
+    socket.emit("newGame");
+    handlePlayerReady(socket);
   });
 
   socket.on("anagramAttempt", (attempt, time, hintCount) => {
-    testAttempt(socket, attempt, time, hintCount);
+    handleTestAttempt(socket, attempt, time, hintCount);
   });
-
-
 });
 
 server.listen(port, () => {

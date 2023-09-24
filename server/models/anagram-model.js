@@ -1,5 +1,3 @@
-const roomsMap = require("../roomsDatabase");
-
 const { getNineAnagrams } = require("../api");
 
 const getAnagrams = () => {
@@ -17,4 +15,3 @@ const getAnagrams = () => {
 };
 
 module.exports = { getAnagrams };
-
