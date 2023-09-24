@@ -26,12 +26,12 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("username", (username) => {
-    console.log(socket.id, "=", username); // Don't delete
+    console.log("socket", socket.id, "=", username); // Don't delete
     socket.data.username = username;
   });
 
   socket.on("avatar", (avatar) => {
-    console.log(socket.id, "=", avatar);
+    console.log("socket", socket.id, "=", socket.data.username, "=", avatar);
     socket.data.avatar = avatar;
   });
 
@@ -50,7 +50,6 @@ io.on("connection", (socket) => {
   socket.on("allReady", () => {
     io.in(getRoomIdFromSocket(socket)).emit("startTimer");
   });
- 
 
   socket.on("playerReady", () => {
     playerReady(socket);
