@@ -15,17 +15,21 @@ const playerReady = (socket) => {
 
   room.players.forEach((player) => {
     if (player.id === socket.id) {
-      player.readyToStartRound = true;
+      player.readyToStartGame = true;
     }
   });
 
+  
+  io.ioObject
+    .in(getRoomIdFromSocket(socket))
+    .emit("newGame");
   io.ioObject
     .in(getRoomIdFromSocket(socket))
     .emit("updatePlayers", room.players);
 
   let playerReadyStatus = [];
   room.players.forEach((player) => {
-    playerReadyStatus.push(player.readyToStartRound);
+    playerReadyStatus.push(player.readyToStartGame);
   });
 
   if (playerReadyStatus.every((item) => item)) startGame(roomId);
@@ -89,4 +93,3 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   }
 };
 module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
-

@@ -1,6 +1,7 @@
+const { getAnagrams } = require("../models/game-model");
 const roomsMap = require("../roomsDatabase");
 
-const numOfWords = 9;
+const numOfWords = 3;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
 const anagramTime = 60;
@@ -90,6 +91,25 @@ const populateScoreboard = (roomId) => {
   updateRoomsMap(room);
 };
 
+const resetGame = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  roomData.players.forEach((player) => {
+    player.readyToStartGame = false;
+  });
+  roomData.currentWord = 0;
+  roomData.round = { round: 1, anagram: 1 };
+  return getAnagrams(roomId).then((anagrams) => {
+    roomData.anagrams = anagrams;
+    updateRoomsMap(roomData);
+  });
+};
+
+const setAnagrams = (roomId, anagrams) => {
+  const room = roomsMap.get(roomId);
+  room.anagrams = anagrams;
+  updateRoomsMap(room);
+};
+
 module.exports = {
   getRoomIdFromSocket,
   updateRoomsMap,
@@ -99,6 +119,8 @@ module.exports = {
   updatePlayerScore,
   startTimer,
   killTimer,
+  resetGame,
+  setAnagrams,
   numOfWords,
   timeBetweenRounds,
   timeBetweenWords,

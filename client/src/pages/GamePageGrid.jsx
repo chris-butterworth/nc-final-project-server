@@ -112,6 +112,18 @@ const GamePageGrid = ({ players, room }) => {
       setFullScreenCustomDialog("");
     });
   }, []);
+  useEffect(() => {
+    socket.on("newGame", (scores) => {
+      setGameOver(false)
+      setAnagramWords([]);
+      setFormattedAnswerArray([]);
+      setBetweenWords(false);
+      setBetweenRounds(false);
+      setGameScores('');
+      setGameMessage("");
+      setFullScreenCustomDialog("");
+    });
+  }, []);
 
   useEffect(() => {
     // Tests answer validity
@@ -278,7 +290,11 @@ const GamePageGrid = ({ players, room }) => {
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
               {gameOver ? (
-                <Scoreboard gameScores={gameScores} players={players} />
+                <Scoreboard
+                  gameScores={gameScores}
+                  players={players}
+                  setPlayerReady={setPlayerReady}
+                />
               ) : (
                 <PlayBox
                   sx={{ minWidth: "50vw" }}

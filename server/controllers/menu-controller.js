@@ -1,6 +1,7 @@
 const { getAnagrams } = require("../models/game-model");
 const roomsMap = require("../roomsDatabase");
 const { templateAnagrams, templatePlayerObject } = require("../testData");
+const { setAnagrams } = require("../utils/gameUtils");
 
 const createNewRoom = (socket, callback) => {
   const roomId = `${socket.id.slice(0, 7)}`;
@@ -23,8 +24,10 @@ const createNewRoom = (socket, callback) => {
   });
 
   socket.join(roomId);
-  getAnagrams(roomId);
-  callback(roomsMap.get(roomId));
+  getAnagrams().then((anagrams) => {
+    setAnagrams(roomId, anagrams);
+    callback(roomsMap.get(roomId));
+  });
 };
 
 const joinMultiPlayerRoom = (socket, roomId, callback) => {

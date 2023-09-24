@@ -8,10 +8,9 @@ const auth = { headers: { auth: { user: "admin", password: "admin" } } };
 
 const getNineAnagrams = () => {
   return myApi.get("/questions").then(({ data }) => {
+    // console.log(data, 'getNineAnagrams')
     return data;
   });
 };
 
 module.exports = { getNineAnagrams };
-
-
