@@ -107,6 +107,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
                       setRoomCodeInput(e.target.value);
                     }}
                   />
+
                   <Button
                     onClick={(e) => {
                       e.preventDefault();
@@ -124,6 +125,9 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
                   >
                     Join Room
                   </Button>
+                  {joinRoomError && (
+                    <Typography variant="p">{joinRoomError}</Typography>
+                  )}
                 </FormControl>
               </Paper>
             </Grid>
