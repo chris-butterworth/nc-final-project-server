@@ -82,13 +82,11 @@ const updatePlayerScore = (roomId, username, score) => {
 const populateScoreboard = (roomId) => {
   const room = roomsMap.get(roomId);
 
-  const blankScoreBoard = room.players.map((user) => {
-    return { username: user.username, score: 0, isSolved: false };
-  });
   room.anagrams.forEach((anagram) => {
-    anagram.scores = blankScoreBoard;
+    anagram.scores = room.players.map((user) => {
+      return { username: user.username, score: 0, isSolved: false };
+    });
   });
-
   updateRoomsMap(room);
 };
 

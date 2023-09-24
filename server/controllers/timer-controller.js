@@ -95,6 +95,7 @@ const betweenRoundTimer = (roomId) => {
 
 module.exports = {
   startGame,
+  endGame,
   anagramTimer,
   betweenWordTimer,
   betweenRoundTimer,

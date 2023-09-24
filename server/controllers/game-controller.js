@@ -1,5 +1,5 @@
 const roomsMap = require("../roomsDatabase");
-const { startGame } = require("../controllers/timer-controller");
+const { startGame, endGame } = require("../controllers/timer-controller");
 const {
   getRoomIdFromSocket,
   calculateScore,
@@ -32,6 +32,7 @@ const playerReady = (socket) => {
 };
 
 const testAttempt = (socket, attempt, time, hintCount) => {
+  console.error(attempt);
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   const attemptString = attempt
@@ -74,16 +75,22 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
 
+  console.dir(roomData.anagrams[roomData.currentWord - 1].scores);
   if (
     roomData.anagrams[roomData.currentWord - 1].scores.every(
       (player) => player.isSolved
     )
   ) {
     killTimer(roomId);
-    betweenWordTimer(
-      roomId,
-      `All players guessed correctly, you got ${score} points`
-    );
+    /// This needs updating. What if its the last word?
+    // Also this is firing on an incorrect guess
+    roomData.currentWord === 8
+      ? endGame(roomId)
+      : betweenWordTimer(
+          roomId,
+          `All players guessed correctly, you got ${score} points`
+        );
   }
 };
 module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
+
