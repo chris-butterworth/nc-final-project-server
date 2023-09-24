@@ -12,9 +12,6 @@ const {
   testAttempt,
 } = require("./controllers/game-controller.js");
 
-const { start } = require("repl");
-const { resetGame } = require("./utils/gameUtils.js");
-
 const app = express();
 
 const server = http.createServer(app);

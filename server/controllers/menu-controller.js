@@ -26,8 +26,8 @@ const createNewRoom = (socket, callback) => {
   socket.join(roomId);
   getAnagrams().then((anagrams) => {
     setAnagrams(roomId, anagrams);
-    callback(roomsMap.get(roomId));
   });
+  callback(roomsMap.get(roomId));
 };
 
 const joinMultiPlayerRoom = (socket, roomId, callback) => {
@@ -36,13 +36,13 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
   let error, message;
   if (!room) {
     error = true;
-    message = "room does not exist";
+    message = "Room ID not found";
   } else if (room.length <= 0) {
     error = true;
-    message = "room is empty";
+    message = "Room is empty";
   } else if (room.length >= 10) {
     error = true;
-    message = "room is full";
+    message = "Room is full";
   }
 
   if (error) {
