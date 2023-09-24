@@ -13,24 +13,24 @@ const {
 } = require("../utils/gameUtils");
 
 const startGame = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  console.log(roomData);
+
   populateScoreboard(roomId);
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
     .in(roomId)
     .emit("fullScreenCustomDialog", "Game starting. First word coming up...");
-  startTimer(timeBetweenWords, roomId, anagramTimer, nextWord);
+  startTimer(timeBetweenWords, roomId, anagramTimer);
 };
 const endGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
   io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
-  io.ioObject
-    .in(roomId)
-    .emit("fullScreenCustomDialog", "Game Over!");
+  // io.ioObject.in(roomId).emit("fullScreenCustomDialog", "Game Over!");
 };
 
 const anagramTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  console.log(roomData.currentWord)
 
   io.ioObject
     .in(roomId)
@@ -55,9 +55,9 @@ const anagramTimer = (roomId) => {
 
 const betweenWordTimer = (roomId, message = "Next word coming up...") => {
   const roomData = roomsMap.get(roomId);
-  const lastWordAnswer = roomData.anagrams[roomData.currentWord - 1].answer;
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
 
-  if (roomData.currentWord >= numOfWords) {
+  if ((roomData.currentWord === numOfWords - 1)) {
     endGame(roomId);
     return;
   }
@@ -72,17 +72,18 @@ const betweenWordTimer = (roomId, message = "Next word coming up...") => {
 
 const betweenRoundTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  const lastWordAnswer = roomData.anagrams[roomData.currentWord - 1].answer;
-
-  const lastRoundAnswers = roomData.anagrams.filter((anagram, index) => {
-    if (index < roomData.currentWord && index > roomData.currentWord - 4)
-      return anagram;
-  });
-
-  if (roomData.currentWord >= numOfWords) {
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
+  if ((roomData.currentWord === numOfWords - 1)) {
     endGame(roomId);
     return;
   }
+  
+  const lastRoundAnswers = roomData.anagrams.filter((anagram, index) => {
+    if (index <= roomData.currentWord && index > roomData.currentWord - 3)
+      return anagram;
+  });
+  console.log(lastRoundAnswers, "last round answers");
+
 
   io.ioObject.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
 

@@ -32,7 +32,6 @@ const playerReady = (socket) => {
 };
 
 const testAttempt = (socket, attempt, time, hintCount) => {
-  console.error(attempt);
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   const attemptString = attempt
@@ -43,7 +42,7 @@ const testAttempt = (socket, attempt, time, hintCount) => {
 
   if (
     attemptString.toLowerCase() ===
-    roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
+    roomData.anagrams[roomData.currentWord].answer.toLowerCase()
   ) {
     const score = calculateScore(time, hintCount);
     updatePlayerScore(roomId, socket.data.username, score);
@@ -75,14 +74,12 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
 
-  console.dir(roomData.anagrams[roomData.currentWord - 1].scores);
   if (
-    roomData.anagrams[roomData.currentWord - 1].scores.every(
+    roomData.anagrams[roomData.currentWord].scores.every(
       (player) => player.isSolved
     )
   ) {
     killTimer(roomId);
- 
     roomData.currentWord === 8
       ? endGame(roomId)
       : betweenWordTimer(

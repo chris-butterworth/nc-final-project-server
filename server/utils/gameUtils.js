@@ -1,9 +1,9 @@
 const roomsMap = require("../roomsDatabase");
 
 const numOfWords = 9;
-const timeBetweenWords = 3;
-const timeBetweenRounds = 10;
-const anagramTime = 60;
+const timeBetweenWords = 1;
+const timeBetweenRounds = 1;
+const anagramTime = 3;
 
 const updateRoomsMap = (roomData) => {
   roomsMap.set(roomData.roomId, roomData);
@@ -30,14 +30,14 @@ const nextWord = (roomId) => {
   return room.round;
 };
 
-const startTimer = (time, roomId, callback1, callback2) => {
+const startTimer = (time, roomId, callback1, nextWord) => {
   const secondEvent = () => {
     const roomData = roomsMap.get(roomId);
     roomData.timer = --roomData.timer;
     if (roomData.timer === 0) {
       clearInterval(roomData.timerInterval);
+      if (nextWord) nextWord(roomId);
       callback1(roomId);
-      if (callback2) callback2(roomId);
     }
     roomsMap.set(roomId, roomData);
   };
@@ -62,7 +62,7 @@ const calculateScore = (time, hints) => {
 
 const updatePlayerScore = (roomId, username, score) => {
   const roomData = roomsMap.get(roomId);
-  roomData.anagrams[roomData.currentWord - 1].scores.forEach((user) => {
+  roomData.anagrams[roomData.currentWord].scores.forEach((user) => {
     if (user.username === username) {
       user.score = score;
       user.isSolved = true;
