@@ -100,6 +100,7 @@ const GamePageGrid = ({ players, room }) => {
 
   useEffect(() => {
     socket.on("endGame", (scores) => {
+      timerFunction(0);
       setAnagramWords([]);
       setFormattedAnswerArray([]);
       setBetweenWords(false);

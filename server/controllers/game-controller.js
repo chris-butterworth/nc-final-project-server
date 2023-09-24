@@ -1,5 +1,5 @@
 const roomsMap = require("../roomsDatabase");
-const { startGame } = require("../controllers/timer-controller");
+const { startGame, endGame } = require("../controllers/timer-controller");
 const {
   getRoomIdFromSocket,
   calculateScore,
@@ -42,7 +42,7 @@ const testAttempt = (socket, attempt, time, hintCount) => {
 
   if (
     attemptString.toLowerCase() ===
-    roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
+    roomData.anagrams[roomData.currentWord].answer.toLowerCase()
   ) {
     const score = calculateScore(time, hintCount);
     updatePlayerScore(roomId, socket.data.username, score);
@@ -75,15 +75,18 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   const roomData = roomsMap.get(roomId);
 
   if (
-    roomData.anagrams[roomData.currentWord - 1].scores.every(
+    roomData.anagrams[roomData.currentWord].scores.every(
       (player) => player.isSolved
     )
   ) {
     killTimer(roomId);
-    betweenWordTimer(
-      roomId,
-      `All players guessed correctly, you got ${score} points`
-    );
+    roomData.currentWord === 8
+      ? endGame(roomId)
+      : betweenWordTimer(
+          roomId,
+          `All players guessed correctly, you got ${score} points`
+        );
   }
 };
 module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
+
