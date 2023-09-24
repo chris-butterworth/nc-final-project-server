@@ -18,7 +18,6 @@ const getRoomIdFromSocket = (socket) => {
   return roomId;
 };
 
-
 const nextWord = (roomId) => {
   const room = roomsMap.get(roomId);
   room.currentWord++;
@@ -94,12 +93,12 @@ const populateScoreboard = (roomId) => {
 
 const resetGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
+  roomData.players.forEach((player) => {
+    player.readyToStartGame = false;
+  });
+  roomData.currentWord = 0;
+  roomData.round = { round: 1, anagram: 1 };
   return getAnagrams(roomId).then((anagrams) => {
-    roomData.players.forEach((player) => {
-      player.readyToStartGame = false;
-    });
-    roomData.currentWord = 0;
-    roomData.round = { round: 1, anagram: 1 };
     roomData.anagrams = anagrams;
     updateRoomsMap(roomData);
   });

@@ -12,7 +12,7 @@ const getAnagrams = () => {
       return anagrams;
     })
     .catch(({ code }) => {
-      console.log("getNineAnagrams error", code);
+      console.log("getAnagrams error", code);
     });
 };
 
