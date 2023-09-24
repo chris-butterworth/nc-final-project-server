@@ -10,6 +10,7 @@ const {
   anagramTime,
   numOfWords,
   populateScoreboard,
+  resetGame,
 } = require("../utils/gameUtils");
 
 const startGame = (roomId) => {
@@ -25,12 +26,13 @@ const startGame = (roomId) => {
 const endGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
   io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
+  resetGame(roomId);
   // io.ioObject.in(roomId).emit("fullScreenCustomDialog", "Game Over!");
 };
 
 const anagramTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  
+
   io.ioObject
     .in(roomId)
     .emit(
@@ -52,11 +54,14 @@ const anagramTimer = (roomId) => {
   );
 };
 
-const betweenWordTimer = (roomId, message = "Next word coming up...........") => {
+const betweenWordTimer = (
+  roomId,
+  message = "Next word coming up..........."
+) => {
   const roomData = roomsMap.get(roomId);
   const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
 
-  if ((roomData.currentWord === numOfWords - 1)) {
+  if (roomData.currentWord === numOfWords - 1) {
     endGame(roomId);
     return;
   }
@@ -72,11 +77,11 @@ const betweenWordTimer = (roomId, message = "Next word coming up...........") =>
 const betweenRoundTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
   const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
-  if ((roomData.currentWord === numOfWords - 1)) {
+  if (roomData.currentWord === numOfWords - 1) {
     endGame(roomId);
     return;
   }
-  
+
   const lastRoundAnswers = roomData.anagrams.filter((anagram, index) => {
     if (index <= roomData.currentWord && index > roomData.currentWord - 3)
       return anagram;

@@ -1,7 +1,7 @@
 const { getAnagrams } = require("../models/game-model");
 const roomsMap = require("../roomsDatabase");
 
-const numOfWords = 9;
+const numOfWords = 3;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
 const anagramTime = 60;

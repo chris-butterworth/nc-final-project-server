@@ -13,6 +13,7 @@ const {
 } = require("./controllers/game-controller.js");
 
 const { start } = require("repl");
+const { resetGame } = require("./utils/gameUtils.js");
 
 const app = express();
 
@@ -47,9 +48,7 @@ io.on("connection", (socket) => {
     joinMultiPlayerRoom(socket, roomId, callback);
   });
 
-  socket.on("allReady", () => {
-    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
-  });
+
 
   socket.on("playerReady", () => {
     playerReady(socket);
@@ -58,6 +57,8 @@ io.on("connection", (socket) => {
   socket.on("anagramAttempt", (attempt, time, hintCount) => {
     testAttempt(socket, attempt, time, hintCount);
   });
+
+
 });
 
 server.listen(port, () => {

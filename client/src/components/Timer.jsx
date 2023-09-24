@@ -19,7 +19,7 @@ export const Timer = ({ timer, playerReady, setPlayerReady, sx }) => {
       </Typography>
       {!playerReady && (
         <Button sx={{fontSize: "x-large"}}
-          onClick={(e) => {
+          onClick={() => {
             socket.emit("playerReady");
             setPlayerReady(true);
           }}

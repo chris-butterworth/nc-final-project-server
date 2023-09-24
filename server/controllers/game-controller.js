@@ -19,6 +19,10 @@ const playerReady = (socket) => {
     }
   });
 
+  
+  io.ioObject
+    .in(getRoomIdFromSocket(socket))
+    .emit("newGame");
   io.ioObject
     .in(getRoomIdFromSocket(socket))
     .emit("updatePlayers", room.players);
