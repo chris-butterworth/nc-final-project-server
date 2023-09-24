@@ -14,7 +14,6 @@ const {
 
 const startGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  console.log(roomData);
 
   populateScoreboard(roomId);
   io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
@@ -31,7 +30,7 @@ const endGame = (roomId) => {
 
 const anagramTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
-
+  
   io.ioObject
     .in(roomId)
     .emit(
@@ -53,7 +52,7 @@ const anagramTimer = (roomId) => {
   );
 };
 
-const betweenWordTimer = (roomId, message = "Next word coming up...") => {
+const betweenWordTimer = (roomId, message = "Next word coming up...........") => {
   const roomData = roomsMap.get(roomId);
   const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
 
@@ -82,8 +81,6 @@ const betweenRoundTimer = (roomId) => {
     if (index <= roomData.currentWord && index > roomData.currentWord - 3)
       return anagram;
   });
-  console.log(lastRoundAnswers, "last round answers");
-
 
   io.ioObject.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
 

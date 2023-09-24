@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Scoreboard } from "../components/Scoreboard";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -107,6 +108,8 @@ const GamePageGrid = ({ players, room }) => {
       setBetweenRounds(false);
       setGameOver(true);
       setGameScores(scores);
+      setGameMessage("Game over!");
+      setFullScreenCustomDialog("");
     });
   }, []);
 
@@ -173,7 +176,7 @@ const GamePageGrid = ({ players, room }) => {
   };
 
   return (
-    <Paper sx={{minWidth:"80vw"}}>
+    <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
         <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
           <Paper
@@ -204,7 +207,6 @@ const GamePageGrid = ({ players, room }) => {
               justifyContent: "center",
               paddingTop: "2.25em",
               cursor: "pointer",
-             
             }}
             onClick={() => {
               navigator.clipboard.writeText(room);
@@ -215,15 +217,12 @@ const GamePageGrid = ({ players, room }) => {
               sx={{
                 maxHeight: "25px",
                 paddingRight: "1em",
-                
               }}
-              
             >
               Game Room ID: {room}
             </Typography>
             <ContentCopyIcon
-      fontSize="large"
-      
+              fontSize="large"
               onClick={() => {
                 navigator.clipboard.writeText(room);
               }}
@@ -261,20 +260,12 @@ const GamePageGrid = ({ players, room }) => {
           sx={{ maxHeight: "25px" }}
         />
       </CustomDialog>
-      <CustomDialog
+      {/* <CustomDialog
         open={gameOver}
         title={gameMessage}
         contentText={fullScreenCustomDialog}
         // secondaryText={gameScores}
-      >
-        <Timer
-          timer={timer}
-          setTimer={setTimer}
-          playerReady={playerReady}
-          setPlayerReady={setPlayerReady}
-          sx={{ maxHeight: "25px" }}
-        />
-      </CustomDialog>
+      /> */}
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
@@ -286,22 +277,26 @@ const GamePageGrid = ({ players, room }) => {
 
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
             <Item>
-              <PlayBox
-                sx={{ minWidth: "50vw" }}
-                anagramWords={anagramWords}
-                setAnagramWords={setAnagramWords}
-                formattedAnswerArray={formattedAnswerArray}
-                setFormattedAnswerArray={setFormattedAnswerArray}
-                disabledButtons={disabledButtons}
-                setDisabledButtons={setDisabledButtons}
-                roundNumber={roundNumber}
-                anagramNumber={anagramNumber}
-              />
+              {gameOver ? (
+                <Scoreboard gameScores={gameScores} players={players} />
+              ) : (
+                <PlayBox
+                  sx={{ minWidth: "50vw" }}
+                  anagramWords={anagramWords}
+                  setAnagramWords={setAnagramWords}
+                  formattedAnswerArray={formattedAnswerArray}
+                  setFormattedAnswerArray={setFormattedAnswerArray}
+                  disabledButtons={disabledButtons}
+                  setDisabledButtons={setDisabledButtons}
+                  roundNumber={roundNumber}
+                  anagramNumber={anagramNumber}
+                />
+              )}
             </Item>
           </Grid>
 
           <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
-          <Item sx={{ overflow: "auto" }}>
+            <Item sx={{ overflow: "auto" }}>
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
                 {gameScroll.map((item, index) => {
