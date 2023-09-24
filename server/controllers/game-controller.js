@@ -15,7 +15,7 @@ const playerReady = (socket) => {
 
   room.players.forEach((player) => {
     if (player.id === socket.id) {
-      player.readyToStartRound = true;
+      player.readyToStartGame = true;
     }
   });
 
@@ -25,7 +25,7 @@ const playerReady = (socket) => {
 
   let playerReadyStatus = [];
   room.players.forEach((player) => {
-    playerReadyStatus.push(player.readyToStartRound);
+    playerReadyStatus.push(player.readyToStartGame);
   });
 
   if (playerReadyStatus.every((item) => item)) startGame(roomId);
@@ -89,4 +89,3 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
   }
 };
 module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
-

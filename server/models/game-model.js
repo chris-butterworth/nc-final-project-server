@@ -2,22 +2,19 @@ const roomsMap = require("../roomsDatabase");
 
 const { getNineAnagrams } = require("../api");
 
-const getAnagrams = (roomId) => {
-  const room = roomsMap.get(roomId);
-  getNineAnagrams()
+const getAnagrams = () => {
+  return getNineAnagrams()
     .then((anagrams) => {
       anagrams.forEach((anagram) => {
-          anagram.scores = [];
-          
+        anagram.scores = [];
         anagram.question = anagram.question.split(" ");
       });
-
-      room.anagrams = anagrams;
-      updateRoomsMap(room);
+      return anagrams;
     })
     .catch(({ code }) => {
-      console.log(code);
+      console.log("getNineAnagrams error", code);
     });
 };
 
 module.exports = { getAnagrams };
+

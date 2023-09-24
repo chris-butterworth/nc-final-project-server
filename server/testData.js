@@ -3,7 +3,7 @@ const templatePlayerObject = {
   username: "",
   avatar: "",
   avatar_alt: "",
-  readyToStartRound: false,
+  readyToStartGame: false,
   score: 0, // just for this word
   totalScore: 0, // for the whole game
 };
@@ -65,4 +65,42 @@ const templateAnagrams = [
   },
 ];
 
-module.exports = { templateAnagrams, templatePlayerObject };
+const testRoom = {
+  roomId: "y_xoUWQ",
+  timer: 0,
+  timerInterval: null,
+  anagrams: templateAnagrams,
+  currentWord: 8,
+  round: { round: 3, anagram: 3 },
+  players: [
+    {
+      id: "1",
+      username: "user1",
+      avatar: "/src/assets/lightAvatars/personA.jpeg",
+      avatar_alt: "",
+      readyToStartGame: true,
+      score: 11,
+      totalScore: 1111,
+    },
+    {
+      id: "2",
+      username: "user2",
+      avatar: "/src/assets/lightAvatars/personB.jpeg",
+      avatar_alt: "",
+      readyToStartGame: true,
+      score: 22,
+      totalScore: 2222,
+    },
+    {
+      id: "3",
+      username: "user3",
+      avatar: "/src/assets/lightAvatars/personC.jpeg",
+      avatar_alt: "",
+      readyToStartGame: true,
+      score: 33,
+      totalScore: 3333,
+    },
+  ],
+};
+
+module.exports = { templateAnagrams, templatePlayerObject, testRoom };
