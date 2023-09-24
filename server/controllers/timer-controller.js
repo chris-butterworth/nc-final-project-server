@@ -23,10 +23,14 @@ const startGame = (roomId) => {
 const endGame = (roomId) => {
   const roomData = roomsMap.get(roomId);
   io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
+  io.ioObject
+    .in(roomId)
+    .emit("fullScreenCustomDialog", "Game Over!");
 };
 
 const anagramTimer = (roomId) => {
   const roomData = roomsMap.get(roomId);
+  console.log(roomData.currentWord)
 
   io.ioObject
     .in(roomId)

@@ -82,8 +82,7 @@ const testAllPlayersGuessedCorrectly = (socket, score = "") => {
     )
   ) {
     killTimer(roomId);
-    /// This needs updating. What if its the last word?
-    // Also this is firing on an incorrect guess
+ 
     roomData.currentWord === 8
       ? endGame(roomId)
       : betweenWordTimer(

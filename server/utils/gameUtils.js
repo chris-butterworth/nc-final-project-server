@@ -3,7 +3,7 @@ const roomsMap = require("../roomsDatabase");
 const numOfWords = 9;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
-const anagramTime = 10;
+const anagramTime = 60;
 
 const updateRoomsMap = (roomData) => {
   roomsMap.set(roomData.roomId, roomData);
