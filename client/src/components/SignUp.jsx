@@ -49,29 +49,38 @@ const SignUp = ({setUsername}) => {
         }}
       >
         <FormControl sx={{ width: "80%" }}>
-        <InputLabel htmlFor="username">Sign Up Here</InputLabel>
+        <InputLabel htmlFor="username">Username</InputLabel>
         <Input
-         
+         type="text"
+         value={newUsername}
+         onChange={(e) =>{
+            setNewUsername(e.target.value)
+         }}
         ></Input>
         </FormControl>
         <FormControl sx={{ width: "80%" }}>
-        <InputLabel htmlFor="username"> </InputLabel>
+        <InputLabel htmlFor="email">Email</InputLabel>
         <Input
-          
+          type="email"
+          value={email}
+          onChange={(e) =>{
+            setEmail(e.target.value)
+          }}
         ></Input>
         </FormControl>
         <FormControl sx={{ width: "80%" }}>
-         <InputLabel htmlFor="username"> </InputLabel>
+         <InputLabel htmlFor="password">Password</InputLabel>
         <Input
-          
+          type="password"
+          value={password}
+          onChange={(e)=>{
+            setPassword(e.target.value)
+          }}
         ></Input>
 
         
         <Button
-          onClick={(e) => {
-            e.preventDefault();
-           
-          }}
+          onClick={signUp}
         >
           Submit username
         </Button>

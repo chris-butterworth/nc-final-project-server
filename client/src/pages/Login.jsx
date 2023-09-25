@@ -33,6 +33,7 @@ const Login = ({ setUsername }) => {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential)=>{
            console.log(userCredential, "user cred")
+           socket.emit("avatar", avatars[currentAvatarIndex])
          }).catch((err) => {
             console.log(err)
          })
@@ -121,7 +122,7 @@ const Login = ({ setUsername }) => {
           Submit username
         </Button>
       </FormControl>
-      <SignUp/>
+      <SignUp setUsername={setUsername}/>
 
     </Paper>
   );
