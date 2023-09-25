@@ -1,6 +1,6 @@
 const roomsMap = require("../roomsDatabase");
 const { testRoom, templateAnagrams } = require("../testData");
-const { resetGame } = require("../utils/gameUtils");
+const { resetGame } = require("../controllers/anagram-controller");
 
 describe("resetGame()", () => {
   test("should reset all players in a room to readyToStartGame: false", () => {
