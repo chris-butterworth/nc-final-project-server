@@ -10,6 +10,7 @@ const {
   handlePlayerReady,
   handleWebChat,
   handleLeaveRoom,
+  handleSkip,
 } = require("./app.js");
 
 const app = express();
@@ -61,8 +62,12 @@ io.on("connection", (socket) => {
   socket.on("leaveRoom", () => {
     handleLeaveRoom(socket);
   });
-});
 
+
+socket.on("playerSkip", () => {
+  handleSkip(socket);
+});
+});
 
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

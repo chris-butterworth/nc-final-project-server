@@ -45,6 +45,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
+  const [category, setCategory]=useState("")
 
   const Ref = useRef(null);
 
@@ -85,13 +86,14 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     });
   }, []);
   useEffect(() => {
-    socket.on("anagram", (time, anagram, answer, round) => {
+    socket.on("anagram", (time, anagram, answer, round, category) => {
       setRoundNumber(round.round);
       setAnagramNumber(round.anagram);
       setBetweenRounds(false);
       setBetweenWords(false);
       setDisabledButtons([]);
       setAnagramWords(anagram);
+      setCategory(category)
       setFormattedAnswerArray(
         answer
           .split(" ")
@@ -100,7 +102,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
       timerFunction(time);
     });
+    
   }, []);
+  console.log(category)
 
   useEffect(() => {
     socket.on("endGame", (scores) => {
@@ -216,7 +220,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   const handleSkipButtonClick = () => {
-    //
+    socket.emit("playerSkip")
+
   }
 
   return (
@@ -338,6 +343,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                   setDisabledButtons={setDisabledButtons}
                   roundNumber={roundNumber}
                   anagramNumber={anagramNumber}
+                  category={category}
                 />
               )}
             </Item>
@@ -348,7 +354,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
                 {gameScroll.map((item, index) => {
-                  return <p key={index}>{item}</p>;
+                  return <Typography key={index}>{item}</Typography>;
                 })}
               </Typography>
               <ChatInput />

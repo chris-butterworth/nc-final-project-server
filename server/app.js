@@ -121,13 +121,11 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
-
-const handleWebChat =  (socket, message) => {
-  const roomId = getRoomIdFromSocket(socket)
-  const chatMessage = `${socket.data.username}: ${message}`
-  gameScrollEmit(roomId, chatMessage)
-}
-
+const handleWebChat = (socket, message) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const chatMessage = `${socket.data.username}: ${message}`;
+  gameScrollEmit(roomId, chatMessage);
+};
 
 const handleLeaveRoom = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
@@ -136,6 +134,28 @@ const handleLeaveRoom = (socket) => {
   deleteEmptyRoom(roomId);
 };
 
+const handleSkip = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const roomData = roomsMap.get(roomId);
+  roomData.anagrams[roomData.currentWord].scores.forEach((player) => {
+    if (player.username === socket.data.username) {
+      player.isSolved = true;
+      console.log(roomData.anagrams[roomData.currentWord]);
+    }
+  });
+
+  roomsMap.set(roomId, roomData);
+
+  const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
+  if (allPlayersCorrect && roomData.currentWord === 8) {
+    killTimer(roomId);
+    resetSession(roomId);
+  } else if (allPlayersCorrect) {
+    roomData.timer = 2;
+    roomsMap.set(roomId, roomData);
+    gameScrollEmit(roomId, `All players guessed or skipped`);
+  }
+};
 
 module.exports = {
   newSession,
@@ -143,4 +163,5 @@ module.exports = {
   handlePlayerReady,
   handleWebChat,
   handleLeaveRoom,
+  handleSkip,
 };
