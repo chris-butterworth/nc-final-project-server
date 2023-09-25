@@ -17,7 +17,7 @@ const findHintIndices = (
           anagramWords,
           disabledButtons
         );
-
+        // Set the output for the correct indices and letter
         const output = [
           { answerWord: i, answerLetter: j, correctLetter },
           {
