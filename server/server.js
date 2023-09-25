@@ -6,9 +6,9 @@ const { joinMultiPlayerRoom } = require("./controllers/room-controller.js");
 
 const {
   newSession,
-  resetSession,
   handleTestAttempt,
   handlePlayerReady,
+  handleWebChat,
   handleLeaveRoom,
 } = require("./app.js");
 
@@ -54,6 +54,8 @@ io.on("connection", (socket) => {
     handleTestAttempt(socket, attempt, time, hintCount);
   });
 
+  socket.on("gameChat", (message) => {
+    handleWebChat(socket, message);
 
   socket.on("leaveRoom", () => {
     handleLeaveRoom(socket);
