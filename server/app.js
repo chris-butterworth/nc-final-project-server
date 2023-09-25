@@ -72,6 +72,7 @@ const handleStartGame = async (roomId) => {
   await startTimer(anagramTime, roomId);
   nextWord(roomId);
 };
+
 const nextWord = async (roomId) => {
   const roomData = roomsMap.get(roomId);
 
@@ -116,8 +117,16 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
+const handleWebChat =  (socket, message) => {
+  const roomId = getRoomIdFromSocket(socket)
+  const chatMessage = `${socket.data.username}: ${message}`
+  gameScrollEmit(roomId, chatMessage)
+}
+
+
 module.exports = {
   newSession,
   handleTestAttempt,
   handlePlayerReady,
+  handleWebChat
 };

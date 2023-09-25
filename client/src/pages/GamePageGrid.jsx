@@ -8,6 +8,7 @@ import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
+import ChatInput from "./ChatInput";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -44,6 +45,7 @@ const GamePageGrid = ({ players, room }) => {
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
+
   const Ref = useRef(null);
 
   useEffect(() => {
@@ -320,6 +322,7 @@ const GamePageGrid = ({ players, room }) => {
                   return <p key={index}>{item}</p>;
                 })}
               </Typography>
+              <ChatInput />
             </Item>
           </Grid>
         </Grid>
@@ -353,9 +356,7 @@ const GamePageGrid = ({ players, room }) => {
             padding: "1em",
             textAlign: "center",
           }}
-        >
-          <Typography variant="span">Chat Box</Typography>
-        </Paper>
+        ></Paper>
       </Box>
     </Paper>
   );
