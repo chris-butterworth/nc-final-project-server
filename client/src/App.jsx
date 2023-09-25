@@ -65,6 +65,26 @@ function App() {
       id: "MOREID",
     },
   ]);
+  useEffect(() => {
+    
+    console.log("change of user")
+    socket.emit("assignUsername", username) 
+  }, [username]);
+  useEffect(()=>{
+    const listen = onAuthStateChanged(auth, (user) =>{
+        if (user) {
+            console.log(auth, "auth in auth")
+            console.log(user.displayName, "user in auth")
+            
+            setUsername(user.displayName)
+        } else {
+          setUsername("")
+        }
+      })
+        return () => {
+            listen()
+        }
+}, [])
 
   useEffect(() => {
     socket.on("updatePlayers", (players) => {
