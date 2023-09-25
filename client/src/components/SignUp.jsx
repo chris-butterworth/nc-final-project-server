@@ -17,6 +17,10 @@ const SignUp = ({setUsername}) => {
     
     const signUp = (e) => {
         e.preventDefault()
+        if(!newUsername){
+            console.log("name required")
+            return
+        }
         
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential)=>{
