@@ -38,34 +38,22 @@ const createNewRoom = (socket, callback) => {
 
 const joinMultiPlayerRoom = (socket, roomId, callback) => {
   const roomData = roomsMap.get(roomId);
-
-  let error, message;
-  if (!roomData) {
-    error = true;
-    message = "Room ID not found";
-  }
-
-  if (error) {
-    callback({ error, message });
-    return;
-  } else {
-    const roomUpdate = {
-      ...roomData,
-      players: [
-        ...roomData.players,
-        {
-          ...templatePlayerObject,
-          id: socket.id,
-          username: socket.data?.username,
-        },
-      ],
-    };
-    roomsMap.set(roomId, roomUpdate);
-    socket.join(roomId);
-    socket.data.roomId = roomId;
-    socket.to(roomId).emit("updatePlayers", roomUpdate.players);
-    callback(roomUpdate);
-  }
+  const roomUpdate = {
+    ...roomData,
+    players: [
+      ...roomData.players,
+      {
+        ...templatePlayerObject,
+        id: socket.id,
+        username: socket.data?.username,
+      },
+    ],
+  };
+  roomsMap.set(roomId, roomUpdate);
+  socket.join(roomId);
+  socket.data.roomId = roomId;
+  socket.to(roomId).emit("updatePlayers", roomUpdate.players);
+  callback(roomUpdate);
 };
 
 const populateScoreboard = (roomId) => {

@@ -24,6 +24,7 @@ const {
   resetReadyStateAndCurrentWord,
   populateScoreboard,
   deleteEmptyRoom,
+  joinMultiPlayerRoom,
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
@@ -52,20 +53,40 @@ const resetSession = (roomId) => {
   });
 };
 
+const handleJoinMultiPlayerRoom = (socket, roomId, callback) => {
+  const roomData = roomsMap.get(roomId);
+  console.log(roomId, "<<<<< room id");
+  if (!roomData) {
+    callback({ error: true, message: "Room ID not found" });
+    return;
+  } else if (testEveryPlayerReady(roomId)) {
+    callback({ error: true, message: "Game in progress, cannot join" });
+    return;
+  }
+  joinMultiPlayerRoom(socket, roomId, callback);
+  const playerJoinedMessage = `${socket.data.username} joined the game`;
+  gameScrollEmit(roomId, playerJoinedMessage);
+};
+
 const handlePlayerReady = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   playerReady(socket);
   pushPlayerlistToClients(roomId);
 
+  if (testEveryPlayerReady(roomId)) {
+    populateScoreboard(roomId);
+    handleStartGame(roomId);
+  }
+};
+
+const testEveryPlayerReady = (roomId) => {
+  const roomData = roomsMap.get(roomId);
   let playerReadyStatus = [];
   roomData.players.forEach((player) => {
     playerReadyStatus.push(player.readyToStartGame);
   });
-  if (playerReadyStatus.every((item) => item)) {
-    populateScoreboard(roomId);
-    handleStartGame(roomId);
-  }
+  return playerReadyStatus.every((item) => item);
 };
 
 const handleStartGame = async (roomId) => {
@@ -138,9 +159,12 @@ const handleLeaveRoom = (socket) => {
 };
 
 const handleDisconnect = (socket) => {
-  removePlayerFromRoom(socket.data.roomId, socket.id);
-  deleteEmptyRoom(socket.data.roomId);
-  pushPlayerlistToClients(socket.data.roomId);
+  const roomId = socket.data.roomId;
+  const disconnectMessage = `${socket.data.username} left the game`;
+  gameScrollEmit(roomId, disconnectMessage);
+  removePlayerFromRoom(roomId, socket.id);
+  deleteEmptyRoom(roomId);
+  pushPlayerlistToClients(roomId);
 };
 
 const handleSkip = (socket) => {
@@ -149,9 +173,10 @@ const handleSkip = (socket) => {
   roomData.anagrams[roomData.currentWord].scores.forEach((player) => {
     if (player.username === socket.data.username) {
       player.isSolved = true;
-      console.log(roomData.anagrams[roomData.currentWord]);
     }
   });
+  const skipMessage = `${socket.data.username} skipped`;
+  gameScrollEmit(roomId, skipMessage);
   roomsMap.set(roomId, roomData);
 
   const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
@@ -167,6 +192,7 @@ const handleSkip = (socket) => {
 
 module.exports = {
   newSession,
+  handleJoinMultiPlayerRoom,
   handleTestAttempt,
   handlePlayerReady,
   handleWebChat,

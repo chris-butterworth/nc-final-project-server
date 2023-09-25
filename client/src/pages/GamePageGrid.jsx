@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ModeContext } from "../context/Mode";
 import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, Typography, Button } from "@mui/material";
+import { Box, Paper, Grid, Typography, Button, Container } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
@@ -225,6 +225,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     socket.emit("playerSkip");
   };
 
+  const createRoomURL = () => {
+    return `${window.location.origin}/room/${room}`;
+  };
+
   return (
     <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
@@ -253,30 +257,53 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               minWidth: "25vw",
               minHeight: "8em", // maxHeight: "auto",
               margin: "2em",
-              display: "flex",
+              display: "flex" | "inline-flex",
+
               justifyContent: "center",
               paddingTop: "2.25em",
               cursor: "pointer",
             }}
-            onClick={() => {
-              navigator.clipboard.writeText(room);
-            }}
           >
-            <Typography
-              variant="h4"
-              sx={{
-                maxHeight: "25px",
-                paddingRight: "1em",
-              }}
-            >
-              Game Room ID: {room}
-            </Typography>
-            <ContentCopyIcon
-              fontSize="large"
-              onClick={() => {
-                navigator.clipboard.writeText(room);
-              }}
-            />
+            <Container sx={{ display: "flex" }}>
+              <Typography
+                variant="h7"
+                sx={{
+                  maxHeight: "25px",
+                  paddingRight: "1em",
+                }}
+                onClick={() => {
+                  navigator.clipboard.writeText(room);
+                }}
+              >
+                Game Room ID: {room}
+              </Typography>
+              <ContentCopyIcon
+                fontSize="small"
+                onClick={() => {
+                  navigator.clipboard.writeText(room);
+                }}
+              />
+            </Container>
+            <Container sx={{ display: "flex" }}>
+              <Typography
+                variant="h7"
+                sx={{
+                  maxHeight: "25px",
+                  paddingRight: "1em",
+                }}
+                onClick={() => {
+                  navigator.clipboard.writeText(createRoomURL());
+                }}
+              >
+                {createRoomURL()}
+              </Typography>
+              <ContentCopyIcon
+                fontSize="small"
+                onClick={() => {
+                  navigator.clipboard.writeText(createRoomURL());
+                }}
+              />
+            </Container>
           </Paper>
         </Grid>
       </Grid>
