@@ -55,7 +55,7 @@ const resetSession = (roomId) => {
 
 const handleJoinMultiPlayerRoom = (socket, roomId, callback) => {
   const roomData = roomsMap.get(roomId);
-
+  console.log(roomId, "<<<<< room id");
   if (!roomData) {
     callback({ error: true, message: "Room ID not found" });
     return;
@@ -64,6 +64,8 @@ const handleJoinMultiPlayerRoom = (socket, roomId, callback) => {
     return;
   }
   joinMultiPlayerRoom(socket, roomId, callback);
+  const playerJoinedMessage = `${socket.data.username} joined the game`;
+  gameScrollEmit(roomId, playerJoinedMessage);
 };
 
 const handlePlayerReady = (socket) => {
