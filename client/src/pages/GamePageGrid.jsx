@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, Typography } from "@mui/material";
+import { Box, Paper, Grid, Typography, Button } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
@@ -8,6 +8,7 @@ import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
+import ChatInput from "../components/ChatInput";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -20,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   maxHeight: "50vh",
 }));
 
-const GamePageGrid = ({ players, room }) => {
+const GamePageGrid = ({ players, room, setRoom }) => {
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -44,6 +45,8 @@ const GamePageGrid = ({ players, room }) => {
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
+  const [category, setCategory]=useState("")
+
   const Ref = useRef(null);
 
   useEffect(() => {
@@ -83,13 +86,14 @@ const GamePageGrid = ({ players, room }) => {
     });
   }, []);
   useEffect(() => {
-    socket.on("anagram", (time, anagram, answer, round) => {
+    socket.on("anagram", (time, anagram, answer, round, category) => {
       setRoundNumber(round.round);
       setAnagramNumber(round.anagram);
       setBetweenRounds(false);
       setBetweenWords(false);
       setDisabledButtons([]);
       setAnagramWords(anagram);
+      setCategory(category)
       setFormattedAnswerArray(
         answer
           .split(" ")
@@ -98,7 +102,9 @@ const GamePageGrid = ({ players, room }) => {
 
       timerFunction(time);
     });
+    
   }, []);
+  console.log(category)
 
   useEffect(() => {
     socket.on("endGame", (scores) => {
@@ -187,6 +193,36 @@ const GamePageGrid = ({ players, room }) => {
 
     clearTimer(getDeadline());
   };
+
+  const handleQuitButtonClick = () => {
+    setRoom("");
+    // setPlayers([])
+    socket.emit("leaveRoom");
+    setPlayerReady(false);
+    setTimer(0);
+    setScore(0);
+    setAnagramNumber(1);
+    setRoundNumber(1);
+    setBetweenWords(false);
+    setBetweenRounds(false);
+    setGameOver(false);
+    setAnagramWords([]);
+    setDisabledButtons([]);
+    setFormattedAnswerArray([]);
+    setHint("");
+    setHintCount(0);
+    setGameMessage("");
+    setGameScores("");
+    setGameScroll([]);
+    setFullScreenCustomDialog("");
+    setLastPlayedAnswer("");
+    setLastRoundScores([]);
+  };
+
+  const handleSkipButtonClick = () => {
+    socket.emit("playerSkip")
+
+  }
 
   return (
     <Paper sx={{ minWidth: "80vw" }}>
@@ -307,6 +343,7 @@ const GamePageGrid = ({ players, room }) => {
                   setDisabledButtons={setDisabledButtons}
                   roundNumber={roundNumber}
                   anagramNumber={anagramNumber}
+                  category={category}
                 />
               )}
             </Item>
@@ -317,9 +354,10 @@ const GamePageGrid = ({ players, room }) => {
               <Typography variant="h4">Game Scroll </Typography>
               <Typography>
                 {gameScroll.map((item, index) => {
-                  return <p key={index}>{item}</p>;
+                  return <Typography key={index}>{item}</Typography>;
                 })}
               </Typography>
+              <ChatInput />
             </Item>
           </Grid>
         </Grid>
@@ -343,6 +381,8 @@ const GamePageGrid = ({ players, room }) => {
           }}
         >
           <Typography variant="span">Player Controls</Typography>
+          <Button onClick={handleQuitButtonClick}>Quit</Button>
+          <Button onClick={handleSkipButtonClick}>Skip</Button>
         </Paper>
         <Paper
           elevation={3}
@@ -353,9 +393,7 @@ const GamePageGrid = ({ players, room }) => {
             padding: "1em",
             textAlign: "center",
           }}
-        >
-          <Typography variant="span">Chat Box</Typography>
-        </Paper>
+        ></Paper>
       </Box>
     </Paper>
   );

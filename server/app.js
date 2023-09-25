@@ -17,11 +17,13 @@ const {
   updatePlayerScore,
   playerReady,
   pushPlayerlistToClients,
+  removePlayerFromRoom,
 } = require("./controllers/player-controller");
 const {
   createNewRoom,
   resetReadyStateAndCurrentWord,
   populateScoreboard,
+  deleteEmptyRoom,
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
@@ -72,9 +74,12 @@ const handleStartGame = async (roomId) => {
   await startTimer(anagramTime, roomId);
   nextWord(roomId);
 };
+
 const nextWord = async (roomId) => {
   const roomData = roomsMap.get(roomId);
-
+  if (!roomData) {
+    return;
+  }
   if (roomData.currentWord < 2 && (roomData.currentWord + 1) % 3 === 0) {
     betweenRoundStageEmit(roomId);
     await startTimer(timeBetweenRounds, roomId);
@@ -116,8 +121,47 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
+const handleWebChat = (socket, message) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const chatMessage = `${socket.data.username}: ${message}`;
+  gameScrollEmit(roomId, chatMessage);
+};
+
+const handleLeaveRoom = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  socket.leave(roomId);
+  removePlayerFromRoom(roomId, socket.id);
+  deleteEmptyRoom(roomId);
+};
+
+const handleSkip = (socket) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const roomData = roomsMap.get(roomId);
+  roomData.anagrams[roomData.currentWord].scores.forEach((player) => {
+    if (player.username === socket.data.username) {
+      player.isSolved = true;
+      console.log(roomData.anagrams[roomData.currentWord]);
+    }
+  });
+
+  roomsMap.set(roomId, roomData);
+
+  const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
+  if (allPlayersCorrect && roomData.currentWord === 8) {
+    killTimer(roomId);
+    resetSession(roomId);
+  } else if (allPlayersCorrect) {
+    roomData.timer = 2;
+    roomsMap.set(roomId, roomData);
+    gameScrollEmit(roomId, `All players guessed or skipped`);
+  }
+};
+
 module.exports = {
   newSession,
   handleTestAttempt,
   handlePlayerReady,
+  handleWebChat,
+  handleLeaveRoom,
+  handleSkip,
 };

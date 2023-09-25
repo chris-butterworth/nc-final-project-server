@@ -27,7 +27,8 @@ const anagramStageEmit = (roomId) => {
       anagramTime,
       roomData.anagrams[roomData.currentWord].question,
       roomData.anagrams[roomData.currentWord].answer,
-      roomData.round
+      roomData.round, 
+      roomData.anagrams[roomData.currentWord].category,
     );
 };
 

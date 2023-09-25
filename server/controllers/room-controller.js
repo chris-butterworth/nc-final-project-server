@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const roomsMap = require("../roomsDatabase");
 const { templateAnagrams, templatePlayerObject } = require("../testData");
 
@@ -11,7 +12,7 @@ const resetReadyStateAndCurrentWord = (roomId) => {
 };
 
 const createNewRoom = (socket, callback) => {
-  const roomId = `${socket.id.slice(0, 7)}`;
+  const roomId = `${uuidv4().slice(0, 7)}`;
 
   roomsMap.set(roomId, {
     roomId,
@@ -77,11 +78,17 @@ const populateScoreboard = (roomId) => {
   roomsMap.set(roomData.roomId, roomData);
 };
 
+const deleteEmptyRoom = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  if (roomData.players.length === 0) {
+    roomsMap.delete(roomId);
+  }
+};
 
 module.exports = {
   resetReadyStateAndCurrentWord,
   createNewRoom,
   joinMultiPlayerRoom,
   populateScoreboard,
-
+  deleteEmptyRoom,
 };
