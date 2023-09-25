@@ -15,6 +15,8 @@ export const PlayBox = ({
   hint,
   hintCount,
   setHintCount,
+  hints,
+  setHints,
 }) => {
   // const [anagramWords, setAnagramwords] = useState([]);
   // const [disabledButtons, setDisabledButtons] = useState([]);

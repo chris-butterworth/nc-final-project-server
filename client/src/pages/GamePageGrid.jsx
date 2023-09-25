@@ -35,6 +35,7 @@ const GamePageGrid = ({ players, room }) => {
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
   const [hint, setHint] = useState("");
   const [hintCount, setHintCount] = useState(0);
+  const [hints, setHints] = useState([]);
 
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
@@ -273,6 +274,8 @@ const GamePageGrid = ({ players, room }) => {
                 hint={hint}
                 hintCount={hintCount}
                 setHintCount={setHintCount}
+                hints={hints}
+                setHints={setHints}
               />
             </Item>
           </Grid>
