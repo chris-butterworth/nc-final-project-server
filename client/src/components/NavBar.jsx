@@ -21,6 +21,13 @@ const NavBar = () => {
       setMode(lightTheme);
     }
   };
+  const userSignOut =  () => {
+    signOut(auth).then(() => {
+        setUsername("")
+        setRoom("")
+        console.log("signed Out")
+        
+    }).catch(error => console.log(error))
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -46,7 +53,7 @@ const NavBar = () => {
               ></Box>
             )}
           </IconButton>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={userSignOut}>{username ? <>Sign Out</> : <>Sign in</>}</Button>
         </Toolbar>
       </AppBar>
     </Box>
