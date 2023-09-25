@@ -38,5 +38,17 @@ const updatePlayerScore = (roomId, username, score) => {
   roomsMap.set(roomData.roomId, roomData);
 };
 
-module.exports = { playerReady, pushPlayerlistToClients, updatePlayerScore };
+const removePlayerFromRoom = (roomId, socketId) => {
+  const roomData = roomsMap.get(roomId);
+  roomData.players.filter((player) => {
+    player.id !== socketId;
+  });
+  roomsMap.set(roomData.roomId, roomData);
+};
 
+module.exports = {
+  playerReady,
+  pushPlayerlistToClients,
+  updatePlayerScore,
+  removePlayerFromRoom,
+};

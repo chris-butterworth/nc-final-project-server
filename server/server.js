@@ -9,6 +9,7 @@ const {
   resetSession,
   handleTestAttempt,
   handlePlayerReady,
+  handleLeaveRoom,
 } = require("./app.js");
 
 const app = express();
@@ -53,6 +54,10 @@ io.on("connection", (socket) => {
     handleTestAttempt(socket, attempt, time, hintCount);
   });
 
+
+  socket.on("leaveRoom", () => {
+    handleLeaveRoom(socket);
+  });
 });
 
 
