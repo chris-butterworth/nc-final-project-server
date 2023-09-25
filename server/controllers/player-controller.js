@@ -16,7 +16,9 @@ const playerReady = (socket) => {
 
 const pushPlayerlistToClients = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  io.ioObject.in(roomId).emit("updatePlayers", roomData.players);
+  if (roomData) {
+    io.ioObject.in(roomId).emit("updatePlayers", roomData.players);
+  }
 };
 
 const updatePlayerScore = (roomId, username, score) => {
@@ -27,23 +29,26 @@ const updatePlayerScore = (roomId, username, score) => {
       user.isSolved = true;
     }
   });
-
   roomData.players.forEach((user) => {
     if (user.username === username) {
       user.score = score;
       user.totalScore += score;
     }
   });
-
   roomsMap.set(roomData.roomId, roomData);
 };
 
 const removePlayerFromRoom = (roomId, socketId) => {
   const roomData = roomsMap.get(roomId);
-  roomData.players.filter((player) => {
-    player.id !== socketId;
-  });
-  roomsMap.set(roomData.roomId, roomData);
+  if (roomData) {
+    const updatedPlayers = roomData.players.filter((player) => {
+      if (player.id !== socketId) {
+        return player;
+      }
+    });
+    roomData.players = updatedPlayers;
+    roomsMap.set(roomData.roomId, roomData);
+  }
 };
 
 module.exports = {
