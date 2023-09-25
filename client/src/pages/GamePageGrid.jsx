@@ -188,13 +188,30 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     clearTimer(getDeadline());
   };
 
-
   const handleQuitButtonClick = () => {
-    setRoom("")
+    setRoom("");
     // setPlayers([])
-    socket.emit("leaveRoom")
-    
-  }
+    socket.emit("leaveRoom");
+    setPlayerReady(false);
+    setTimer(0);
+    setScore(0);
+    setAnagramNumber(1);
+    setRoundNumber(1);
+    setBetweenWords(false);
+    setBetweenRounds(false);
+    setGameOver(false);
+    setAnagramWords([]);
+    setDisabledButtons([]);
+    setFormattedAnswerArray([]);
+    setHint("");
+    setHintCount(0);
+    setGameMessage("");
+    setGameScores("");
+    setGameScroll([]);
+    setFullScreenCustomDialog("");
+    setLastPlayedAnswer("");
+    setLastRoundScores([]);
+  };
   return (
     <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
@@ -350,8 +367,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           }}
         >
           <Typography variant="span">Player Controls</Typography>
-          <Button onClick={handleQuitButtonClick}
-          >Quit</Button>
+          <Button onClick={handleQuitButtonClick}>Quit</Button>
           <Button>Skip</Button>
         </Paper>
         <Paper

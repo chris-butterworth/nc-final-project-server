@@ -76,7 +76,9 @@ const handleStartGame = async (roomId) => {
 };
 const nextWord = async (roomId) => {
   const roomData = roomsMap.get(roomId);
-
+  if (!roomData) {
+    return;
+  }
   if (roomData.currentWord < 2 && (roomData.currentWord + 1) % 3 === 0) {
     betweenRoundStageEmit(roomId);
     await startTimer(timeBetweenRounds, roomId);
@@ -119,12 +121,11 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
 };
 
 const handleLeaveRoom = (socket) => {
-const roomId = getRoomIdFromSocket(socket)
-socket.leave(roomId);
-removePlayerFromRoom(roomId, socket.id)
-deleteEmptyRoom(roomId)
-}
-
+  const roomId = getRoomIdFromSocket(socket);
+  socket.leave(roomId);
+  removePlayerFromRoom(roomId, socket.id);
+  deleteEmptyRoom(roomId);
+};
 
 module.exports = {
   newSession,
