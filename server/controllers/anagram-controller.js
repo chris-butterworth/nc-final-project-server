@@ -32,7 +32,7 @@ const testAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
-const testAllPlayersGuessedCorrectly = (socket, score = "") => {
+const testAllPlayersGuessedCorrectly = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   return roomData.anagrams[roomData.currentWord].scores.every(

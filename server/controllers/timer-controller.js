@@ -1,6 +1,6 @@
 const roomsMap = require("../roomsDatabase");
 
-const startTimer = (time, roomId, callback1, nextWord) => {
+const startTimer = (time, roomId) => {
   return new Promise((resolve) => {
     const roomData = roomsMap.get(roomId);
     roomData.timer = time;

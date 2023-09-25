@@ -3,7 +3,7 @@ const roomsMap = require("./roomsDatabase");
 const numOfWords = 9;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
-const anagramTime = 30;
+const anagramTime = 10;
 
 const getRoomIdFromSocket = (socket) => {
   let roomId;

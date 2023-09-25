@@ -16,10 +16,9 @@ const startGameEmit = (roomId) => {
 const endGameEmit = (roomId) => {
     const roomData = roomsMap.get(roomId);
     io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
-
 }
 
-const anagramStage = (roomId) => {
+const anagramStageEmit = (roomId) => {
   const roomData = roomsMap.get(roomId);
   io.ioObject
     .in(roomId)
@@ -32,7 +31,7 @@ const anagramStage = (roomId) => {
     );
 };
 
-const betweenWordStage = (roomId, message = "Next word coming up...") => {
+const betweenWordStageEmit = (roomId, message = "Next word coming up...") => {
   const roomData = roomsMap.get(roomId);
   const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
 
@@ -42,7 +41,7 @@ const betweenWordStage = (roomId, message = "Next word coming up...") => {
     .emit("fullScreenCustomDialog", message, `Last Answer: ${lastWordAnswer}`);
 };
 
-const betweenRoundStage = (roomId) => {
+const betweenRoundStageEmit = (roomId) => {
   const roomData = roomsMap.get(roomId);
   const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
 
@@ -52,7 +51,6 @@ const betweenRoundStage = (roomId) => {
   });
 
   io.ioObject.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
-
   io.ioObject
     .in(roomId)
     .emit(
@@ -66,7 +64,7 @@ const betweenRoundStage = (roomId) => {
 module.exports = {
   startGameEmit,
   endGameEmit,
-  anagramStage,
-  betweenWordStage,
-  betweenRoundStage,
+  anagramStageEmit,
+  betweenWordStageEmit,
+  betweenRoundStageEmit,
 };

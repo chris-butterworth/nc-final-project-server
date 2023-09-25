@@ -8,9 +8,9 @@ const {
 } = require("./controllers/anagram-controller");
 const {
   startGameEmit,
-  betweenWordStage,
-  anagramStage,
-  betweenRoundStage,
+  betweenWordStageEmit,
+  anagramStageEmit,
+  betweenRoundStageEmit,
   endGameEmit,
 } = require("./controllers/game-controller");
 const {
@@ -42,7 +42,6 @@ const newSession = (socket, callback) => {
 };
 
 const resetSession = (roomId) => {
-  const roomData = roomsMap.get(roomId);
   endGameEmit(roomId);
   resetReadyStateAndCurrentWord(roomId);
   getAnagrams().then((anagrams) => {
@@ -69,28 +68,30 @@ const handlePlayerReady = (socket) => {
 const handleStartGame = async (roomId) => {
   startGameEmit(roomId);
   await startTimer(timeBetweenWords, roomId);
-  anagramStage(roomId);
+  anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
+  increaseRoomCurrentWord(roomId);
   nextWord(roomId);
 };
 const nextWord = async (roomId) => {
   const roomData = roomsMap.get(roomId);
 
   if (roomData.currentWord < 2 && (roomData.currentWord + 1) % 3 === 0) {
-    betweenRoundStage(roomId);
+    betweenRoundStageEmit(roomId);
     await startTimer(timeBetweenRounds, roomId);
   } else {
-    betweenWordStage(roomId);
+    betweenWordStageEmit(roomId);
     await startTimer(timeBetweenWords, roomId);
   }
-  anagramStage(roomId);
+  anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
-  console.log("I think we are stuck waiting for this promise to return");
+
   if (roomData.currentWord === numOfWords - 1) {
     resetSession(roomId);
     return;
   } else {
     increaseRoomCurrentWord(roomId);
+    console.log("are we getting here?");
     nextWord(roomId);
   }
 };
@@ -102,7 +103,7 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   if (result) {
     updatePlayerScore(roomId, socket.data.username, result);
     pushPlayerlistToClients(roomId);
-    const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket, result);
+    const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
     if (allPlayersCorrect && roomData.currentWord === 8) {
       killTimer(roomId);
       resetSession(roomId);

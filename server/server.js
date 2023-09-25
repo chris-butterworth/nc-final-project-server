@@ -4,16 +4,12 @@ const http = require("http");
 
 const { joinMultiPlayerRoom } = require("./controllers/room-controller.js");
 
-const { playerReady } = require("./controllers/player-controller.js");
 const {
   newSession,
   resetSession,
   handleTestAttempt,
   handlePlayerReady,
 } = require("./app.js");
-const { getRoomIdFromSocket } = require("./utils.js");
-const { betweenWordStage } = require("./controllers/game-controller.js");
-const { testAttempt } = require("./controllers/anagram-controller.js");
 
 const app = express();
 
