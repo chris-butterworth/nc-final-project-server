@@ -12,6 +12,8 @@ import matrix from "./assets/matrix.gif";
 import light from "./assets/light.avif";
 import SingleTutorial from "./pages/SingleTutorial.jsx";
 import MultiTutorial from "./pages/MultiTutorial.jsx";
+import { onAuthStateChanged} from 'firebase/auth'
+import { auth } from "../firebase.js";
 
 function App() {
   const { mode } = useContext(ModeContext);

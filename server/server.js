@@ -22,6 +22,11 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  socket.on("assignUsername", (username)=>{
+    console.log(username, "username on server")
+    socket.data.username = username
+    // resetRoom()
+  })
   socket.on("username", (username) => {
     console.log("socket", socket.id, "=", username); // Don't delete
     socket.data.username = username;
