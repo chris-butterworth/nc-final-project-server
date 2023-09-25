@@ -8,7 +8,7 @@ import socket from "../socket";
 import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
-import ChatInput from "./ChatInput";
+import ChatInput from "../components/ChatInput";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -214,6 +214,11 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     setLastPlayedAnswer("");
     setLastRoundScores([]);
   };
+
+  const handleSkipButtonClick = () => {
+    //
+  }
+
   return (
     <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
@@ -371,7 +376,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         >
           <Typography variant="span">Player Controls</Typography>
           <Button onClick={handleQuitButtonClick}>Quit</Button>
-          <Button>Skip</Button>
+          <Button onClick={handleSkipButtonClick}>Skip</Button>
         </Paper>
         <Paper
           elevation={3}

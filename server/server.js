@@ -56,6 +56,7 @@ io.on("connection", (socket) => {
 
   socket.on("gameChat", (message) => {
     handleWebChat(socket, message);
+  })
 
   socket.on("leaveRoom", () => {
     handleLeaveRoom(socket);
