@@ -96,6 +96,7 @@ const GamePageGrid = ({ players, room }) => {
       setHint(answer);
       timerFunction(time);
       setHintCount(0);
+      setHints([]);
     });
   }, []);
 

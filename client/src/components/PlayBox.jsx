@@ -43,17 +43,29 @@ export const PlayBox = ({
   // }, []);
 
   const handleClearButtonClick = () => {
-    setDisabledButtons([]);
-
+    // Hint buttons stay disabled after clear
+    setDisabledButtons(() => {
+      return hints.map((hint) => {
+        console.log(hint);
+        return {
+          wordIndex: hint.questionWordIndex,
+          letterIndex: hint.questionLetterIndex,
+          letter: hint.letter,
+        };
+      });
+    });
+    // Hinted letters stay in the array on clear
     setFormattedAnswerArray((current) => {
-      return current.map((word) => {
+      const hintsOnly = current.map((word) => {
         return word.map((letter) => {
           return "";
         });
       });
+      hints.forEach((hint) => {
+        hintsOnly[hint.answerWordIndex][hint.answerLetterIndex] = hint.letter;
+      });
+      return hintsOnly;
     });
-    //  console.log(formattedAnswerArray, "FORMATTED");
-    //  console.log(initialAnswerArray, "INITIAL");
     // Fetch the data again to reset the game
     // fetchData();
   };
@@ -142,6 +154,18 @@ export const PlayBox = ({
       // Increase hintCount by 1
       setHintCount((prev) => {
         return prev + 1;
+      });
+      setHints((previousHints) => {
+        return [
+          ...previousHints,
+          {
+            letter: correctLetter,
+            questionWordIndex: disableWordIndex,
+            questionLetterIndex: disableLetterIndex,
+            answerWordIndex: answerWord,
+            answerLetterIndex: answerLetter,
+          },
+        ];
       });
       // Update the Formatted Answer Array to include the correct letter
       const updatedArray = [...formattedAnswerArray];
