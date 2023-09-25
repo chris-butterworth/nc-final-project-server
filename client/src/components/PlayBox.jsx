@@ -1,5 +1,6 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
+import findHintIndices from "../utils/findHintIndices";
 export const PlayBox = ({
   anagramWords,
   setAnagramWords,
@@ -11,8 +12,10 @@ export const PlayBox = ({
   roundNumber,
   anagramNumber,
   hint,
+  hintCount,
+  setHintCount,
 }) => {
-  // const [anagramWords, setAnagramWords] = useState([]);
+  // const [anagramWords, setAnagramwords] = useState([]);
   // const [disabledButtons, setDisabledButtons] = useState([]);
 
   // this will be our call to the api to get the anagram and answer
@@ -77,91 +80,28 @@ export const PlayBox = ({
   };
 
   const handleHintButtonClick = () => {
-    // Combine the words in formattedAnswerArray into a single string
-    const currentAnswer = formattedAnswerArray
-      .map((word) => word.join(""))
-      .join(" ");
-
-    // Get the full anagram answer
-    const fullAnswer = hint;
-    // anagramAnswer.replace(/\s/g, "");
-
-    // Find the index of the first incorrect character
-    const firstIncorrectIndex = currentAnswer
-      .split("")
-      .findIndex((char, index) => char !== fullAnswer.charAt(index));
-
-    if (firstIncorrectIndex !== -1) {
-      // Extract the correct letter from the full answer
-      const correctLetter = fullAnswer[firstIncorrectIndex];
-      console.log(
-        firstIncorrectIndex,
-        "<FIRST WRONG",
-        correctLetter,
-        "<RIGHT LETTER"
+    if (hintCount > 2) {
+      console.log("no more hints");
+    } else {
+      //Split the full answer into a nested array of letters
+      const fullAnswerWords = hint.split(" ");
+      const fullAnswerArray = fullAnswerWords.map((word) => {
+        return word.split("");
+      });
+      // Find the word and letter indices for the first incorrect letter
+      const [word, letter] = findHintIndices(
+        formattedAnswerArray,
+        fullAnswerArray
       );
-
-      // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
-      let wordIndex = 0;
-      let letterIndex = 0;
-      let previousWordLetters = 0;
-
-      for (let i = 0; i < formattedAnswerArray.length; i++) {
-        console.log(
-          formattedAnswerArray[i],
-          "<<<<formattedAnswerArray[i]",
-          firstIncorrectIndex,
-          "<<FIRST INCORRECT INDEX",
-          formattedAnswerArray[i].length,
-          "<<<wordLength",
-          letterIndex,
-          "<lETTER INDEX"
-        );
-        const wordLength = formattedAnswerArray[i].length;
-
-          if(   firstIncorrectIndex - previousWordLetters < wordLength ){
-            console.log(wordIndex, letterIndex, "in the right word")
-            if ( letterIndex === firstIncorrectIndex - previousWordLetters){
-              console.log(wordIndex, letterIndex, "in the right letter")
-            } else {
-              letterIndex ++
-            }
-          } else {
-            previousWordLetters += wordLength+1;
-            wordIndex++;
-            letterIndex=0;
-          }
-        
-        // // if (
-        // //   firstIncorrectIndex - previousWordLetters < wordLength &&
-        // //   letterIndex === firstIncorrectIndex - previousWordLetters
-        // //   ) {
-        // //   console.log(wordIndex, "WORD", letterIndex, "LETTER IN IF")
-        // //   const updatedArray = [...formattedAnswerArray];
-        // //   updatedArray[wordIndex][letterIndex] = correctLetter;
-        // //   setFormattedAnswerArray(updatedArray);
-        // //   // console.log(letterIndex, "<LETTER INDEX IN IF");
-        // // } else if {
-          
-        // // }
-        // //IF IT is in this word, then add it to this word and break
-        // //if it is not in this word, increase the previousWordLetters, increase word count, then go again
-        // if (firstIncorrectIndex < letterIndex + previousWordLetters) {
-        //   console.log("first if");
-        //   letterIndex = firstIncorrectIndex;
-        // } else if (firstIncorrectIndex >= letterIndex + wordLength) {
-        //   console.log("second if");
-        //   // letterIndex += wordLength;
-        //   previousWordLetters += wordLength;
-        //   wordIndex++;
-        // } else {
-        //   break;
-        // }
-      }
-
-      // Update formattedAnswerArray with the correct letter
+      // Find the correct letter
+      const correctLetter = fullAnswerArray[word][letter];
+      // Increase hintCount by 1
+      setHintCount((prev) => {
+        return prev + 1;
+      });
+      // Update the Formatted Answer Array to include the correct letter
       const updatedArray = [...formattedAnswerArray];
-      updatedArray[wordIndex][letterIndex] = correctLetter;
+      updatedArray[word][letter] = correctLetter;
       setFormattedAnswerArray(updatedArray);
     }
   };
