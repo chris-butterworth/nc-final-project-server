@@ -11,31 +11,8 @@ export const PlayBox = ({
   setDisabledButtons,
   roundNumber,
   anagramNumber,
-  category
+  category,
 }) => {
-  // const [anagramWords, setAnagramWords] = useState([]);
-  // const [disabledButtons, setDisabledButtons] = useState([]);
-
-  // this will be our call to the api to get the anagram and answer
-  // const fetchData = async () => {
-  // Example data
-  // const anagramData = {
-  //   anagramWords: ["Flip", "Into", "Cup"],
-  //   anagramAnswer: "Pulp Fiction",
-  // };
-
-  //   setAnagramWords(anagramData.anagramWords);
-  //   setFormattedAnswerArray(
-  //     anagramData.anagramAnswer
-  //       .split(" ")
-  //       .map((word) => Array.from({ length: word.length }, () => ""))
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   // Fetch data when the component mounts
-  //   fetchData();
-  // }, []);
 
   const { mode, setMode } = useContext(ModeContext);
 
@@ -122,7 +99,6 @@ export const PlayBox = ({
     <Paper
       key={`word-${wordIndex}`}
       sx={{
-        // backgroundColor: "red",
         margin: "1em",
         display: "flex",
       }}
@@ -138,15 +114,7 @@ export const PlayBox = ({
                 : ""
             }`}
             sx={{
-              // ...(letterIndex % 3 === 0 && {
-              //   backgroundColor: "#fdde99",
-              // }),
-              // ...(letterIndex % 3 === 1 && {
-              //   backgroundColor: "#ebddeb",
-              // }),
-              // ...(letterIndex % 3 === 2 && {
-              //   backgroundColor: "#cdf0a9",
-              // }),
+         
               backgroundColor:
                 mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
               padding: "0",

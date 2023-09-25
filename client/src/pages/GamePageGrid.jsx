@@ -45,7 +45,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [fullScreenCustomDialog, setFullScreenCustomDialog] = useState("");
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
-  const [category, setCategory]=useState("")
+  const [category, setCategory] = useState("");
 
   const Ref = useRef(null);
 
@@ -93,7 +93,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       setBetweenWords(false);
       setDisabledButtons([]);
       setAnagramWords(anagram);
-      setCategory(category)
+      setCategory(category);
       setFormattedAnswerArray(
         answer
           .split(" ")
@@ -102,9 +102,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
       timerFunction(time);
     });
-    
   }, []);
-  console.log(category)
+  console.log(category);
 
   useEffect(() => {
     socket.on("endGame", (scores) => {
@@ -220,9 +219,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   const handleSkipButtonClick = () => {
-    socket.emit("playerSkip")
-
-  }
+    socket.emit("playerSkip");
+  };
 
   return (
     <Paper sx={{ minWidth: "80vw" }}>
@@ -349,18 +347,33 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             </Item>
           </Grid>
 
-          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+          <Grid
+            item
+            xs={12}
+            order={{ xs: 2, md: 3 }}
+            md={3}
+            sx={{ flexDirection: "column", alignItems: 'baseline' }}
+          >
             <Item sx={{ overflow: "auto" }}>
-              <Typography variant="h4">Game Scroll </Typography>
-              <Typography>
-                {gameScroll.map((item, index) => {
-                  return <Typography key={index}>{item}</Typography>;
-                })}
-              </Typography>
-              <ChatInput />
+              <Grid item xs={12} md={12}>
+                <Typography variant="h4">Game Scroll </Typography>
+                <Typography>
+                  {gameScroll.map((item, index) => {
+                    return <Typography key={index}>{item}</Typography>;
+                  })}
+                </Typography>
+              </Grid>
+            
             </Item>
+                
+            <Paper sx={{maxWidth: "20em", display: "flex", alignContent: "flex-end", justifyContent: "right"}}>
+              <Item>
+            <ChatInput sx={{maxWidth: "20em"}}/>
+            </Item>
+            </Paper>
           </Grid>
         </Grid>
+        
       </Box>
 
       <Box
