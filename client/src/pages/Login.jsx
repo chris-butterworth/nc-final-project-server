@@ -16,12 +16,26 @@ import {
   Paper,
 } from "@mui/material";
 import AvatarGallery from "../components/AvatarGallery";
+import {signInWithEmailAndPassword} from "firebase/auth"
+import { auth } from "../../firebase";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
   const [avatars, setAvatars] = useState([]);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
+  const signIn = (e) => {
+    console.log("in function")
+    e.preventDefault()
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential)=>{
+           console.log(userCredential, "user cred")
+         }).catch((err) => {
+            console.log(err)
+         })
+}
   return (
     <Paper
       sx={{
@@ -78,32 +92,28 @@ const Login = ({ setUsername }) => {
       >
         Generate a random username
       </Button>
-      <FormControl sx={{ width: "80%" }}>
+      <FormControl sx={{ width: "80%" }} onSubmit = {signIn}>
         <InputLabel htmlFor="username"> Login Email:</InputLabel>
         <Input
           id="username"
-          value={usernameInput}
+          type="email"
+          value={email}
           onChange={(e) => {
-            setUsernameInput(e.target.value);
+            setEmail(e.target.value);
           }}
         ></Input>
         <InputLabel htmlFor="username"></InputLabel>
         <Input
           id="username"
-          value={usernameInput}
+          type="password"
+          value={password}
           onChange={(e) => {
-            setUsernameInput(e.target.value);
+            setPassword(e.target.value);
           }}
         ></Input>
         
         <Button
-          onClick={(e) => {
-            e.preventDefault();
-            setUsername(usernameInput);
-            socket.emit("username", usernameInput);
-            socket.emit("avatar", avatars[currentAvatarIndex]);
-            setUsernameInput("");
-          }}
+         type="submit"
         >
           Submit username
         </Button>
