@@ -53,7 +53,6 @@ io.on("connection", (socket) => {
     handleTestAttempt(socket, attempt, time, hintCount);
   });
 
-  socket.on('webChat', message)
 });
 
 
