@@ -1,6 +1,7 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import findHintIndices from "../utils/findHintIndices";
+import findReenableButton from "../utils/findReenableButton";
 export const PlayBox = ({
   anagramWords,
   setAnagramWords,
@@ -70,9 +71,12 @@ export const PlayBox = ({
 
           // Disable the button by updating the disabledButtons state
           const newDisabledButtons = [...disabledButtons];
-          newDisabledButtons.push({ wordIndex, letterIndex });
+          newDisabledButtons.push({
+            wordIndex,
+            letterIndex,
+            letter: questionLetter,
+          });
           setDisabledButtons(newDisabledButtons);
-
           return; // Exit the function after adding the letter
         }
       }
@@ -88,20 +92,58 @@ export const PlayBox = ({
       const fullAnswerArray = fullAnswerWords.map((word) => {
         return word.split("");
       });
-      // Find the word and letter indices for the first incorrect letter
-      const [word, letter] = findHintIndices(
+      // Find the word and letter indices for the first incorrect letter, as well as the button to add to the disabled buttons, as well as the button to remove from the disabled buttons
+      const foundHintIndices = findHintIndices(
         formattedAnswerArray,
-        fullAnswerArray
+        fullAnswerArray,
+        anagramWords
       );
+      const [
+        { answerWord, answerLetter, correctLetter },
+        { disableWordIndex, disableLetterIndex, disableLetter },
+      ] = foundHintIndices;
+      // Add hinted button to the disabled buttons array
+      setDisabledButtons((currentlyDisabled) => {
+        return [
+          ...currentlyDisabled,
+          {
+            wordIndex: disableWordIndex,
+            letterIndex: disableLetterIndex,
+            letter: disableLetter,
+          },
+        ];
+      });
+      // Check if there is a button to reenable (if the hint swapped out another button)
+      if (foundHintIndices.length > 2) {
+        const reenableLetter = foundHintIndices[2];
+        console.log(reenableLetter, "<<WORD AND LETTER TO ENABLE");
+        //remove the reenable button from the disabled buttons array
+        const buttonToReenableIndex = findReenableButton(
+          reenableLetter,
+          disabledButtons,
+          anagramWords
+        );
+        setDisabledButtons((currentlyDisabled) => {
+          const remainingDisabledButtons = [];
+          currentlyDisabled.forEach((button, index) => {
+            if (index !== buttonToReenableIndex) {
+              console.log("should be pushed!!!");
+              remainingDisabledButtons.push(button);
+            }
+          });
+          return remainingDisabledButtons;
+        });
+      }
+
       // Find the correct letter
-      const correctLetter = fullAnswerArray[word][letter];
+      // const correctLetter = fullAnswerArray[answerWord][answerLetter];
       // Increase hintCount by 1
       setHintCount((prev) => {
         return prev + 1;
       });
       // Update the Formatted Answer Array to include the correct letter
       const updatedArray = [...formattedAnswerArray];
-      updatedArray[word][letter] = correctLetter;
+      updatedArray[answerWord][answerLetter] = correctLetter;
       setFormattedAnswerArray(updatedArray);
     }
   };
