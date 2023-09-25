@@ -60,7 +60,7 @@ const GamePageGrid = ({ players, room }) => {
   useEffect(() => {
     socket.on("gameScroll", (message) => {
       setGameScroll((current) => {
-        return [...current, message];
+        return [message, ...current];
       });
     });
   }, []);
