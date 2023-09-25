@@ -10,6 +10,8 @@ import { ModeContext } from "../context/Mode.jsx";
 import { lightTheme, darkTheme } from "../themes";
 import pills from "../assets/red-pill-blue-pill.jpg";
 import crayon from "../assets/crayon.png";
+import{signOut} from 'firebase/auth'
+import { auth } from "../../firebase.js";
 
 
 const NavBar = ({username, setUsername, setRoom}) => {
