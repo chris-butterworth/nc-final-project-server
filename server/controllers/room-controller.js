@@ -78,10 +78,18 @@ const populateScoreboard = (roomId) => {
 };
 
 
+const deleteEmptyRoom = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  if(roomData.players.length === 0){
+    roomsMap.delete(roomId)
+  }
+}
+
 module.exports = {
   resetReadyStateAndCurrentWord,
   createNewRoom,
   joinMultiPlayerRoom,
   populateScoreboard,
+  deleteEmptyRoom
 
 };

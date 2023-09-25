@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, Typography } from "@mui/material";
+import { Box, Paper, Grid, Typography, Button } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
@@ -20,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   maxHeight: "50vh",
 }));
 
-const GamePageGrid = ({ players, room }) => {
+const GamePageGrid = ({ players, room, setRoom }) => {
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -188,6 +188,13 @@ const GamePageGrid = ({ players, room }) => {
     clearTimer(getDeadline());
   };
 
+
+  const handleQuitButtonClick = () => {
+    setRoom("")
+    // setPlayers([])
+    socket.emit("leaveRoom")
+    
+  }
   return (
     <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
@@ -343,6 +350,9 @@ const GamePageGrid = ({ players, room }) => {
           }}
         >
           <Typography variant="span">Player Controls</Typography>
+          <Button onClick={handleQuitButtonClick}
+          >Quit</Button>
+          <Button>Skip</Button>
         </Paper>
         <Paper
           elevation={3}

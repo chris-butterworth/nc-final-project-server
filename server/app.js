@@ -17,11 +17,13 @@ const {
   updatePlayerScore,
   playerReady,
   pushPlayerlistToClients,
+  removePlayerFromRoom,
 } = require("./controllers/player-controller");
 const {
   createNewRoom,
   resetReadyStateAndCurrentWord,
   populateScoreboard,
+  deleteEmptyRoom,
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
@@ -116,8 +118,17 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   }
 };
 
+const handleLeaveRoom = (socket) => {
+const roomId = getRoomIdFromSocket(socket)
+socket.leave(roomId);
+removePlayerFromRoom(roomId, socket.id)
+deleteEmptyRoom(roomId)
+}
+
+
 module.exports = {
   newSession,
   handleTestAttempt,
   handlePlayerReady,
+  handleLeaveRoom,
 };
