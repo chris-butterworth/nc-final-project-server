@@ -24,6 +24,7 @@ const {
   resetReadyStateAndCurrentWord,
   populateScoreboard,
   deleteEmptyRoom,
+  joinMultiPlayerRoom,
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
@@ -52,20 +53,38 @@ const resetSession = (roomId) => {
   });
 };
 
+const handleJoinMultiPlayerRoom = (socket, roomId, callback) => {
+  const roomData = roomsMap.get(roomId);
+
+  if (!roomData) {
+    callback({ error: true, message: "Room ID not found" });
+    return;
+  } else if (testEveryPlayerReady(roomId)) {
+    callback({ error: true, message: "Game in progress, cannot join" });
+    return;
+  }
+  joinMultiPlayerRoom(socket, roomId, callback);
+};
+
 const handlePlayerReady = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
   const roomData = roomsMap.get(roomId);
   playerReady(socket);
   pushPlayerlistToClients(roomId);
 
+  if (testEveryPlayerReady(roomId)) {
+    populateScoreboard(roomId);
+    handleStartGame(roomId);
+  }
+};
+
+const testEveryPlayerReady = (roomId) => {
+  const roomData = roomsMap.get(roomId);
   let playerReadyStatus = [];
   roomData.players.forEach((player) => {
     playerReadyStatus.push(player.readyToStartGame);
   });
-  if (playerReadyStatus.every((item) => item)) {
-    populateScoreboard(roomId);
-    handleStartGame(roomId);
-  }
+  return playerReadyStatus.every((item) => item);
 };
 
 const handleStartGame = async (roomId) => {
@@ -171,6 +190,7 @@ const handleSkip = (socket) => {
 
 module.exports = {
   newSession,
+  handleJoinMultiPlayerRoom,
   handleTestAttempt,
   handlePlayerReady,
   handleWebChat,
