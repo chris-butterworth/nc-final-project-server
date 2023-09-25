@@ -10,7 +10,7 @@ const {
   resetSession,
   handleTestAttempt,
   handlePlayerReady,
-} = require("./circular-dependency.js");
+} = require("./app.js");
 const { getRoomIdFromSocket } = require("./utils.js");
 const { betweenWordStage } = require("./controllers/game-controller.js");
 const { testAttempt } = require("./controllers/anagram-controller.js");

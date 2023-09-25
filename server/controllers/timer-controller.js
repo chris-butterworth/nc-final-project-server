@@ -17,13 +17,9 @@ const killTimer = (roomId) => {
 const secondEvent = (roomId, resolve) => {
   const roomData = roomsMap.get(roomId);
   roomData.timer = --roomData.timer;
-  console.log(roomData.timer);
-  if (roomData.timer === 0) {
+  if (roomData.timer <= 0) {
     clearInterval(roomData.timerInterval);
-    console.log(resolve);
     return resolve();
-    // if (nextWord) nextWord(roomId);
-    // callback1(roomId);
   }
   roomsMap.set(roomId, roomData);
 };

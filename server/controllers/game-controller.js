@@ -13,9 +13,14 @@ const startGameEmit = (roomId) => {
     .emit("fullScreenCustomDialog", "Game starting. First word coming up...");
 };
 
+const endGameEmit = (roomId) => {
+    const roomData = roomsMap.get(roomId);
+    io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
+
+}
+
 const anagramStage = (roomId) => {
   const roomData = roomsMap.get(roomId);
-
   io.ioObject
     .in(roomId)
     .emit(
@@ -60,6 +65,7 @@ const betweenRoundStage = (roomId) => {
 
 module.exports = {
   startGameEmit,
+  endGameEmit,
   anagramStage,
   betweenWordStage,
   betweenRoundStage,

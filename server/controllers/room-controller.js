@@ -39,15 +39,9 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
   const roomData = roomsMap.get(roomId);
 
   let error, message;
-  if (!room) {
+  if (!roomData) {
     error = true;
     message = "Room ID not found";
-  } else if (room.length <= 0) {
-    error = true;
-    message = "Room is empty";
-  } else if (room.length >= 10) {
-    error = true;
-    message = "Room is full";
   }
 
   if (error) {
@@ -55,9 +49,9 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
     return;
   } else {
     const roomUpdate = {
-      ...room,
+      ...roomData,
       players: [
-        ...room.players,
+        ...roomData.players,
         {
           ...templatePlayerObject,
           id: socket.id,
@@ -83,9 +77,11 @@ const populateScoreboard = (roomId) => {
   roomsMap.set(roomData.roomId, roomData);
 };
 
+
 module.exports = {
   resetReadyStateAndCurrentWord,
   createNewRoom,
   joinMultiPlayerRoom,
   populateScoreboard,
+
 };

@@ -73,7 +73,7 @@ const GamePageGrid = ({ players, room }) => {
       timerFunction(time);
     });
   }, []);
-  console.log(betweenWords);
+
   useEffect(() => {
     socket.on("betweenRoundsCountdown", (time) => {
       setAnagramWords([]);

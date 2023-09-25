@@ -11,6 +11,7 @@ const {
   betweenWordStage,
   anagramStage,
   betweenRoundStage,
+  endGameEmit,
 } = require("./controllers/game-controller");
 const {
   updatePlayerScore,
@@ -24,7 +25,6 @@ const {
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
-const io = require("./server.js");
 const {
   getRoomIdFromSocket,
   anagramTime,
@@ -32,6 +32,7 @@ const {
   timeBetweenWords,
   numOfWords,
 } = require("./utils");
+const { gameScrollEmit } = require("./controllers/im-controller");
 
 const newSession = (socket, callback) => {
   const roomId = createNewRoom(socket, callback);
@@ -42,10 +43,9 @@ const newSession = (socket, callback) => {
 
 const resetSession = (roomId) => {
   const roomData = roomsMap.get(roomId);
-  io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
-  endGame(roomId); ///////// <<<<<<<<<<<<
+  endGameEmit(roomId);
   resetReadyStateAndCurrentWord(roomId);
-  getAnagrams(roomId).then((anagrams) => {
+  getAnagrams().then((anagrams) => {
     setAnagrams(roomId, anagrams);
   });
 };
@@ -85,7 +85,7 @@ const nextWord = async (roomId) => {
   }
   anagramStage(roomId);
   await startTimer(anagramTime, roomId);
-
+  console.log("I think we are stuck waiting for this promise to return");
   if (roomData.currentWord === numOfWords - 1) {
     resetSession(roomId);
     return;
@@ -107,10 +107,11 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
       killTimer(roomId);
       resetSession(roomId);
     } else if (allPlayersCorrect) {
-      killTimer(roomId);
-      betweenWordStage(
+      roomData.timer = 2;
+      roomsMap.set(roomId, roomData);
+      gameScrollEmit(
         roomId,
-        `All players guessed correctly, you got ${result} points`
+        `All players guessed correctly. Ending round early`
       );
     }
   }
