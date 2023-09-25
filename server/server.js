@@ -52,7 +52,10 @@ io.on("connection", (socket) => {
   socket.on("anagramAttempt", (attempt, time, hintCount) => {
     handleTestAttempt(socket, attempt, time, hintCount);
   });
+
+  socket.on('webChat', message)
 });
+
 
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
