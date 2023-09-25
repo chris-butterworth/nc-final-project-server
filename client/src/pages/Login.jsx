@@ -102,6 +102,8 @@ const Login = ({ setUsername }) => {
             setEmail(e.target.value);
           }}
         ></Input>
+        </FormControl>
+        <FormControl sx={{ width: "80%" }} onSubmit = {signIn}>
         <InputLabel htmlFor="username"></InputLabel>
         <Input
           id="username"
@@ -113,36 +115,24 @@ const Login = ({ setUsername }) => {
         ></Input>
         
         <Button
-         type="submit"
+         onClick={signIn}
         >
           Submit username
         </Button>
       </FormControl>
-
+{/* 
       <FormControl sx={{ width: "80%" }}>
         <InputLabel htmlFor="username">Sign Up Here</InputLabel>
         <Input
-          id="username"
-          value={usernameInput}
-          onChange={(e) => {
-            setUsernameInput(e.target.value);
-          }}
+         
         ></Input>
         <InputLabel htmlFor="username"> </InputLabel>
         <Input
-          id="username"
-          value={usernameInput}
-          onChange={(e) => {
-            setUsernameInput(e.target.value);
-          }}
+          
         ></Input>
          <InputLabel htmlFor="username"> </InputLabel>
         <Input
-          id="username"
-          value={usernameInput}
-          onChange={(e) => {
-            setUsernameInput(e.target.value);
-          }}
+          
         ></Input>
         
         <Button
@@ -156,7 +146,7 @@ const Login = ({ setUsername }) => {
         >
           Submit username
         </Button>
-      </FormControl>
+      </FormControl> */}
 
 
     </Paper>
