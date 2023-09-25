@@ -44,7 +44,7 @@ const Login = ({ setUsername }) => {
         setCurrentAvatarIndex={setCurrentAvatarIndex}
       />
       <FormControl sx={{ width: "80%" }}>
-        <InputLabel htmlFor="username">Set a username</InputLabel>
+        <InputLabel htmlFor="username">Set a username (play as guest)</InputLabel>
         <Input
           id="username"
           value={usernameInput}
@@ -78,6 +78,77 @@ const Login = ({ setUsername }) => {
       >
         Generate a random username
       </Button>
+      <FormControl sx={{ width: "80%" }}>
+        <InputLabel htmlFor="username"> Login Email:</InputLabel>
+        <Input
+          id="username"
+          value={usernameInput}
+          onChange={(e) => {
+            setUsernameInput(e.target.value);
+          }}
+        ></Input>
+        <InputLabel htmlFor="username"></InputLabel>
+        <Input
+          id="username"
+          value={usernameInput}
+          onChange={(e) => {
+            setUsernameInput(e.target.value);
+          }}
+        ></Input>
+        
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setUsername(usernameInput);
+            socket.emit("username", usernameInput);
+            socket.emit("avatar", avatars[currentAvatarIndex]);
+            setUsernameInput("");
+          }}
+        >
+          Submit username
+        </Button>
+      </FormControl>
+
+      <FormControl sx={{ width: "80%" }}>
+        <InputLabel htmlFor="username">Sign Up Here</InputLabel>
+        <Input
+          id="username"
+          value={usernameInput}
+          onChange={(e) => {
+            setUsernameInput(e.target.value);
+          }}
+        ></Input>
+        <InputLabel htmlFor="username"> </InputLabel>
+        <Input
+          id="username"
+          value={usernameInput}
+          onChange={(e) => {
+            setUsernameInput(e.target.value);
+          }}
+        ></Input>
+         <InputLabel htmlFor="username"> </InputLabel>
+        <Input
+          id="username"
+          value={usernameInput}
+          onChange={(e) => {
+            setUsernameInput(e.target.value);
+          }}
+        ></Input>
+        
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setUsername(usernameInput);
+            socket.emit("username", usernameInput);
+            socket.emit("avatar", avatars[currentAvatarIndex]);
+            setUsernameInput("");
+          }}
+        >
+          Submit username
+        </Button>
+      </FormControl>
+
+
     </Paper>
   );
 };
