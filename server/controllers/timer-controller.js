@@ -24,8 +24,8 @@ const secondEvent = (roomId, resolve) => {
   roomsMap.set(roomId, roomData);
 };
 
+
 module.exports = {
   startTimer,
   killTimer,
 };
-

@@ -13,8 +13,12 @@ const ChatInput = () => {
   };
   return (
     <div>
-      <FormControl sx={{ width: "80%" }}>
-        {/* <InputLabel htmlFor="username">Set a username</InputLabel> */}
+      <FormControl
+        sx={{
+          width: "100%",
+          paddingTop: "1em",
+        }}
+      >
         <TextField
           id="outlined-basic"
           label="Chat"

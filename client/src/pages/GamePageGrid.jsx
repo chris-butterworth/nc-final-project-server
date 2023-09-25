@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { ModeContext } from "../context/Mode";
 import { styled } from "@mui/material/styles";
 import { Box, Paper, Grid, Typography, Button } from "@mui/material";
 import { Timer } from "../components/Timer";
@@ -22,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const GamePageGrid = ({ players, room, setRoom }) => {
+  const { mode } = useContext(ModeContext);
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -352,7 +355,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             xs={12}
             order={{ xs: 2, md: 3 }}
             md={3}
-            sx={{ flexDirection: "column", alignItems: 'baseline' }}
+            sx={{ flexDirection: "column", alignItems: "baseline" }}
           >
             <Item sx={{ overflow: "auto" }}>
               <Grid item xs={12} md={12}>
@@ -363,17 +366,28 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                   })}
                 </Typography>
               </Grid>
-            
             </Item>
-                
-            <Paper sx={{maxWidth: "20em", display: "flex", alignContent: "flex-end", justifyContent: "right"}}>
-              <Item>
-            <ChatInput sx={{maxWidth: "20em"}}/>
-            </Item>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={9}></Grid>
+          <Grid item sx={{}} xs={3}>
+            <Paper
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                marginLeft: "0.5em",
+                marginRight: "0.5em",
+                backgroundColor:
+                  mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
+              }}
+            >
+              <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
             </Paper>
           </Grid>
         </Grid>
-        
       </Box>
 
       <Box

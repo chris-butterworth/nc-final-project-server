@@ -71,12 +71,12 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
 const populateScoreboard = (roomId) => {
   const roomData = roomsMap.get(roomId);
 
-  roomData.anagrams.forEach((anagram) => {
+  roomData?.anagrams?.forEach((anagram) => {
     anagram.scores = roomData.players.map((user) => {
       return { username: user.username, score: 0, isSolved: false };
     });
   });
-  roomsMap.set(roomData.roomId, roomData);
+  roomsMap.set(roomData?.roomId, roomData);
 };
 
 const deleteEmptyRoom = (roomId) => {
