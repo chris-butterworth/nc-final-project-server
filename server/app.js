@@ -38,6 +38,7 @@ const { gameScrollEmit } = require("./controllers/im-controller");
 
 const newSession = (socket, callback) => {
   const roomId = createNewRoom(socket, callback);
+  socket.data.roomId = roomId;
   getAnagrams().then((anagrams) => {
     setAnagrams(roomId, anagrams);
   });
@@ -130,8 +131,16 @@ const handleWebChat = (socket, message) => {
 const handleLeaveRoom = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
   socket.leave(roomId);
+  socket.data.roomId = undefined;
   removePlayerFromRoom(roomId, socket.id);
   deleteEmptyRoom(roomId);
+  pushPlayerlistToClients(roomId);
+};
+
+const handleDisconnect = (socket) => {
+  removePlayerFromRoom(socket.data.roomId, socket.id);
+  deleteEmptyRoom(socket.data.roomId);
+  pushPlayerlistToClients(socket.data.roomId);
 };
 
 const handleSkip = (socket) => {
@@ -143,7 +152,6 @@ const handleSkip = (socket) => {
       console.log(roomData.anagrams[roomData.currentWord]);
     }
   });
-
   roomsMap.set(roomId, roomData);
 
   const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
@@ -164,4 +172,5 @@ module.exports = {
   handleWebChat,
   handleLeaveRoom,
   handleSkip,
+  handleDisconnect,
 };

@@ -11,6 +11,7 @@ const {
   handleWebChat,
   handleLeaveRoom,
   handleSkip,
+  handleDisconnect,
 } = require("./app.js");
 
 const app = express();
@@ -44,6 +45,7 @@ io.on("connection", (socket) => {
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     joinMultiPlayerRoom(socket, roomId, callback);
+    
   });
 
   socket.on("playerReady", () => {
@@ -57,16 +59,20 @@ io.on("connection", (socket) => {
 
   socket.on("gameChat", (message) => {
     handleWebChat(socket, message);
-  })
+  });
 
   socket.on("leaveRoom", () => {
     handleLeaveRoom(socket);
   });
 
+  socket.on("playerSkip", () => {
+    handleSkip(socket);
+  });
 
-socket.on("playerSkip", () => {
-  handleSkip(socket);
-});
+  socket.on("disconnect", (reason) => {
+    console.log(socket.id, "disconnected due to:", reason);
+    handleDisconnect(socket);
+  });
 });
 
 server.listen(port, () => {
