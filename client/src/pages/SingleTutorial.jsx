@@ -13,7 +13,11 @@ const SingleTutorial = () => {
         }}
       >
         <Typography variant="h3">Single Tutorial</Typography>
-        <Typography variant="span">blah blah blah blah</Typography>
+        <Typography variant="span">Guess the anagram as quickly as possible, the quicker you are the higher you score!</Typography>
+        <Typography variant="span">1. To begin the game simply click on 'ready', the game will then start</Typography>
+        <Typography variant="span">2. An anagram will be displayed for you, to guess click on the letter tiles to add it to your current guess</Typography>
+        <Typography variant="span">3. If you guess correctly the next round will begin</Typography>
+        <Typography variant="span">4. Once all rounds have been completed the game will end </Typography>
         <Link to="/">
           <Button>Home Page</Button>
         </Link>
