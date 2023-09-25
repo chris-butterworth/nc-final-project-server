@@ -111,7 +111,8 @@ export const PlayBox = ({
       const foundHintIndices = findHintIndices(
         formattedAnswerArray,
         fullAnswerArray,
-        anagramWords
+        anagramWords,
+        disabledButtons
       );
       const [
         { answerWord, answerLetter, correctLetter },

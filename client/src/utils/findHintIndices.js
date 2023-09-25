@@ -3,7 +3,8 @@ import findQuestionIndices from "./findQuestionIndices";
 const findHintIndices = (
   formattedAnswerArray,
   fullAnswerArray,
-  anagramWords
+  anagramWords,
+  disabledButtons
 ) => {
   for (let i = 0; i < formattedAnswerArray.length; i++) {
     for (let j = 0; j < formattedAnswerArray[i].length; j++) {
@@ -13,7 +14,8 @@ const findHintIndices = (
         // Find the word and letter index in the question of the correct letter
         const [disableWordIndex, disableLetterIndex] = findQuestionIndices(
           correctLetter,
-          anagramWords
+          anagramWords,
+          disabledButtons
         );
 
         const output = [
