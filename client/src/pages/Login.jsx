@@ -18,6 +18,7 @@ import {
 import AvatarGallery from "../components/AvatarGallery";
 import {signInWithEmailAndPassword} from "firebase/auth"
 import { auth } from "../../firebase";
+import SignUp from "../components/SignUp";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -120,34 +121,7 @@ const Login = ({ setUsername }) => {
           Submit username
         </Button>
       </FormControl>
-{/* 
-      <FormControl sx={{ width: "80%" }}>
-        <InputLabel htmlFor="username">Sign Up Here</InputLabel>
-        <Input
-         
-        ></Input>
-        <InputLabel htmlFor="username"> </InputLabel>
-        <Input
-          
-        ></Input>
-         <InputLabel htmlFor="username"> </InputLabel>
-        <Input
-          
-        ></Input>
-        
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            setUsername(usernameInput);
-            socket.emit("username", usernameInput);
-            socket.emit("avatar", avatars[currentAvatarIndex]);
-            setUsernameInput("");
-          }}
-        >
-          Submit username
-        </Button>
-      </FormControl> */}
-
+      <SignUp/>
 
     </Paper>
   );
