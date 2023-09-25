@@ -25,6 +25,15 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
     setRoom(room);
     setPlayers(players);
   };
+  useEffect(() => {
+    if(!auth.currentUser){
+      return
+    }
+    socket.emit("avatar", auth.currentUser.photoURL)
+    
+    
+  }, []);
+
   // useEffect(() => {
   //   socket.emit("avatar", auth.currentUser.photoURL)
   // }, []);
