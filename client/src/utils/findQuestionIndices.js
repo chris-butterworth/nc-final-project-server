@@ -7,19 +7,25 @@ const findQuestionIndices = (letter, anagramWords, disabledButtons) => {
   for (let i = 0; i < anagramLettersArray.length; i++) {
     for (let j = 0; j < anagramLettersArray[i].length; j++) {
       if (anagramLettersArray[i][j] === letter) {
-        console.log(letter, "LETTER");
-        // Check if that letter is already disabled
-        //  Go through each disabled button
-        for (let k = 0; k < disabledButtons.length; k++) {
-          //  Check if that disabled button is the correct letter, and has a different word and letter index
-          if (
-            (disabledButtons[k].wordIndex !== i ||
-              disabledButtons[k].letterIndex !== j) &&
-            disabledButtons[k].letter === letter
-          ) {
-            //  If it is, return the questionWordIndex and the letterWordIndex
-            return [i, j];
+        //  Check if the disabled buttons already includes a button with that letter
+        const disabledLetters = disabledButtons.map((button) => {
+          return button.letter;
+        });
+        if (disabledLetters.includes(letter)) {
+          for (let k = 0; k < disabledButtons.length; k++) {
+            //  Check if that disabled button is the correct letter, and has a different word and letter index
+            if (
+              (disabledButtons[k].wordIndex !== i ||
+                disabledButtons[k].letterIndex !== j) &&
+              disabledButtons[k].letter === letter
+            ) {
+              //  If it is, return the questionWordIndex and the letterWordIndex
+              return [i, j];
+            }
           }
+        } else {
+          // If it doesn't, return [i,j]
+          return [i, j];
         }
       }
     }
