@@ -46,7 +46,6 @@ export const PlayBox = ({
     // Hint buttons stay disabled after clear
     setDisabledButtons(() => {
       return hints.map((hint) => {
-        console.log(hint);
         return {
           wordIndex: hint.questionWordIndex,
           letterIndex: hint.questionLetterIndex,
@@ -54,13 +53,15 @@ export const PlayBox = ({
         };
       });
     });
-    // Hinted letters stay in the array on clear
+    // Hinted letters stay in the formattedAnswerArray on clear
     setFormattedAnswerArray((current) => {
+      // Empty nested answer array
       const hintsOnly = current.map((word) => {
-        return word.map((letter) => {
+        return word.map(() => {
           return "";
         });
       });
+      // For each hint, add this hint to the empty nested answer array in the correct position
       hints.forEach((hint) => {
         hintsOnly[hint.answerWordIndex][hint.answerLetterIndex] = hint.letter;
       });
@@ -130,7 +131,6 @@ export const PlayBox = ({
       // Check if there is a button to reenable (if the hint swapped out another button)
       if (foundHintIndices.length > 2) {
         const reenableLetter = foundHintIndices[2];
-        console.log(reenableLetter, "<<WORD AND LETTER TO ENABLE");
         //remove the reenable button from the disabled buttons array
         const buttonToReenableIndex = findReenableButton(
           reenableLetter,
@@ -141,7 +141,6 @@ export const PlayBox = ({
           const remainingDisabledButtons = [];
           currentlyDisabled.forEach((button, index) => {
             if (index !== buttonToReenableIndex) {
-              console.log("should be pushed!!!");
               remainingDisabledButtons.push(button);
             }
           });
