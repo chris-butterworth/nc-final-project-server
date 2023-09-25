@@ -13,7 +13,9 @@ const TutorialPage = () => {
         }}
       >
         <Typography variant="h3">The Tutorial</Typography>
-        <Typography variant="span">blah blah blah blah</Typography>
+        <Typography variant="span">Welcome to the Anagram game!</Typography>
+        <Typography variant="span">Each game will consist of three rounds, with each round containing three seperate anagrams</Typography>
+        <Typography variant="span"> click below for instructions for either the single player mode or the multiplayer mode!</Typography>
         <Link to="/">
           <Button>Home Page</Button>
         </Link>
