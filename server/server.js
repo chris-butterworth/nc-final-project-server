@@ -54,10 +54,12 @@ io.on("connection", (socket) => {
     handleTestAttempt(socket, attempt, time, hintCount);
   });
 
+
   socket.on("leaveRoom", () => {
     handleLeaveRoom(socket);
   });
 });
+
 
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
