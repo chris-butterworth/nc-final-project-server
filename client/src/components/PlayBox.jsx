@@ -83,10 +83,8 @@ export const PlayBox = ({
       .join(" ");
 
     // Get the full anagram answer
-    console.log(formattedAnswerArray);
     const fullAnswer = hint;
     // anagramAnswer.replace(/\s/g, "");
-    console.log(fullAnswer)
 
     // Find the index of the first incorrect character
     const firstIncorrectIndex = currentAnswer
@@ -95,20 +93,70 @@ export const PlayBox = ({
 
     if (firstIncorrectIndex !== -1) {
       // Extract the correct letter from the full answer
-      const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
+      const correctLetter = fullAnswer[firstIncorrectIndex];
+      console.log(
+        firstIncorrectIndex,
+        "<FIRST WRONG",
+        correctLetter,
+        "<RIGHT LETTER"
+      );
 
       // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
       let wordIndex = 0;
       let letterIndex = 0;
+      let previousWordLetters = 0;
 
       for (let i = 0; i < formattedAnswerArray.length; i++) {
+        console.log(
+          formattedAnswerArray[i],
+          "<<<<formattedAnswerArray[i]",
+          firstIncorrectIndex,
+          "<<FIRST INCORRECT INDEX",
+          formattedAnswerArray[i].length,
+          "<<<wordLength",
+          letterIndex,
+          "<lETTER INDEX"
+        );
         const wordLength = formattedAnswerArray[i].length;
-        if (firstIncorrectIndex >= letterIndex + wordLength) {
-          letterIndex += wordLength;
-          wordIndex++;
-        } else {
-          break;
-        }
+
+          if(   firstIncorrectIndex - previousWordLetters < wordLength ){
+            console.log(wordIndex, letterIndex, "in the right word")
+            if ( letterIndex === firstIncorrectIndex - previousWordLetters){
+              console.log(wordIndex, letterIndex, "in the right letter")
+            } else {
+              letterIndex ++
+            }
+          } else {
+            previousWordLetters += wordLength+1;
+            wordIndex++;
+            letterIndex=0;
+          }
+        
+        // // if (
+        // //   firstIncorrectIndex - previousWordLetters < wordLength &&
+        // //   letterIndex === firstIncorrectIndex - previousWordLetters
+        // //   ) {
+        // //   console.log(wordIndex, "WORD", letterIndex, "LETTER IN IF")
+        // //   const updatedArray = [...formattedAnswerArray];
+        // //   updatedArray[wordIndex][letterIndex] = correctLetter;
+        // //   setFormattedAnswerArray(updatedArray);
+        // //   // console.log(letterIndex, "<LETTER INDEX IN IF");
+        // // } else if {
+          
+        // // }
+        // //IF IT is in this word, then add it to this word and break
+        // //if it is not in this word, increase the previousWordLetters, increase word count, then go again
+        // if (firstIncorrectIndex < letterIndex + previousWordLetters) {
+        //   console.log("first if");
+        //   letterIndex = firstIncorrectIndex;
+        // } else if (firstIncorrectIndex >= letterIndex + wordLength) {
+        //   console.log("second if");
+        //   // letterIndex += wordLength;
+        //   previousWordLetters += wordLength;
+        //   wordIndex++;
+        // } else {
+        //   break;
+        // }
       }
 
       // Update formattedAnswerArray with the correct letter

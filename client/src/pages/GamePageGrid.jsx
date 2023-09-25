@@ -34,6 +34,7 @@ const GamePageGrid = ({ players, room }) => {
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
   const [hint, setHint] = useState("");
+  const [hintCount, setHintCount] = useState(0);
 
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
@@ -93,6 +94,7 @@ const GamePageGrid = ({ players, room }) => {
       );
       setHint(answer);
       timerFunction(time);
+      setHintCount(0);
     });
   }, []);
 
@@ -231,7 +233,7 @@ const GamePageGrid = ({ players, room }) => {
           playerReady={playerReady}
           setPlayerReady={setPlayerReady}
           sx={{ maxHeight: "25px" }}
-        /> 
+        />
       </CustomDialog>
       <CustomDialog
         open={gameOver}
@@ -269,6 +271,8 @@ const GamePageGrid = ({ players, room }) => {
                 roundNumber={roundNumber}
                 anagramNumber={anagramNumber}
                 hint={hint}
+                hintCount={hintCount}
+                setHintCount={setHintCount}
               />
             </Item>
           </Grid>
