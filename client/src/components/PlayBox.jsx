@@ -11,6 +11,7 @@ export const PlayBox = ({
   setDisabledButtons,
   roundNumber,
   anagramNumber,
+  category
 }) => {
   // const [anagramWords, setAnagramWords] = useState([]);
   // const [disabledButtons, setDisabledButtons] = useState([]);
@@ -171,7 +172,7 @@ export const PlayBox = ({
       <Button onClick={handleClearButtonClick}>Clear</Button>
       <Button onClick={handleHintButtonClick}>Hint</Button>
       <Typography>
-        Round: {roundNumber}. Word: {anagramNumber}
+        Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
       </Typography>
       <Paper
         className="solution-container"
