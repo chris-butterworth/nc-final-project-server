@@ -138,9 +138,12 @@ const handleLeaveRoom = (socket) => {
 };
 
 const handleDisconnect = (socket) => {
-  removePlayerFromRoom(socket.data.roomId, socket.id);
-  deleteEmptyRoom(socket.data.roomId);
-  pushPlayerlistToClients(socket.data.roomId);
+  const roomId = socket.data.roomId;
+  const disconnectMessage = `${socket.data.username} left the game`;
+  gameScrollEmit(roomId, disconnectMessage);
+  removePlayerFromRoom(roomId, socket.id);
+  deleteEmptyRoom(roomId);
+  pushPlayerlistToClients(roomId);
 };
 
 const handleSkip = (socket) => {
@@ -149,9 +152,10 @@ const handleSkip = (socket) => {
   roomData.anagrams[roomData.currentWord].scores.forEach((player) => {
     if (player.username === socket.data.username) {
       player.isSolved = true;
-      console.log(roomData.anagrams[roomData.currentWord]);
     }
   });
+  const skipMessage = `${socket.data.username} skipped`;
+  gameScrollEmit(roomId, skipMessage);
   roomsMap.set(roomId, roomData);
 
   const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
