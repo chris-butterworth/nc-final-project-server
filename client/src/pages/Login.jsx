@@ -122,7 +122,7 @@ const Login = ({ setUsername }) => {
           Submit username
         </Button>
       </FormControl>
-      <SignUp setUsername={setUsername}/>
+      <SignUp setUsername={setUsername} avatars={avatars} currentAvatarIndex={currentAvatarIndex}/>
 
     </Paper>
   );

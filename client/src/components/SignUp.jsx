@@ -10,7 +10,7 @@ import {
     Box,
     Paper,
   } from "@mui/material";
-const SignUp = ({setUsername}) => {
+const SignUp = ({setUsername, avatars, currentAvatarIndex}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const[newUsername, setNewUsername] = useState('')
@@ -24,10 +24,11 @@ const SignUp = ({setUsername}) => {
         
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential)=>{
+                console.log(auth.currentUser)
                 updateProfile(auth.currentUser, { // <-- Update Method here
 
                     displayName: newUsername,
-                    
+                    photoURL: avatars[currentAvatarIndex]
 
                   }).then(()=>{
                     setUsername(auth.currentUser.displayName)

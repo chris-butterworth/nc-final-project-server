@@ -14,7 +14,8 @@ import {
   Button,
 } from "@mui/material";
 import socket from "../socket";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { auth } from "../../firebase";
 
 const InitGame = ({ room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
@@ -24,6 +25,11 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
     setRoom(room);
     setPlayers(players);
   };
+  useEffect(() => {
+    socket.emit("avatar", auth.currentUser.photoURL)
+    
+    
+  }, []);
 
   return (
     <>
