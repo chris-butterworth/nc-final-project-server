@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import InitGame from "../pages/InitGame";
 import Login from "../pages/Login";
 import GamePageGrid from "../pages/GamePageGrid";
-
+import {useEffect} from 'react'
 const AppContainer = ({
   room,
   setRoom,
@@ -11,6 +11,10 @@ const AppContainer = ({
   players,
   setPlayers,
 }) => {
+  useEffect(()=>{
+    setRoom("") //added to refresh room when leaving page
+    
+  }, [])
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       {username ? (

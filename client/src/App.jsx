@@ -12,6 +12,8 @@ import matrix from "./assets/matrix.gif";
 import light from "./assets/light.avif";
 import SingleTutorial from "./pages/SingleTutorial.jsx";
 import MultiTutorial from "./pages/MultiTutorial.jsx";
+import { onAuthStateChanged} from 'firebase/auth'
+import { auth } from "../firebase.js";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -65,6 +67,26 @@ function App() {
       id: "MOREID",
     },
   ]);
+  useEffect(() => {
+    
+    console.log("change of user")
+    socket.emit("assignUsername", username) 
+  }, [username]);
+  useEffect(()=>{
+    const listen = onAuthStateChanged(auth, (user) =>{
+        if (user) {
+            console.log(auth, "auth in auth")
+            console.log(user.displayName, "user in auth")
+            
+            setUsername(user.displayName)
+        } else {
+          setUsername("")
+        }
+      })
+        return () => {
+            listen()
+        }
+}, [])
 
   useEffect(() => {
     socket.on("updatePlayers", (players) => {
@@ -89,7 +111,7 @@ function App() {
             minWidth: "100vh",
           }}
         >
-          <NavBar />
+          <NavBar setRoom={setRoom} setUsername={setUsername} username={username}/>
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
             <Route path="/tutorial/single" element={<SingleTutorial />} />
