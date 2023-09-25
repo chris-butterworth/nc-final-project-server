@@ -11,7 +11,8 @@ import { lightTheme, darkTheme } from "../themes";
 import pills from "../assets/red-pill-blue-pill.jpg";
 import crayon from "../assets/crayon.png";
 
-const NavBar = () => {
+
+const NavBar = ({username, setUsername, setRoom}) => {
   const { mode, setMode } = useContext(ModeContext);
 
   const handleModeChange = () => {
@@ -28,6 +29,7 @@ const NavBar = () => {
         console.log("signed Out")
         
     }).catch(error => console.log(error))
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">

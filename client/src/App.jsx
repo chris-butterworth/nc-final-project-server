@@ -111,7 +111,7 @@ function App() {
             minWidth: "100vh",
           }}
         >
-          <NavBar />
+          <NavBar setRoom={setRoom} setUsername={setUsername} username={username}/>
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
             <Route path="/tutorial/single" element={<SingleTutorial />} />
