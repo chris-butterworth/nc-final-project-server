@@ -70,7 +70,6 @@ const handleStartGame = async (roomId) => {
   await startTimer(timeBetweenWords, roomId);
   anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
-  increaseRoomCurrentWord(roomId);
   nextWord(roomId);
 };
 const nextWord = async (roomId) => {
@@ -83,6 +82,7 @@ const nextWord = async (roomId) => {
     betweenWordStageEmit(roomId);
     await startTimer(timeBetweenWords, roomId);
   }
+  increaseRoomCurrentWord(roomId);
   anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
 
@@ -90,8 +90,6 @@ const nextWord = async (roomId) => {
     resetSession(roomId);
     return;
   } else {
-    increaseRoomCurrentWord(roomId);
-    console.log("are we getting here?");
     nextWord(roomId);
   }
 };
