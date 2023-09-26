@@ -125,6 +125,7 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   const roomData = roomsMap.get(roomId);
   const result = testAttempt(socket, attempt, time, hintCount);
   if (result) {
+    
     updatePlayerScore(roomId, socket.data.username, result);
     pushPlayerlistToClients(roomId);
     const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);

@@ -35,6 +35,7 @@ const updatePlayerScore = (roomId, username, score) => {
   });
   roomData.players.forEach((user) => {
     if (user.username === username) {
+      user.correct = true;
       user.score = score;
       user.totalScore += score;
     }

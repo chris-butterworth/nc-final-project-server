@@ -26,13 +26,15 @@ export const PlayerListCard = ({ player, position }) => {
               {position}. {player.username}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item sx={{ display: "flex" }}>
             {" "}
-            <Typography variant="body1">{player.totalScore}</Typography>
+            <Typography variant="body1" sx={{ paddingRight: "2em" }}>
+              {player.totalScore}
+            </Typography>
+            <Typography variant="body1">{player.correct && "✔"}</Typography>
           </Grid>
         </Grid>
       </Grid>
     </Card>
   );
-
 };
