@@ -9,11 +9,83 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Paper } from "@mui/material";
 
+const theTeam = [
+  {
+    name: "Charlotte",
+    img: "",
+    github: "https://github.com/cCody34",
+    linkedIn: "https://www.linkedin.com/in/charlotte-cody-1b9894172/",
+  },
+  {
+    name: "Chris",
+    img: "",
+    github: "https://github.com/chris-butterworth",
+    linkedIn: "https://www.linkedin.com/in/chris-butterworth-74b77a25a/",
+  },
+  {
+    name: "Lex",
+    img: "",
+    github: "https://github.com/Lex5mith",
+    linkedIn: "https://www.linkedin.com/in/lex-smith-084a6a42/",
+  },
+  {
+    name: "Phil",
+    img: "",
+    github: "https://github.com/PGallagher93",
+    linkedIn: "https://www.linkedin.com/in/philip-gallagher-a24048285/",
+  },
+  {
+    name: "Simon",
+    img: "",
+    github: "https://github.com/TypeError92",
+    linkedIn: "https://www.linkedin.com/in/simon-walgenbach-b06960142/",
+  },
+];
+
+const TeamMember = ({ name, img, linkedIn, github }) => {
+  return (
+    <Grid
+      item
+      xs={6}
+      sm={4}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        alignContent: "center",
+      }}
+    >
+      <Avatar alt={name} src={img} sx={{ width: 100, height: 100 }}>
+        M1
+      </Avatar>
+      <Typography variant="subtitle1">{name}</Typography>
+      <div>
+        <IconButton
+          color="primary"
+          aria-label="GitHub"
+          href={github}
+          target="_blank"
+        >
+          <GitHubIcon />
+        </IconButton>
+        <IconButton
+          color="primary"
+          aria-label="LinkedIn"
+          href={linkedIn}
+          target="_blank"
+        >
+          <LinkedInIcon />
+        </IconButton>
+      </div>
+    </Grid>
+  );
+};
+
 export const TheBuild = () => {
   return (
     <Container>
-      <Paper sx={{ marginTop: "3em", padding: "2em" }}>
-        <Typography variant="h4" gutterBottom>
+      <Paper sx={{ marginTop: "3em", padding: "2em", textAlign: "center" }}>
+        <Typography variant="h3" gutterBottom>
           Project Details
         </Typography>
 
@@ -31,199 +103,15 @@ export const TheBuild = () => {
         </Typography>
 
         <Grid container spacing={2}>
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Avatar
-              alt="Member 1"
-              src="/path-to-image.jpg"
-              sx={{ width: 100, height: 100 }}
-            >
-              M1
-            </Avatar>
-            <Typography variant="subtitle1">Charlotte</Typography>
-            <div>
-              <IconButton
-                color="primary"
-                aria-label="GitHub"
-                href="https://github.com/member1"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="LinkedIn"
-                href="https://linkedin.com/in/member1"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-            </div>
-          </Grid>
-
-          {/* Member 2 */}
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Avatar
-              alt="Member 2"
-              src="/path-to-image.jpg"
-              sx={{ width: 100, height: 100 }}
-            >
-              M2
-            </Avatar>
-            <Typography variant="subtitle1">Chris</Typography>
-            <div>
-              <IconButton
-                color="primary"
-                aria-label="GitHub"
-                href="https://github.com/member2"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="LinkedIn"
-                href="https://linkedin.com/in/member2"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-            </div>
-          </Grid>
-
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Avatar
-              alt="Member 2"
-              src="/path-to-image.jpg"
-              sx={{ width: 100, height: 100 }}
-            >
-              M2
-            </Avatar>
-            <Typography variant="subtitle1">Lex</Typography>
-            <div>
-              <IconButton
-                color="primary"
-                aria-label="GitHub"
-                href="https://github.com/member2"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="LinkedIn"
-                href="https://linkedin.com/in/member2"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-            </div>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Avatar
-              alt="Member 2"
-              src="/path-to-image.jpg"
-              sx={{ width: 100, height: 100 }}
-            >
-              M2
-            </Avatar>
-            <Typography variant="subtitle1">Phil</Typography>
-            <div>
-              <IconButton
-                color="primary"
-                aria-label="GitHub"
-                href="https://github.com/member2"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="LinkedIn"
-                href="https://linkedin.com/in/member2"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-            </div>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Avatar
-              alt="Member 2"
-              src="/path-to-image.jpg"
-              sx={{ width: 100, height: 100 }}
-            >
-              M2
-            </Avatar>
-            <Typography variant="subtitle1">Simon</Typography>
-            <div>
-              <IconButton
-                color="primary"
-                aria-label="GitHub"
-                href="https://github.com/member2"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="LinkedIn"
-                href="https://linkedin.com/in/member2"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-            </div>
-          </Grid>
+          {theTeam.map((teamMember) => (
+            <TeamMember
+              key={teamMember.name}
+              name={teamMember.name}
+              img={teamMember.img}
+              linkedIn={teamMember.linkedIn}
+              github={teamMember.github}
+            />
+          ))}
         </Grid>
       </Paper>
     </Container>

@@ -35,37 +35,47 @@ const NavBar = ({ username, setUsername, setRoom }) => {
       })
       .catch((error) => console.log(error));
   };
-  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar sx={{ flexGrow: 1, justifyContent: "right"}}>
-        <Link to="/" sx={{ alignContent: "left"}}>
-          <Typography variant="h6" component="div">
-            Anagram Game
-          </Typography>
-          </Link>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2, height: "40px", alignContent: "right"}}
-            onClick={handleModeChange}
-          >
-            {mode.palette.mode === "dark" ? (
-              <Box component="img" sx={{ height: "40px" }} src={crayon}></Box>
-            ) : (
-              <Box
-                component="img"
-                sx={{ height: "40px", mixBlendMode: "multiply" }}
-                src={pills}
-              ></Box>
-            )}
-          </IconButton>
-          <Button color="inherit" onClick={userSignOut}>
-            {username ? <>Sign Out</> : <>Sign in</>}
-          </Button>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <Button component={Link} to="/" variant="text" color="inherit">
+              Anagram Game
+            </Button>
+            <Button
+              component={Link}
+              to="/thebuild"
+              variant="text"
+              color="inherit"
+            >
+              The Build
+            </Button>
+          </div>
+          <div>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ height: "40px" }}
+              onClick={handleModeChange}
+            >
+              {mode.palette.mode === "dark" ? (
+                <Box component="img" sx={{ height: "40px" }} src={crayon}></Box>
+              ) : (
+                <Box
+                  component="img"
+                  sx={{ height: "40px", mixBlendMode: "multiply" }}
+                  src={pills}
+                ></Box>
+              )}
+            </IconButton>
+            <Button color="inherit" onClick={userSignOut}>
+              {username ? <>Sign Out</> : <>Sign in</>}
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

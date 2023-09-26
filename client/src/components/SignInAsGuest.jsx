@@ -38,48 +38,37 @@ export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
   };
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
-        flexDirection: "column",
-        paddingTop: "2em",
-        paddingBottom: "2em",
-      }}
-    >
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          Set a username (play as guest)
+        </Typography>
+        <FormControl sx={{ width: "20vw", mt: 2 }}>
+          <InputLabel htmlFor="username">Username</InputLabel>
+          <Input
+            id="username"
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+          />
+        </FormControl>
+        <Button variant="contained" sx={{ mt: 3 }} onClick={handleSubmit}>
+          Submit username
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ mt: 2 }}
+          onClick={handleGenerateRandomUsername}
         >
-          <Typography component="h1" variant="h5">
-            Set a username (play as guest)
-          </Typography>
-          <FormControl sx={{ width: "20vw", mt: 2 }}>
-            <InputLabel htmlFor="username">Username</InputLabel>
-            <Input
-              id="username"
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
-            />
-          </FormControl>
-          <Button variant="contained" sx={{ mt: 3 }} onClick={handleSubmit}>
-            Submit username
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ mt: 2 }}
-            onClick={handleGenerateRandomUsername}
-          >
-            Generate a random username
-          </Button>
-          <Toaster />
-        </Box>
-      </Container>
-    </Paper>
+          Generate a random username
+        </Button>
+        <Toaster />
+      </Box>
+    </Container>
   );
 };
