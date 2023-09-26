@@ -159,16 +159,28 @@ export const SignUp = ({ setUsername, avatars, currentAvatarIndex }) => {
               </Grid>
             </Box>
           </Box>
-          <Box sx={{ mt: 5 }}>
+          {/* <Box sx={{ mt: 5 }}>
             <Typography variant="body2" color="text.secondary" align="center">
-              {"Copyright © "}
-              <Link color="inherit" href="https://mui.com/">
-                Your Website
+              {"CraftedBy: "}
+              <Link color="inherit" href="https://github.com/cCody34">
+                Charlotte Cody 
+              </Link>
+              <Link color="inherit" href="https://github.com/chris-butterworth">
+                Chris Butterwoth 
+              </Link>
+              <Link color="inherit" href="https://github.com/Lex5mith">
+                Lex Smith 
+              </Link>
+              <Link color="inherit" href="https://github.com/PGallagher93">
+                Phil Gallagher
+              </Link>
+              <Link color="inherit" href="https://github.com/TypeError92">
+                Simon Walgenbach
               </Link>{" "}
               {new Date().getFullYear()}
               {"."}
             </Typography>
-          </Box>
+          </Box> */}
         </Container>
       </ThemeProvider>
     </Paper>

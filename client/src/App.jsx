@@ -14,6 +14,7 @@ import SingleTutorial from "./pages/SingleTutorial.jsx";
 import MultiTutorial from "./pages/MultiTutorial.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
+import { Footer } from "./components/Footer.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -89,6 +90,7 @@ function App() {
               }
             />
           </Routes>
+          <Footer/>
         </Paper>
       </ThemeProvider>
     </>
