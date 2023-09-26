@@ -12,7 +12,7 @@ const resetReadyStateAndCurrentWord = (roomId) => {
 };
 
 const createNewRoom = (socket, callback) => {
-  const roomId = `${uuidv4().slice(0, 7)}`;
+  const roomId = `${uuidv4().slice(0, 5)}`;
 
   roomsMap.set(roomId, {
     roomId,

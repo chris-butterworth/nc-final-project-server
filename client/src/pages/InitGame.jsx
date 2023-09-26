@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -20,19 +20,22 @@ import { auth } from "../../firebase";
 const InitGame = ({ room, setRoom, setPlayers }) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
   const [joinRoomError, setJoinRoomError] = useState("");
-  const { room_id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const roomParam = searchParams.get("room");
 
   // useEffect(() => {
   //   socket.emit("avatar", auth.currentUser.photoURL)
   // }, []);
 
   useEffect(() => {
-    if (room_id) {
-      socket.emit("joinMultiPlayerRoom", room_id, (response) => {
+    if (roomParam) {
+      socket.emit("joinMultiPlayerRoom", roomParam, (response) => {
         console.log(response);
         if (response.error) return setJoinRoomError(response.message);
         setRoomAndPlayers(response.roomId, response.players);
       });
+      searchParams.delete("room");
+      setSearchParams(searchParams);
     }
   }, []);
 
