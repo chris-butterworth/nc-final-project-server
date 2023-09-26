@@ -22,12 +22,6 @@ function App() {
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([]);
 
-  // useEffect(() => {
-  //   console.log("change of user");
-  //   socket.emit("username", username);
-  //   setUsername(username);
-  // }, [username]);
-
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -42,7 +36,7 @@ function App() {
     return () => {
       listen();
     };
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     socket.on("updatePlayers", (players) => {

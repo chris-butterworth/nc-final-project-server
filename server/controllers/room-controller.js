@@ -53,7 +53,6 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
   roomsMap.set(roomId, roomUpdate);
   socket.join(roomId);
   socket.data.roomId = roomId;
-  socket.to(roomId).emit("updatePlayers", roomUpdate.players);
   callback(roomUpdate);
 };
 
