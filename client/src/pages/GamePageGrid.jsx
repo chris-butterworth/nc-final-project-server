@@ -108,8 +108,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       setHints([]);
     });
   }, []);
-  console.log(category);
-
   useEffect(() => {
     socket.on("endGame", (scores) => {
       timerFunction(0);
