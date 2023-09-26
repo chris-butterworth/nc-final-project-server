@@ -5,6 +5,7 @@ import {
   adjectives,
   colors,
   animals,
+  starWars,
 } from "unique-names-generator";
 import {
   Button,
@@ -88,8 +89,10 @@ const Login = ({ setUsername }) => {
         onClick={() => {
           setUsernameInput(
             uniqueNamesGenerator({
-              dictionaries: [adjectives, animals, colors],
-              length: 2,
+              // dictionaries: [adjectives, animals, colors],
+              // length: 2,
+              dictionaries: [starWars],
+              length: 1,
             })
           );
         }}
