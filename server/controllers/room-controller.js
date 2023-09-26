@@ -46,6 +46,7 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
         ...templatePlayerObject,
         id: socket.id,
         username: socket.data?.username,
+        avatar: socket.data?.avatar
       },
     ],
   };
