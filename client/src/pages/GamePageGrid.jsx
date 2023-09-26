@@ -1,7 +1,15 @@
 import { useContext } from "react";
 import { ModeContext } from "../context/Mode";
 import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, Typography, Button, Container } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  Button,
+  Container,
+  IconButton,
+} from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
@@ -11,9 +19,12 @@ import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
+import { FastForward, Close } from "@mui/icons-material";
+import PlayerControls from "../components/PlayerControls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
+  // color: mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   margin: theme.spacing(1),
@@ -27,12 +38,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const { mode } = useContext(ModeContext);
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
-
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
-
   const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
-
   const [betweenWords, setBetweenWords] = useState(false);
   const [betweenRounds, setBetweenRounds] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -42,7 +50,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [hint, setHint] = useState("");
   const [hintCount, setHintCount] = useState(0);
   const [skippedOrCorrect, setSkippedOrCorrect] = useState(false);
-
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
@@ -266,13 +273,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               minHeight: "8em", // maxHeight: "auto",
               margin: "2em",
               display: "flex" | "inline-flex",
-
               justifyContent: "center",
               paddingTop: "2.25em",
               cursor: "pointer",
             }}
           >
-            <Container sx={{ display: "flex" }}>
+            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
                 variant="h7"
                 sx={{
@@ -292,7 +298,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 }}
               />
             </Container>
-            <Container sx={{ display: "flex", flexDirection: "flexstart"}}>
+            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
                 variant="h7"
                 sx={{
@@ -407,8 +413,17 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           </Grid>
         </Grid>
         <Grid container spacing={2}>
-          <Grid item xs={9}></Grid>
-          <Grid item sx={{}} xs={3}>
+          <Grid item xs={3}order={{ xs: 3, md: 1 }}></Grid>
+          <Grid item xs={6} order={{ xs: 1, md: 2 }}>
+            <PlayerControls
+              handleQuitButtonClick={handleQuitButtonClick}
+              handleSkipButtonClick={handleSkipButtonClick}
+              skippedOrCorrect={skippedOrCorrect}
+              anagramWords={anagramWords}
+              mode={mode}
+            />
+          </Grid>
+          <Grid item order={{ xs: 2, md: 2 }} xs={3}>
             <Paper
               sx={{
                 display: "flex",
@@ -425,44 +440,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             </Paper>
           </Grid>
         </Grid>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="span">Player Controls</Typography>
-          <Button onClick={handleQuitButtonClick}>Quit</Button>
-          <Button
-            onClick={handleSkipButtonClick}
-            disabled={skippedOrCorrect || anagramWords.length === 0}
-          >
-            Skip
-          </Button>
-        </Paper>
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-          }}
-        ></Paper>
       </Box>
     </Paper>
   );
