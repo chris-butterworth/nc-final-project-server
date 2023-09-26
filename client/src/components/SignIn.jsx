@@ -9,8 +9,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
 
 export const SignIn = ({ email, password, setEmail, setPassword, signIn }) => {
   const { mode, setMode } = useContext(ModeContext);

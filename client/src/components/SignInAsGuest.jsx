@@ -1,5 +1,5 @@
 import { ModeContext } from "../context/Mode";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -11,13 +11,10 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import AvatarGallery from "../components/AvatarGallery";
 import { uniqueNamesGenerator, starWars } from "unique-names-generator";
 import socket from "../socket";
 import toast, { Toaster } from "react-hot-toast";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 
 export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
   const { mode, setMode } = useContext(ModeContext);
@@ -41,48 +38,37 @@ export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
   };
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
-        flexDirection: "column",
-        paddingTop: "2em",
-        paddingBottom: "2em",
-      }}
-    >
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          Set a username (play as guest)
+        </Typography>
+        <FormControl sx={{ width: "20vw", mt: 2 }}>
+          <InputLabel htmlFor="username">Username</InputLabel>
+          <Input
+            id="username"
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+          />
+        </FormControl>
+        <Button variant="contained" sx={{ mt: 3 }} onClick={handleSubmit}>
+          Submit username
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ mt: 2 }}
+          onClick={handleGenerateRandomUsername}
         >
-          <Typography component="h1" variant="h5">
-            Set a username (play as guest)
-          </Typography>
-          <FormControl sx={{ width: "20vw", mt: 2 }}>
-            <InputLabel htmlFor="username">Username</InputLabel>
-            <Input
-              id="username"
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
-            />
-          </FormControl>
-          <Button variant="contained" sx={{ mt: 3 }} onClick={handleSubmit}>
-            Submit username
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ mt: 2 }}
-            onClick={handleGenerateRandomUsername}
-          >
-            Generate a random username
-          </Button>
-          <Toaster />
-        </Box>
-      </Container>
-    </Paper>
+          Generate a random username
+        </Button>
+        <Toaster />
+      </Box>
+    </Container>
   );
 };
