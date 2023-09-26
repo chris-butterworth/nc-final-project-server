@@ -6,11 +6,11 @@ import { Paper } from "@mui/material";
 import NavBar from "./components/NavBar";
 import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
+import { TheBuild } from "./pages/TheBuild.jsx";
 import "./App.css";
 import socket from "./socket.js";
 import matrix from "./assets/matrix.gif";
 import light from "./assets/light.avif";
-import SingleTutorial from "./pages/SingleTutorial.jsx";
 import MultiTutorial from "./pages/MultiTutorial.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
@@ -68,8 +68,8 @@ function App() {
           />
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
-            <Route path="/tutorial/single" element={<SingleTutorial />} />
-            <Route path="/tutorial/multi" element={<MultiTutorial />} />
+            {/* <Route path="/tutorial/single" element={<SingleTutorial />} /> */}
+            <Route path="/thebuild" element={<TheBuild/>} />
             <Route
               path="/"
               element={

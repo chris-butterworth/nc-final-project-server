@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 
 const Typewriter = ({ text, onComplete }) => {
@@ -6,7 +6,7 @@ const Typewriter = ({ text, onComplete }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const delay = 100; // Adjust the typing speed (milliseconds per character)
+    const delay = 150; //typing speed
 
     const typeText = async () => {
       for (let i = 0; i < text.length; i++) {
@@ -42,10 +42,9 @@ export const Tutorial = () => {
       const lineLength = linesOfText[currentLine].length;
       const timeout = setTimeout(() => {
         setCurrentLine((prevLine) => prevLine + 1);
-      }, lineLength * 100 + 1500); // Delay after each line
+      }, lineLength * 100 + 1500);
       return () => clearTimeout(timeout);
     } else {
-      // All lines have been typed, switch to static mode
       setIsTyping(false);
     }
   }, [currentLine]);
@@ -55,7 +54,7 @@ export const Tutorial = () => {
       setCompletedText(
         (prevText) => prevText + linesOfText[currentLine] + "\n"
       );
-      setCurrentLine((prevLine) => prevLine + 1); // Move to the next line
+      setCurrentLine((prevLine) => prevLine + 1);
     }
   };
 
