@@ -5,16 +5,16 @@ import socket from "../socket";
 const ChatInput = () => {
   const [chatBoxInput, setChatBoxInput] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (chatBoxInput) {
       socket.emit("gameChat", chatBoxInput);
       setChatBoxInput("");
     }
   };
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <FormControl sx={{ width: "80%" }}>
-        {/* <InputLabel htmlFor="username">Set a username</InputLabel> */}
         <TextField
           id="outlined-basic"
           label="Chat"
@@ -28,7 +28,7 @@ const ChatInput = () => {
           Submit
         </Button>
       </FormControl>
-    </div>
+    </form>
   );
 };
 

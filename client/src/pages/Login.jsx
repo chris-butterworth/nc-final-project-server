@@ -61,6 +61,7 @@ const Login = ({ setUsername }) => {
         currentAvatarIndex={currentAvatarIndex}
         setCurrentAvatarIndex={setCurrentAvatarIndex}
       />
+
       <FormControl sx={{ width: "80%" }}>
         <InputLabel htmlFor="username">Set a username (play as guest)</InputLabel>
         <Input
@@ -70,7 +71,7 @@ const Login = ({ setUsername }) => {
             setUsernameInput(e.target.value);
           }}
         ></Input>
-        <Button
+        <Button type="submit"
           onClick={(e) => {
             e.preventDefault();
             setUsername(usernameInput);
