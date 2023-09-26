@@ -21,19 +21,21 @@ function App() {
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([]);
 
-  useEffect(() => {
-    console.log("change of user");
-    socket.emit("assignUsername", username);
-  }, [username]);
+  // useEffect(() => {
+  //   console.log("change of user");
+  //   socket.emit("username", username);
+  //   setUsername(username);
+  // }, [username]);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(auth, "auth in auth");
-        console.log(user.displayName, "user in auth");
         setUsername(user.displayName);
+        socket.emit("avatar", user.photoURL);
+        socket.emit("username", user.displayName);
       } else {
         setUsername("");
+        socket.emit("leaveRoom");
       }
     });
     return () => {

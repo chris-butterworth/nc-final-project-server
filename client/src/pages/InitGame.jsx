@@ -23,14 +23,9 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const roomParam = searchParams.get("room");
 
-  // useEffect(() => {
-  //   socket.emit("avatar", auth.currentUser.photoURL)
-  // }, []);
-
   useEffect(() => {
     if (roomParam) {
       socket.emit("joinMultiPlayerRoom", roomParam, (response) => {
-        console.log(response);
         if (response.error) return setJoinRoomError(response.message);
         setRoomAndPlayers(response.roomId, response.players);
       });
@@ -41,7 +36,6 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 
   const handleJoinRoom = () => {
     socket.emit("joinMultiPlayerRoom", roomCodeInput, (response) => {
-      console.log(response);
       if (response.error) return setJoinRoomError(response.message);
       setRoomAndPlayers(response.roomId, response.players);
     });

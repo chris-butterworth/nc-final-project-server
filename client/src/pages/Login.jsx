@@ -17,29 +17,31 @@ import {
   Paper,
 } from "@mui/material";
 import AvatarGallery from "../components/AvatarGallery";
-import {signInWithEmailAndPassword} from "firebase/auth"
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import SignUp from "../components/SignUp";
-import toast, { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
   const [avatars, setAvatars] = useState([]);
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const signIn = (e) => {
-    console.log("in function")
-    e.preventDefault()
+    e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential)=>{
-           console.log(userCredential, "user cred")
-           socket.emit("avatar", avatars[currentAvatarIndex])
-         }).catch((err) => {
-            toast('invalid login')
-         })
-}
+      .then((userCredential) => {
+        setUsername(userCredential.user.displayName);
+        socket.emit("avatar", userCredential.user.photoURL);
+        socket.emit("username", userCredential.user.displayName);
+      })
+      .catch((err) => {
+        toast("invalid login");
+      });
+  };
+
   return (
     <Paper
       sx={{
@@ -63,7 +65,9 @@ const Login = ({ setUsername }) => {
       />
 
       <FormControl sx={{ width: "80%" }}>
-        <InputLabel htmlFor="username">Set a username (play as guest)</InputLabel>
+        <InputLabel htmlFor="username">
+          Set a username (play as guest)
+        </InputLabel>
         <Input
           id="username"
           value={usernameInput}
@@ -71,7 +75,8 @@ const Login = ({ setUsername }) => {
             setUsernameInput(e.target.value);
           }}
         ></Input>
-        <Button type="submit"
+        <Button
+          type="submit"
           onClick={(e) => {
             e.preventDefault();
             setUsername(usernameInput);
@@ -100,7 +105,7 @@ const Login = ({ setUsername }) => {
       >
         Generate a random username
       </Button>
-      <FormControl sx={{ width: "80%" }} onSubmit = {signIn}>
+      <FormControl sx={{ width: "80%" }} onSubmit={signIn}>
         <InputLabel htmlFor="username"> Login Email:</InputLabel>
         <Input
           id="username"
@@ -110,8 +115,8 @@ const Login = ({ setUsername }) => {
             setEmail(e.target.value);
           }}
         ></Input>
-        </FormControl>
-        <FormControl sx={{ width: "80%" }} onSubmit = {signIn}>
+      </FormControl>
+      <FormControl sx={{ width: "80%" }} onSubmit={signIn}>
         <InputLabel htmlFor="username"></InputLabel>
         <Input
           id="username"
@@ -121,15 +126,14 @@ const Login = ({ setUsername }) => {
             setPassword(e.target.value);
           }}
         ></Input>
-        
-        <Button
-         onClick={signIn}
-        >
-          Sign in
-        </Button>
-      </FormControl>
-      <SignUp setUsername={setUsername} avatars={avatars} currentAvatarIndex={currentAvatarIndex}/>
 
+        <Button onClick={signIn}>Sign in</Button>
+      </FormControl>
+      <SignUp
+        setUsername={setUsername}
+        avatars={avatars}
+        currentAvatarIndex={currentAvatarIndex}
+      />
     </Paper>
   );
 };
