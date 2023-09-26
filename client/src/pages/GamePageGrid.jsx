@@ -292,7 +292,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 }}
               />
             </Container>
-            <Container sx={{ display: "flex" }}>
+            <Container sx={{ display: "flex", flexDirection: "flexstart"}}>
               <Typography
                 variant="h7"
                 sx={{
