@@ -150,6 +150,8 @@ const handleWebChat = (socket, message) => {
 
 const handleLeaveRoom = (socket) => {
   const roomId = getRoomIdFromSocket(socket);
+  const disconnectMessage = `${socket.data.username} left the game`;
+  gameScrollEmit(roomId, disconnectMessage);
   socket.leave(roomId);
   socket.data.roomId = undefined;
   removePlayerFromRoom(roomId, socket.id);
