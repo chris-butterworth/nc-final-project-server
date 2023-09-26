@@ -1,37 +1,35 @@
+import makeAnagramButtons from "./makeAnagramButtons";
+
 const findQuestionIndices = (letter, anagramWords, disabledButtons) => {
-  console.log(letter, anagramWords, disabledButtons, "<<<<");
-  // Turn anagram words into nested letter array
-  const anagramLettersArray = anagramWords.map((word) => {
-    return word.toUpperCase().split("");
+  // Format anagramLetters to include their word and letter index
+  const anagramButtons = makeAnagramButtons(anagramWords);
+  // Get a list of potential question/anagram buttons, based on them having the correct letter
+  const potentialButtons = [];
+  anagramButtons.forEach((button) => {
+    if (button.letter === letter) {
+      potentialButtons.push(button);
+    }
   });
-  // Find the first word and letter index of the letter we're searching for
-  for (let i = 0; i < anagramLettersArray.length; i++) {
-    // Going through each word in the question
-    for (let j = 0; j < anagramLettersArray[i].length; j++) {
-      // Going through each letter in the question
-      if (anagramLettersArray[i][j] === letter) {
-        // Check if the question letter is the letter we're looking for
-        //  Check if the disabled buttons already includes a button with that letter
-        const disabledLetters = disabledButtons.map((button) => {
-          return button.letter;
-        });
-        if (disabledLetters.includes(letter)) {
-          for (let k = 0; k < disabledButtons.length; k++) {
-            //  Check if that disabled button is the correct letter, and has a different word and letter index
-            if (
-              (disabledButtons[k].wordIndex !== i ||
-                disabledButtons[k].letterIndex !== j) &&
-              disabledButtons[k].letter === letter
-            ) {
-              //  If it is, return the questionWordIndex and the letterWordIndex
-              return [i, j];
-            }
-          }
-        } else {
-          // If it doesn't, return [i,j]
-          return [i, j];
-        }
-      }
+  // Get a list of all the disabled buttons with that letter
+  const letterDisabledButtons = [];
+  disabledButtons.forEach((button) => {
+    if (button.letter === letter) {
+      letterDisabledButtons.push(button);
+    }
+  });
+  // Loop through all the potential buttons
+  for (let i = 0; i < potentialButtons.length; i++) {
+    // Filter the disabled buttons if they have the same word and letter index as the button we're looping through
+    const filterResult = letterDisabledButtons.filter((button) => {
+      return (
+        button.wordIndex === potentialButtons[i].wordIndex &&
+        button.letterIndex === potentialButtons[i].letterIndex
+      );
+    });
+    // If none of the disabled buttons have that word and letter index
+    if (filterResult.length === 0) {
+      // Then return this word and letter index, as we can disable this button
+      return [potentialButtons[i].wordIndex, potentialButtons[i].letterIndex];
     }
   }
 };
