@@ -382,6 +382,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                   category={category}
                   skippedOrCorrect={skippedOrCorrect}
                   setSkippedOrCorrect={setSkippedOrCorrect}
+                  hint={hint}
+                  setHint={setHint}
+                  hintCount={hintCount}
+                  setHintCount={setHintCount}
+                  hints={hints}
+                  setHints={setHints}
                 />
               )}
             </Item>
