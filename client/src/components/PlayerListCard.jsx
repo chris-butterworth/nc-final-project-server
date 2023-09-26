@@ -8,8 +8,18 @@ import { Typography, Avatar } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 
 export const PlayerListCard = ({ player, position }) => {
+
   return (
-    <Card sx={{ marginBottom: "0.5em" }}>
+    <Card
+      sx={{
+        marginBottom: "0.5em",
+        border: player.correct
+          ? "3px solid green"
+          : player.skipped
+          ? "3px solid red"
+          : "3px solid transparent",
+      }}
+    >
       <Grid sx={{ display: "flex" }}>
         <Grid item md={3} sx={{ margin: "auto" }}>
           {" "}
@@ -26,13 +36,16 @@ export const PlayerListCard = ({ player, position }) => {
               {position}. {player.username}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item sx={{ display: "flex" }}>
             {" "}
-            <Typography variant="body1">{player.totalScore}</Typography>
+            <Typography variant="body1" sx={{ paddingRight: "5em" }}>
+              {player.totalScore}
+            </Typography>
+            <Typography variant="body1">{player.correct && "✔"}</Typography>
+            <Typography variant="body1">{player.skipped && "✘"}</Typography>
           </Grid>
         </Grid>
       </Grid>
     </Card>
   );
-
 };

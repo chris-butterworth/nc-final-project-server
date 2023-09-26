@@ -5,6 +5,7 @@ import {
   adjectives,
   colors,
   animals,
+  starWars,
 } from "unique-names-generator";
 import {
   Button,
@@ -60,6 +61,7 @@ const Login = ({ setUsername }) => {
         currentAvatarIndex={currentAvatarIndex}
         setCurrentAvatarIndex={setCurrentAvatarIndex}
       />
+
       <FormControl sx={{ width: "80%" }}>
         <InputLabel htmlFor="username">Set a username (play as guest)</InputLabel>
         <Input
@@ -69,7 +71,7 @@ const Login = ({ setUsername }) => {
             setUsernameInput(e.target.value);
           }}
         ></Input>
-        <Button
+        <Button type="submit"
           onClick={(e) => {
             e.preventDefault();
             setUsername(usernameInput);
@@ -88,8 +90,10 @@ const Login = ({ setUsername }) => {
         onClick={() => {
           setUsernameInput(
             uniqueNamesGenerator({
-              dictionaries: [adjectives, animals, colors],
-              length: 2,
+              // dictionaries: [adjectives, animals, colors],
+              // length: 2,
+              dictionaries: [starWars],
+              length: 1,
             })
           );
         }}
