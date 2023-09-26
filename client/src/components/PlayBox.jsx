@@ -29,6 +29,7 @@ export const PlayBox = ({
     });
   };
 
+
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
     const updatedArray = [...formattedAnswerArray];
     for (let i = 0; i < updatedArray.length; i++) {
@@ -175,8 +176,6 @@ export const PlayBox = ({
                   key={`answer-letter-${letterIndex}`}
                   sx={{
                     border: "0.1em solid #B8ADA0",
-                    // marginTop: "0.5em",
-                    // marginBottom: "0.5em",
                     borderRadius: "0.5em",
                     
                   }}
@@ -202,7 +201,6 @@ export const PlayBox = ({
         className="question-container"
         sx={{
           marginTop:"1em",
-          // backgroundColor: "grey",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",

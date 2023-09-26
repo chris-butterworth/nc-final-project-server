@@ -24,7 +24,6 @@ import PlayerControls from "../components/PlayerControls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
-  // color: mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   margin: theme.spacing(1),
@@ -270,8 +269,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             elevation={3}
             sx={{
               minWidth: "25vw",
-              minHeight: "8em", // maxHeight: "auto",
-              margin: "2em",
+              minHeight: "8em", 
               display: "flex" | "inline-flex",
               justifyContent: "center",
               paddingTop: "2.25em",
@@ -351,12 +349,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           sx={{ maxHeight: "25px" }}
         />
       </CustomDialog>
-      {/* <CustomDialog
-        open={gameOver}
-        title={gameMessage}
-        contentText={fullScreenCustomDialog}
-        // secondaryText={gameScores}
-      /> */}
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>

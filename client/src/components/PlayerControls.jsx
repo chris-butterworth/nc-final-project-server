@@ -18,7 +18,7 @@ const PlayerControls = ({
   mode,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Stack in columns for screen width <= 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); 
 
   return (
     <Box
