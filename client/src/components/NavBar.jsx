@@ -13,6 +13,7 @@ import crayon from "../assets/crayon.png";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.js";
 import socket from "../socket.js";
+import { Link } from "react-router-dom";
 
 const NavBar = ({ username, setUsername, setRoom }) => {
   const { mode, setMode } = useContext(ModeContext);
@@ -38,16 +39,18 @@ const NavBar = ({ username, setUsername, setRoom }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Toolbar sx={{ flexGrow: 1, justifyContent: "right"}}>
+        <Link to="/" sx={{ alignContent: "left"}}>
+          <Typography variant="h6" component="div">
             Anagram Game
           </Typography>
+          </Link>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2, height: "40px" }}
+            sx={{ mr: 2, height: "40px", alignContent: "right"}}
             onClick={handleModeChange}
           >
             {mode.palette.mode === "dark" ? (

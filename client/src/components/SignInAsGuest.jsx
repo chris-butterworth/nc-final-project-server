@@ -1,5 +1,5 @@
 import { ModeContext } from "../context/Mode";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -11,13 +11,10 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import AvatarGallery from "../components/AvatarGallery";
 import { uniqueNamesGenerator, starWars } from "unique-names-generator";
 import socket from "../socket";
 import toast, { Toaster } from "react-hot-toast";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 
 export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
   const { mode, setMode } = useContext(ModeContext);
