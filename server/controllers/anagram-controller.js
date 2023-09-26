@@ -56,7 +56,7 @@ const increaseRoomCurrentWord = (roomId) => {
 const calculateScore = (time, hints) => {
   const timeUsed = anagramTime - time;
   const score = 1000 - timeUsed * (1000 / anagramTime) - hints * 100;
-  if (score > 0) {
+  if (score && score > 0) {
     return Math.floor(score);
   }
 };
