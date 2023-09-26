@@ -12,7 +12,7 @@ const resetReadyStateAndCurrentWord = (roomId) => {
 };
 
 const createNewRoom = (socket, callback) => {
-  const roomId = `${uuidv4().slice(0, 7)}`;
+  const roomId = `${uuidv4().slice(0, 5)}`;
 
   roomsMap.set(roomId, {
     roomId,
@@ -46,6 +46,7 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
         ...templatePlayerObject,
         id: socket.id,
         username: socket.data?.username,
+        avatar: socket.data?.avatar
       },
     ],
   };
@@ -58,8 +59,7 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
 
 const populateScoreboard = (roomId) => {
   const roomData = roomsMap.get(roomId);
-
-  roomData?.anagrams?.forEach((anagram) => {
+  roomData.anagrams.forEach((anagram) => {
     anagram.scores = roomData.players.map((user) => {
       return { username: user.username, score: 0, isSolved: false };
     });

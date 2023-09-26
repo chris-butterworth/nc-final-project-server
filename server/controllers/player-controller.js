@@ -16,7 +16,11 @@ const playerReady = (socket) => {
 
 const pushPlayerlistToClients = (roomId) => {
   const roomData = roomsMap.get(roomId);
+
   if (roomData) {
+    roomData.players.sort((a, b) => {
+      return b.totalScore - a.totalScore;
+    });
     io.ioObject.in(roomId).emit("updatePlayers", roomData.players);
   }
 };

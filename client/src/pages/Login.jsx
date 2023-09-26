@@ -19,6 +19,7 @@ import AvatarGallery from "../components/AvatarGallery";
 import {signInWithEmailAndPassword} from "firebase/auth"
 import { auth } from "../../firebase";
 import SignUp from "../components/SignUp";
+import toast, { Toaster } from 'react-hot-toast'
 
 const Login = ({ setUsername }) => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -35,7 +36,7 @@ const Login = ({ setUsername }) => {
            console.log(userCredential, "user cred")
            socket.emit("avatar", avatars[currentAvatarIndex])
          }).catch((err) => {
-            console.log(err)
+            toast('invalid login')
          })
 }
   return (
@@ -79,6 +80,7 @@ const Login = ({ setUsername }) => {
         >
           Submit username
         </Button>
+        <Toaster />
       </FormControl>
       <Button
         sx={{ marginBottom: "10px" }}
@@ -119,7 +121,7 @@ const Login = ({ setUsername }) => {
         <Button
          onClick={signIn}
         >
-          Submit username
+          Sign in
         </Button>
       </FormControl>
       <SignUp setUsername={setUsername} avatars={avatars} currentAvatarIndex={currentAvatarIndex}/>
