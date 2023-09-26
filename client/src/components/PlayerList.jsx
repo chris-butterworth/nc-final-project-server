@@ -8,14 +8,14 @@ import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
 import { Typography } from "@mui/material";
 import { PlayerListCard } from "./PlayerListCard";
+import { useEffect } from "react";
 
 export const PlayerList = ({ players }) => {
-
-  const sortedPlayers = (players) => {
+  useEffect(() => {
     players.sort((a, b) => {
       return b.score - a.score;
     });
-  };
+  }, [players]);
 
   return (
     <>

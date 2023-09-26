@@ -36,12 +36,13 @@ const {
   numOfWords,
 } = require("./utils");
 const { gameScrollEmit } = require("./controllers/im-controller");
+const { templateAnagrams } = require("./testData");
 
 const newSession = (socket, callback) => {
   const roomId = createNewRoom(socket, callback);
   socket.data.roomId = roomId;
   getAnagrams().then((anagrams) => {
-    setAnagrams(roomId, anagrams);
+    setAnagrams(roomId, anagrams ? anagrams : templateAnagrams);
   });
 };
 
@@ -55,7 +56,6 @@ const resetSession = (roomId) => {
 
 const handleJoinMultiPlayerRoom = (socket, roomId, callback) => {
   const roomData = roomsMap.get(roomId);
-  console.log(roomId, "<<<<< room id");
   if (!roomData) {
     callback({ error: true, message: "Room ID not found" });
     return;

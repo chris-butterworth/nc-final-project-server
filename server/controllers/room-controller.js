@@ -58,7 +58,6 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
 
 const populateScoreboard = (roomId) => {
   const roomData = roomsMap.get(roomId);
-
   roomData.anagrams.forEach((anagram) => {
     anagram.scores = roomData.players.map((user) => {
       return { username: user.username, score: 0, isSolved: false };
@@ -81,3 +80,4 @@ module.exports = {
   populateScoreboard,
   deleteEmptyRoom,
 };
+
