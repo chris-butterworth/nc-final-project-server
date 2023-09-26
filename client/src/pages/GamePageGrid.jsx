@@ -38,6 +38,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [formattedAnswerArray, setFormattedAnswerArray] = useState([]);
   const [hint, setHint] = useState("");
   const [hintCount, setHintCount] = useState(0);
+  const [skippedOrCorrect, setSkippedOrCorrect] = useState(false);
 
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
@@ -87,6 +88,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
   useEffect(() => {
     socket.on("anagram", (time, anagram, answer, round, category) => {
+      setSkippedOrCorrect(false);
       setRoundNumber(round.round);
       setAnagramNumber(round.anagram);
       setBetweenRounds(false);
@@ -142,9 +144,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, [disabledButtons]);
 
   useEffect(() => {
-    socket.on("correctAttempt", (score) => {});
-    setScore(score);
+    socket.on("correctAttempt", (score) => {
+      setSkippedOrCorrect(true);
+      setScore(score);
+    });
   }, []);
+
   useEffect(() => {
     socket.on("incorrectAttempt", () => {
       setDisabledButtons([]);
@@ -219,7 +224,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   const handleSkipButtonClick = () => {
-    socket.emit("playerSkip");
+    if (!skippedOrCorrect) {
+      setSkippedOrCorrect(true);
+      socket.emit("playerSkip");
+    }
   };
 
   const createRoomURL = () => {
@@ -369,6 +377,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                   roundNumber={roundNumber}
                   anagramNumber={anagramNumber}
                   category={category}
+                  skippedOrCorrect={skippedOrCorrect}
+                  setSkippedOrCorrect={setSkippedOrCorrect}
                 />
               )}
             </Item>
@@ -407,7 +417,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         >
           <Typography variant="span">Player Controls</Typography>
           <Button onClick={handleQuitButtonClick}>Quit</Button>
-          <Button onClick={handleSkipButtonClick}>Skip</Button>
+          <Button
+            onClick={handleSkipButtonClick}
+            disabled={skippedOrCorrect || anagramWords.length === 0}
+          >
+            Skip
+          </Button>
         </Paper>
         <Paper
           elevation={3}

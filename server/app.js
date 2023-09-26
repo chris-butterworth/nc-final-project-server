@@ -99,9 +99,8 @@ const handleStartGame = async (roomId) => {
 
 const nextWord = async (roomId) => {
   const roomData = roomsMap.get(roomId);
-  if (!roomData) {
-    return;
-  }
+  if (!roomData) return;
+
   if (roomData.currentWord < 2 && (roomData.currentWord + 1) % 3 === 0) {
     betweenRoundStageEmit(roomId);
     await startTimer(timeBetweenRounds, roomId);

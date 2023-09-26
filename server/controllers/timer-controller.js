@@ -16,6 +16,7 @@ const killTimer = (roomId) => {
 
 const secondEvent = (roomId, resolve) => {
   const roomData = roomsMap.get(roomId);
+  if (!roomData) return;
   roomData.timer = --roomData.timer;
   if (roomData.timer <= 0) {
     clearInterval(roomData.timerInterval);
@@ -28,4 +29,3 @@ module.exports = {
   startTimer,
   killTimer,
 };
-
