@@ -10,11 +10,11 @@ import { ModeContext } from "../context/Mode.jsx";
 import { lightTheme, darkTheme } from "../themes";
 import pills from "../assets/red-pill-blue-pill.jpg";
 import crayon from "../assets/crayon.png";
-import{signOut} from 'firebase/auth'
+import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.js";
+import socket from "../socket.js";
 
-
-const NavBar = ({username, setUsername, setRoom}) => {
+const NavBar = ({ username, setUsername, setRoom }) => {
   const { mode, setMode } = useContext(ModeContext);
 
   const handleModeChange = () => {
@@ -24,14 +24,17 @@ const NavBar = ({username, setUsername, setRoom}) => {
       setMode(lightTheme);
     }
   };
-  const userSignOut =  () => {
-    signOut(auth).then(() => {
-        setUsername("")
-        setRoom("")
-        console.log("signed Out")
-        
-    }).catch(error => console.log(error))
-  }
+
+  const userSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUsername("");
+        setRoom("");
+        socket.emit("leaveRoom");
+      })
+      .catch((error) => console.log(error));
+  };
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -57,7 +60,9 @@ const NavBar = ({username, setUsername, setRoom}) => {
               ></Box>
             )}
           </IconButton>
-          <Button color="inherit" onClick={userSignOut}>{username ? <>Sign Out</> : <>Sign in</>}</Button>
+          <Button color="inherit" onClick={userSignOut}>
+            {username ? <>Sign Out</> : <>Sign in</>}
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

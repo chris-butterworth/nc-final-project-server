@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require("uuid");
 const roomsMap = require("../roomsDatabase");
 const { templateAnagrams, templatePlayerObject } = require("../testData");
+const { pushPlayerlistToClients } = require("./player-controller");
 
 const resetReadyStateAndCurrentWord = (roomId) => {
   const roomData = roomsMap.get(roomId);
@@ -51,9 +52,9 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
     ],
   };
   roomsMap.set(roomId, roomUpdate);
+  pushPlayerlistToClients(roomId)
   socket.join(roomId);
   socket.data.roomId = roomId;
-  socket.to(roomId).emit("updatePlayers", roomUpdate.players);
   callback(roomUpdate);
 };
 

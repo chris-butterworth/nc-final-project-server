@@ -34,7 +34,7 @@ const Login = ({ setUsername }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUsername(userCredential.user.displayName);
-        socket.emit("avatar", userCredential.user.photoURL);
+        socket.emit("avatar", userCredential.user.photoURL);  
         socket.emit("username", userCredential.user.displayName);
       })
       .catch((err) => {
