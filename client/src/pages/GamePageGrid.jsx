@@ -223,7 +223,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   const createRoomURL = () => {
-    return `${window.location.origin}/room/${room}`;
+    return `${window.location.origin}?room=${room}`;
   };
 
   return (

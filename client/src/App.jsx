@@ -86,19 +86,6 @@ function App() {
                 />
               }
             />
-            <Route
-              path="/room/:room_id"
-              element={
-                <AppContainer
-                  room={room}
-                  setRoom={setRoom}
-                  username={username}
-                  setUsername={setUsername}
-                  players={players}
-                  setPlayers={setPlayers}
-                />
-              }
-            />
           </Routes>
         </Paper>
       </ThemeProvider>
