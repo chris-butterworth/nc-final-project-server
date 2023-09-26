@@ -1,6 +1,9 @@
 import { Box, Typography, Link } from "@mui/material";
+import { ModeContext } from "../context/Mode";
+import { useContext } from "react";
 
 export const Footer = () => {
+    const { mode, setMode } = useContext(ModeContext);
   return (
     <Box sx={{ mt: 5, paddingBottom: "3em" }}>
       <Typography variant="body2" color="text.secondary" align="center">
