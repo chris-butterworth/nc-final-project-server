@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth"
 import { auth } from '../../firebase'
+import toast, { Toaster } from 'react-hot-toast'
 import {
     Button,
     FormControl,
@@ -18,7 +19,7 @@ const SignUp = ({setUsername, avatars, currentAvatarIndex}) => {
     const signUp = (e) => {
         e.preventDefault()
         if(!newUsername){
-            console.log("name required")
+            toast('Please enter a username')
             return
         }
         
@@ -33,10 +34,19 @@ const SignUp = ({setUsername, avatars, currentAvatarIndex}) => {
                   }).then(()=>{
                     setUsername(auth.currentUser.displayName)
                   }).catch((error) => {
-                    console.log(error)
+                    
                   })
              }).catch((err) => {
-                console.log(err)
+              console.log(err.code)
+                 if (err.code === "auth/weak-password"){
+                  toast('Password must be over six characters')
+                 }
+                 else if(err.code === "auth/email-already-in-use"){
+                  toast('Email already in use')
+                }
+                  else if(err.code === "auth/invalid-email"){
+                    toast('Please enter a valid email')
+                  }
              })
 
 
@@ -87,7 +97,7 @@ const SignUp = ({setUsername, avatars, currentAvatarIndex}) => {
         <Button
           onClick={signUp}
         >
-          Submit username
+          sign up
         </Button>
       </FormControl>
     </Paper>)
