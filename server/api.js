@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { templateAnagrams } = require("./testData");
 
 const myApi = axios.create({
   baseURL: "https://sphinx-api-gjqf.onrender.com/api",
@@ -13,5 +14,3 @@ const getNineAnagrams = () => {
 };
 
 module.exports = { getNineAnagrams };
-
-

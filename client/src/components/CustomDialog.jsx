@@ -45,7 +45,6 @@ const CustomDialog = ({
         {/* Dialog action buttons */}
         {/* Force users to make input without option to cancel */}
         {/* <Button onClick={handleClose}>Cancel</Button> */}
-        <Button onClick={handleContinue}>Continue</Button>
       </DialogActions>
     </Dialog>
   );

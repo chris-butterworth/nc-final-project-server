@@ -2,17 +2,18 @@ const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
 
-const {
-  createNewRoom,
-  joinMultiPlayerRoom,
-} = require("./controllers/menu-controller.js");
+const { joinMultiPlayerRoom } = require("./controllers/room-controller.js");
 
 const {
-  playerReady,
-  testAttempt,
-} = require("./controllers/game-controller.js");
-
-const { start } = require("repl");
+  newSession,
+  handleTestAttempt,
+  handlePlayerReady,
+  handleWebChat,
+  handleLeaveRoom,
+  handleSkip,
+  handleDisconnect,
+  handleJoinMultiPlayerRoom,
+} = require("./app.js");
 
 const app = express();
 
@@ -25,33 +26,57 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  socket.on("assignUsername", (username) => {
+    console.log(username, "username on server");
+    socket.data.username = username;
+    // resetRoom()
+  });
   socket.on("username", (username) => {
-    console.log(socket.id, "=", username); // Don't delete
+    console.log("socket", socket.id, "=", username); // Don't delete
     socket.data.username = username;
   });
 
+  socket.on("avatar", (avatar) => {
+    console.log("socket", socket.id, "=", socket.data.username, "=", avatar);
+    socket.data.avatar = avatar;
+  });
+
   socket.on("createSinglePlayerRoom", async (callback) => {
-    createNewRoom(socket, callback);
+    newSession(socket, callback);
   });
 
   socket.on("createMultiPlayerRoom", async (callback) => {
-    createNewRoom(socket, callback);
+    newSession(socket, callback);
   });
 
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
-    joinMultiPlayerRoom(socket, roomId, callback);
-  });
-  
-  socket.on("allReady", () => {
-    io.in(getRoomIdFromSocket(socket)).emit("startTimer");
+    handleJoinMultiPlayerRoom(socket, roomId, callback);
   });
 
   socket.on("playerReady", () => {
-    playerReady(socket);
+    socket.emit("newGame");
+    handlePlayerReady(socket);
   });
 
-  socket.on("anagramAttempt", (attempt) => {
-    testAttempt(socket, attempt);
+  socket.on("anagramAttempt", (attempt, time, hintCount) => {
+    handleTestAttempt(socket, attempt, time, hintCount);
+  });
+
+  socket.on("gameChat", (message) => {
+    handleWebChat(socket, message);
+  });
+
+  socket.on("leaveRoom", () => {
+    handleLeaveRoom(socket);
+  });
+
+  socket.on("playerSkip", () => {
+    handleSkip(socket);
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log(socket.id, "disconnected due to:", reason);
+    handleDisconnect(socket);
   });
 });
 

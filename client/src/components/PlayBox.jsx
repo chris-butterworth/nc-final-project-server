@@ -1,5 +1,6 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
+import { ModeContext } from "../context/Mode";
+import { useState, useEffect, useContext } from "react";
 import findHintIndices from "../utils/findHintIndices";
 import findReenableButton from "../utils/findReenableButton";
 export const PlayBox = ({
@@ -12,35 +13,16 @@ export const PlayBox = ({
   setDisabledButtons,
   roundNumber,
   anagramNumber,
+  category,
+  skippedOrCorrect,
+  setSkippedOrCorrect,
   hint,
   hintCount,
   setHintCount,
   hints,
   setHints,
 }) => {
-  // const [anagramWords, setAnagramwords] = useState([]);
-  // const [disabledButtons, setDisabledButtons] = useState([]);
-
-  // this will be our call to the api to get the anagram and answer
-  // const fetchData = async () => {
-  // Example data
-  // const anagramData = {
-  //   anagramWords: ["Flip", "Into", "Cup"],
-  //   anagramAnswer: "Pulp Fiction",
-  // };
-
-  //   setAnagramWords(anagramData.anagramWords);
-  //   setFormattedAnswerArray(
-  //     anagramData.anagramAnswer
-  //       .split(" ")
-  //       .map((word) => Array.from({ length: word.length }, () => ""))
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   // Fetch data when the component mounts
-  //   fetchData();
-  // }, []);
+  const { mode, setMode } = useContext(ModeContext);
 
   const handleClearButtonClick = () => {
     // Hint buttons stay disabled after clear
@@ -67,24 +49,16 @@ export const PlayBox = ({
       });
       return hintsOnly;
     });
-    // Fetch the data again to reset the game
-    // fetchData();
   };
 
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
-    // Create a copy of the formattedAnswerArray
+    
     const updatedArray = [...formattedAnswerArray];
-
-    // Iterate through the words and letters in the answer array
     for (let i = 0; i < updatedArray.length; i++) {
       for (let j = 0; j < updatedArray[i].length; j++) {
-        // Check if the current cell in the answer array is empty
         if (updatedArray[i][j] === "") {
-          // Place the clicked letter in the empty cell
           updatedArray[i][j] = questionLetter;
           setFormattedAnswerArray(updatedArray);
-
-          // Disable the button by updating the disabledButtons state
           const newDisabledButtons = [...disabledButtons];
           newDisabledButtons.push({
             wordIndex,
@@ -193,15 +167,17 @@ export const PlayBox = ({
                 : ""
             }`}
             sx={{
-              ...(letterIndex % 3 === 0 && {
-                backgroundColor: "#fdde99",
-              }),
-              ...(letterIndex % 3 === 1 && {
-                backgroundColor: "#ebddeb",
-              }),
-              ...(letterIndex % 3 === 2 && {
-                backgroundColor: "#cdf0a9",
-              }),
+              // ...(letterIndex % 3 === 0 && {
+              //   backgroundColor: "#fdde99",
+              // }),
+              // ...(letterIndex % 3 === 1 && {
+              //   backgroundColor: "#ebddeb",
+              // }),
+              // ...(letterIndex % 3 === 2 && {
+              //   backgroundColor: "#cdf0a9",
+              // }),
+              backgroundColor:
+                mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
               padding: "0",
               minWidth: "40px",
             }}
@@ -211,7 +187,7 @@ export const PlayBox = ({
             disabled={disabledButtons.some(
               (btn) =>
                 btn.wordIndex === wordIndex && btn.letterIndex === letterIndex
-            )}
+            ) || skippedOrCorrect}
           >
             {questionLetter}
           </Button>
@@ -222,10 +198,24 @@ export const PlayBox = ({
 
   return (
     <>
-      <Button onClick={handleClearButtonClick}> Clear</Button>
-      <Button onClick={handleHintButtonClick}> Hint</Button>
+      <Button
+        onClick={handleClearButtonClick}
+        disabled={
+          skippedOrCorrect ||
+          anagramWords.length === 0 ||
+          disabledButtons.length === 0
+        }
+      >
+        Clear
+      </Button>
+      <Button
+        onClick={handleHintButtonClick}
+        disabled={skippedOrCorrect || anagramWords.length === 0}
+      >
+        Hint
+      </Button>
       <Typography>
-        Round: {roundNumber}. Word: {anagramNumber}
+        Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
       </Typography>
       <Paper
         className="solution-container"

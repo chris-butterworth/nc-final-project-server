@@ -1,70 +1,71 @@
 const roomsMap = require("../roomsDatabase");
-const { startGame } = require("../controllers/timer-controller");
-const { getRoomIdFromSocket, updateRoomsMap } = require("../utils/gameUtils");
-const { betweenWordTimer } = require("./timer-controller");
 const io = require("../server.js");
+const {
+  timeBetweenRounds,
+  timeBetweenWords,
+  anagramTime,
+} = require("../utils");
 
-const playerReady = (socket) => {
-  const roomId = getRoomIdFromSocket(socket);
-  const room = roomsMap.get(roomId);
-
-  room.players.forEach((player) => {
-    if (player.id === socket.id) {
-      player.readyToStartRound = true;
-    }
-  });
-
+const startGameEmit = (roomId) => {
+  io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
   io.ioObject
-    .in(getRoomIdFromSocket(socket))
-    .emit("updatePlayers", room.players);
+    .in(roomId)
+    .emit("fullScreenCustomDialog", "Game starting. First word coming up...");
+};
 
-  let playerReadyStatus = [];
-  room.players.forEach((player) => {
-    playerReadyStatus.push(player.readyToStartRound);
+const endGameEmit = (roomId) => {
+    const roomData = roomsMap.get(roomId);
+    io.ioObject.in(roomId).emit("endGame", roomData.anagrams);
+}
+
+const anagramStageEmit = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  io.ioObject
+    .in(roomId)
+    .emit(
+      "anagram",
+      anagramTime,
+      roomData.anagrams[roomData.currentWord].question,
+      roomData.anagrams[roomData.currentWord].answer,
+      roomData.round, 
+      roomData.anagrams[roomData.currentWord].category,
+    );
+};
+
+const betweenWordStageEmit = (roomId, message = "Next word coming up...") => {
+  const roomData = roomsMap.get(roomId);
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
+
+  io.ioObject.in(roomId).emit("betweenWordsCountdown", timeBetweenWords);
+  io.ioObject
+    .in(roomId)
+    .emit("fullScreenCustomDialog", message, `Last Answer: ${lastWordAnswer}`);
+};
+
+const betweenRoundStageEmit = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer;
+
+  const lastRoundAnswers = roomData.anagrams.filter((anagram, index) => {
+    if (index <= roomData.currentWord && index > roomData.currentWord - 3)
+      return anagram;
   });
 
-  if (playerReadyStatus.every((item) => item)) startGame(roomId);
-};
-
-const testAttempt = (socket, attempt) => {
-  const roomId = getRoomIdFromSocket(socket);
-  const roomData = roomsMap.get(roomId);
-  const attemptString = attempt
-    .map((word) => {
-      return word.join("");
-    })
-    .join(" ");
-
-  if (
-    attemptString.toLowerCase() ===
-    roomData.anagrams[roomData.currentWord - 1].answer.toLowerCase()
-  ) {
-    roomData.anagrams[roomData.currentWord - 1].scores.push(
-      socket.data.username
+  io.ioObject.in(roomId).emit("betweenRoundsCountdown", timeBetweenRounds);
+  io.ioObject
+    .in(roomId)
+    .emit(
+      "fullScreenCustomDialog",
+      "Take a little break, here are the scores from the last 3 words",
+      `Last Answer: ${lastWordAnswer}`,
+      lastRoundAnswers
     );
-    updateRoomsMap(roomData);
-    socket.emit("correctAttempt");
-    io.ioObject
-      .in(roomId)
-      .emit("gameScroll", `${socket.data.username} guessed correctly`);
-  } else {
-    console.log("HERE");
-    socket.emit("incorrectAttempt");
-    io.ioObject
-      .in(roomId)
-      .emit("gameScroll", `${socket.data.username} guessed incorrectly`);
-  }
-  testAllPlayersGuessedCorrectly(socket);
 };
 
-const testAllPlayersGuessedCorrectly = (socket) => {
-  const roomId = getRoomIdFromSocket(socket);
-  const roomData = roomsMap.get(roomId);
-  if (
-    roomData.anagrams[roomData.currentWord - 1].scores.length ===
-    roomData.players.length
-  ) {
-    betweenWordTimer(roomId, "All players guessed correctly");
-  }
+module.exports = {
+  startGameEmit,
+  endGameEmit,
+  anagramStageEmit,
+  betweenWordStageEmit,
+  betweenRoundStageEmit,
 };
-module.exports = { playerReady, testAttempt, testAllPlayersGuessedCorrectly };
