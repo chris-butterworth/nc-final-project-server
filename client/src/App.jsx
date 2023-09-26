@@ -21,8 +21,6 @@ function App() {
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([]);
 
-  console.log(players, "<<<<<<< players");
-
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -37,7 +35,7 @@ function App() {
     return () => {
       listen();
     };
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     socket.on("updatePlayers", (players) => {

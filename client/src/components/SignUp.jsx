@@ -11,6 +11,8 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import socket from "../socket";
+
 const SignUp = ({ setUsername, avatars, currentAvatarIndex }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,19 +24,15 @@ const SignUp = ({ setUsername, avatars, currentAvatarIndex }) => {
       toast("Please enter a username");
       return;
     }
-
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         updateProfile(auth.currentUser, {
           displayName: newUsername,
           photoURL: avatars[currentAvatarIndex],
-        })
-          .then(() => {
-            setUsername(auth.currentUser.displayName);
-            socket.emit("avatar", auth.currentUser.photoURL);
-            socket.emit("username", auth.currentUser.displayName);
-          })
-          .catch((error) => {});
+        });
+        setUsername(newUsername);
+        socket.emit("avatar", avatars[currentAvatarIndex]);
+        socket.emit("username", newUsername);
       })
       .catch((err) => {
         console.log(err.code);
@@ -47,6 +45,7 @@ const SignUp = ({ setUsername, avatars, currentAvatarIndex }) => {
         }
       });
   };
+
   return (
     <Paper
       sx={{
