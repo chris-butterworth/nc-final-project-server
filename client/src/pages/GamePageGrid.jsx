@@ -269,16 +269,15 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             elevation={3}
             sx={{
               minWidth: "25vw",
-              minHeight: "8em", 
-              display: "flex" | "inline-flex",
-              justifyContent: "center",
-              paddingTop: "2.25em",
-              cursor: "pointer",
+              minHeight: "8em",
+              margin: "2em",
+              padding: "1em",
+              textAlign: "center",
             }}
           >
             <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
-                variant="h7"
+                variant="h5"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -290,7 +289,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 Game Room ID: {room}
               </Typography>
               <ContentCopyIcon
-                fontSize="small"
+                fontSize="medium"
                 onClick={() => {
                   navigator.clipboard.writeText(room);
                 }}
@@ -298,7 +297,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             </Container>
             <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
-                variant="h7"
+                variant="h5"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -310,7 +309,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 {createRoomURL()}
               </Typography>
               <ContentCopyIcon
-                fontSize="small"
+                fontSize="medium"
                 onClick={() => {
                   navigator.clipboard.writeText(createRoomURL());
                 }}
