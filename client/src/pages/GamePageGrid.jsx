@@ -93,7 +93,7 @@ const GamePageGrid = ({ players, room }) => {
           .split(" ")
           .map((word) => Array.from({ length: word.length }, () => ""))
       );
-      setHint(answer);
+      setHint(answer.toUpperCase());
       timerFunction(time);
       setHintCount(0);
       setHints([]);

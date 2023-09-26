@@ -135,8 +135,7 @@ export const PlayBox = ({
         //remove the reenable button from the disabled buttons array
         const buttonToReenableIndex = findReenableButton(
           reenableLetter,
-          disabledButtons,
-          anagramWords
+          disabledButtons
         );
         setDisabledButtons((currentlyDisabled) => {
           const remainingDisabledButtons = [];
@@ -183,7 +182,7 @@ export const PlayBox = ({
         display: "flex",
       }}
     >
-      {Array.from(word).map((questionLetter, letterIndex) => (
+      {Array.from(word.toUpperCase()).map((questionLetter, letterIndex) => (
         <Box key={`letter-${letterIndex}`}>
           <Button
             className={`button anagram-button ${
