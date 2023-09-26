@@ -18,6 +18,7 @@ const {
   playerReady,
   pushPlayerlistToClients,
   removePlayerFromRoom,
+  resetCorrectAndSkipped,
 } = require("./controllers/player-controller");
 const {
   createNewRoom,
@@ -92,6 +93,8 @@ const testEveryPlayerReady = (roomId) => {
 const handleStartGame = async (roomId) => {
   startGameEmit(roomId);
   await startTimer(timeBetweenWords, roomId);
+  resetCorrectAndSkipped(roomId);
+  pushPlayerlistToClients(roomId);
   anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
   nextWord(roomId);
@@ -109,8 +112,11 @@ const nextWord = async (roomId) => {
     await startTimer(timeBetweenWords, roomId);
   }
   increaseRoomCurrentWord(roomId);
+  resetCorrectAndSkipped(roomId);
+  pushPlayerlistToClients(roomId);
   anagramStageEmit(roomId);
   await startTimer(anagramTime, roomId);
+
 
   if (roomData.currentWord === numOfWords - 1) {
     resetSession(roomId);
@@ -125,7 +131,6 @@ const handleTestAttempt = (socket, attempt, time, hintCount) => {
   const roomData = roomsMap.get(roomId);
   const result = testAttempt(socket, attempt, time, hintCount);
   if (result) {
-    
     updatePlayerScore(roomId, socket.data.username, result);
     pushPlayerlistToClients(roomId);
     const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
@@ -177,9 +182,15 @@ const handleSkip = (socket) => {
       player.isSolved = true;
     }
   });
+  roomData.players.forEach((player) => {
+    if (player.username === socket.data.username) {
+      player.skipped = true;
+    }
+  });
   const skipMessage = `${socket.data.username} skipped`;
   gameScrollEmit(roomId, skipMessage);
   roomsMap.set(roomId, roomData);
+  pushPlayerlistToClients(roomId);
 
   const allPlayersCorrect = testAllPlayersGuessedCorrectly(socket);
   if (allPlayersCorrect && roomData.currentWord === 8) {

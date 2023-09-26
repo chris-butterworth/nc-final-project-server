@@ -10,6 +10,7 @@ const playerReady = (socket) => {
   roomData.players.forEach((player) => {
     if (player.id === socket.id) {
       player.readyToStartGame = true;
+      player.correct = true
     }
   });
 };
@@ -56,9 +57,21 @@ const removePlayerFromRoom = (roomId, socketId) => {
   }
 };
 
+const resetCorrectAndSkipped = (roomId) => {
+  const roomData = roomsMap.get(roomId);
+  roomData.players.forEach((player) => {
+    player.correct = false;
+    player.skipped = false;
+  });
+  console.log(roomData.players)
+  roomsMap.set(roomData.roomId, roomData);
+  
+};
+
 module.exports = {
   playerReady,
   pushPlayerlistToClients,
   updatePlayerScore,
   removePlayerFromRoom,
+  resetCorrectAndSkipped,
 };

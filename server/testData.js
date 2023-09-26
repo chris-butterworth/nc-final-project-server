@@ -7,7 +7,7 @@ const templatePlayerObject = {
   score: 0, // just for this word
   totalScore: 0, // for the whole game
   correct: false,
-  skip: false,
+  skipped: false,
 };
 
 const templateAnagrams = [
