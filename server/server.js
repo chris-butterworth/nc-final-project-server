@@ -53,6 +53,7 @@ io.on("connection", (socket) => {
     handleJoinMultiPlayerRoom(socket, roomId, callback);
   });
 
+
   socket.on("playerReady", () => {
     socket.emit("newGame");
     handlePlayerReady(socket);

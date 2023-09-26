@@ -13,7 +13,6 @@ export const PlayBox = ({
   anagramNumber,
   category,
 }) => {
-
   const { mode, setMode } = useContext(ModeContext);
 
   const handleClearButtonClick = () => {
@@ -114,11 +113,11 @@ export const PlayBox = ({
                 : ""
             }`}
             sx={{
-         
               backgroundColor:
                 mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
               padding: "0",
               minWidth: "40px",
+              border: "black 2px",
             }}
             onClick={() =>
               handleAttempt(questionLetter, wordIndex, letterIndex)
@@ -135,6 +134,7 @@ export const PlayBox = ({
     </Paper>
   );
 
+  console.log({ roundNumber, anagramNumber, category });
   return (
     <>
       <Button onClick={handleClearButtonClick}>Clear</Button>
