@@ -29,8 +29,8 @@ export const PlayBox = ({
     });
   };
 
+
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
-    
     const updatedArray = [...formattedAnswerArray];
     for (let i = 0; i < updatedArray.length; i++) {
       for (let j = 0; j < updatedArray[i].length; j++) {
@@ -90,9 +90,9 @@ export const PlayBox = ({
     <Paper
       key={`word-${wordIndex}`}
       sx={{
-        // backgroundColor: "red",
         margin: "1em",
         display: "flex",
+        
       }}
     >
       {Array.from(word).map((questionLetter, letterIndex) => (
@@ -106,27 +106,21 @@ export const PlayBox = ({
                 : ""
             }`}
             sx={{
-              // ...(letterIndex % 3 === 0 && {
-              //   backgroundColor: "#fdde99",
-              // }),
-              // ...(letterIndex % 3 === 1 && {
-              //   backgroundColor: "#ebddeb",
-              // }),
-              // ...(letterIndex % 3 === 2 && {
-              //   backgroundColor: "#cdf0a9",
-              // }),
               backgroundColor:
                 mode.palette.mode === "light" ? "#cdf0a9" : "#000000",
               padding: "0",
               minWidth: "40px",
+              border: "0.1em solid #B8ADA0",
             }}
             onClick={() =>
               handleAttempt(questionLetter, wordIndex, letterIndex)
             }
-            disabled={disabledButtons.some(
-              (btn) =>
-                btn.wordIndex === wordIndex && btn.letterIndex === letterIndex
-            ) || skippedOrCorrect}
+            disabled={
+              disabledButtons.some(
+                (btn) =>
+                  btn.wordIndex === wordIndex && btn.letterIndex === letterIndex
+              ) || skippedOrCorrect
+            }
           >
             {questionLetter}
           </Button>
@@ -135,6 +129,7 @@ export const PlayBox = ({
     </Paper>
   );
 
+  console.log({ roundNumber, anagramNumber, category });
   return (
     <>
       <Button
@@ -161,7 +156,6 @@ export const PlayBox = ({
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          //   backgroundColor: "chartreuse",
           justifyContent: "center",
         }}
       >
@@ -170,22 +164,31 @@ export const PlayBox = ({
             <Paper
               key={`answer-word-${wordIndex}`}
               sx={{
-                // backgroundColor: "blue",
-                // margin: "1em",
                 display: "flex",
+                border: "0.1em solid #B8ADA0",
+                marginTop: "0.5em",
+                marginBottom: "0.5em",
+                marginLeft: "1em",
               }}
             >
               {answerWord.map((answerLetter, letterIndex) => (
-                <Box key={`answer-letter-${letterIndex}`}>
+                <Box
+                  key={`answer-letter-${letterIndex}`}
+                  sx={{
+                    border: "0.1em solid #B8ADA0",
+                    borderRadius: "0.5em",
+                    
+                  }}
+                >
                   {answerLetter !== "" ? (
                     <Button>{answerLetter}</Button>
                   ) : (
                     <Box
                       sx={{
-                        width: "40px",
-                        height: "40px",
-                        // border: "5px green solid",
+                        width: "2.5em",
+                        height: "2.5em",
                         display: "block",
+                        
                       }}
                     ></Box>
                   )}
@@ -197,7 +200,7 @@ export const PlayBox = ({
       <Paper
         className="question-container"
         sx={{
-          // backgroundColor: "grey",
+          marginTop:"1em",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
@@ -210,3 +213,5 @@ export const PlayBox = ({
     </>
   );
 };
+
+

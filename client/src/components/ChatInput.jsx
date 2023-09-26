@@ -14,7 +14,12 @@ const ChatInput = () => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <FormControl sx={{ width: "80%" }}>
+      <FormControl
+        sx={{
+          width: "100%",
+          paddingTop: "1em",
+        }}
+      >
         <TextField
           id="outlined-basic"
           label="Chat"
@@ -24,9 +29,7 @@ const ChatInput = () => {
           }}
           value={chatBoxInput}
         />
-        <Button type="submit" onClick={() => handleSubmit()}>
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </FormControl>
     </form>
   );

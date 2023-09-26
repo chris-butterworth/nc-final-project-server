@@ -64,7 +64,7 @@ const populateScoreboard = (roomId) => {
       return { username: user.username, score: 0, isSolved: false };
     });
   });
-  roomsMap.set(roomData.roomId, roomData);
+  roomsMap.set(roomData?.roomId, roomData);
 };
 
 const deleteEmptyRoom = (roomId) => {
