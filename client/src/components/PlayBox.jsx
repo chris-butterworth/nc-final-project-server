@@ -72,9 +72,7 @@ export const PlayBox = ({
   };
 
   const handleHintButtonClick = () => {
-    if (hintCount > 2) {
-      console.log("no more hints");
-    } else {
+    if (hintCount <= 2) {
       //Split the full answer into a nested array of letters
       const fullAnswerWords = hint.split(" ");
       const fullAnswerArray = fullAnswerWords.map((word) => {
@@ -102,8 +100,12 @@ export const PlayBox = ({
           },
         ];
       });
+      // Update the Formatted Answer Array to include the correct letter
+      const updatedArray = [...formattedAnswerArray];
+      updatedArray[answerWord][answerLetter] = correctLetter;
+      setFormattedAnswerArray(updatedArray);
       // Check if there is a button to reenable (if the hint swapped out another button)
-      if (foundHintIndices.length > 2) {
+      if (foundHintIndices.length === 3) {
         const reenableLetter = foundHintIndices[2];
         //remove the reenable button from the disabled buttons array
         const buttonToReenableIndex = findReenableButton(
@@ -120,13 +122,51 @@ export const PlayBox = ({
           return remainingDisabledButtons;
         });
       }
+      if (foundHintIndices.length > 3) {
+        const reenableLetter = foundHintIndices[2];
+        const buttonToReenableIndex = findReenableButton(
+          reenableLetter,
+          disabledButtons
+        );
+        setDisabledButtons((currentlyDisabled) => {
+          const remainingDisabledButtons = [];
+          currentlyDisabled.forEach((button, index) => {
+            if (index !== buttonToReenableIndex) {
+              remainingDisabledButtons.push(button);
+            }
+          });
+          return remainingDisabledButtons;
+        });
 
-      // Find the correct letter
-      // const correctLetter = fullAnswerArray[answerWord][answerLetter];
+        // Only enters this if block if there is a letter to remove from later in the array
+        const { removeWord, removeLetter } = foundHintIndices[3];
+        // Gets the word and letter index of the letter to remove from formattedAnswerArray
+        setFormattedAnswerArray((prev) => {
+          // Creates a new formattedAnswerArray
+          const newFormattedAnswer = [];
+          for (let i = 0; i < prev.length; i++) {
+            const newFormattedWord = [];
+            for (let j = 0; j < prev[i].length; j++) {
+              // If this is the letter we want to remove, we push an empty string to our new array in its place
+              if (removeWord === i && removeLetter === j) {
+                newFormattedWord.push("");
+              } else {
+                // If this is any other letter, we push the current letter into the new formattedAnswerArray
+                newFormattedWord.push(prev[i][j]);
+              }
+            }
+            // Push each word into the full newFormattedAnswer array once completed
+            newFormattedAnswer.push(newFormattedWord);
+          }
+          // Return our newFormattedAnswer array
+          return newFormattedAnswer;
+        });
+      }
       // Increase hintCount by 1
       setHintCount((prev) => {
         return prev + 1;
       });
+      // Update hints array
       setHints((previousHints) => {
         return [
           ...previousHints,
@@ -139,10 +179,6 @@ export const PlayBox = ({
           },
         ];
       });
-      // Update the Formatted Answer Array to include the correct letter
-      const updatedArray = [...formattedAnswerArray];
-      updatedArray[answerWord][answerLetter] = correctLetter;
-      setFormattedAnswerArray(updatedArray);
     }
   };
 
@@ -188,7 +224,6 @@ export const PlayBox = ({
     </Paper>
   );
 
-  console.log({ roundNumber, anagramNumber, category });
   return (
     <>
       <Button

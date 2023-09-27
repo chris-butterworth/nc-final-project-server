@@ -3,7 +3,7 @@ const makeAnagramButtons = (anagramWords) => {
   const anagramButtons = [];
   // Loop through each word in the question
   for (let i = 0; i < anagramWords.length; i++) {
-    let anagramWord = anagramWords[i];
+    let anagramWord = anagramWords[i].toUpperCase();
     // Loop through each letter in the question
     for (let j = 0; j < anagramWord.length; j++) {
       let anagramLetter = anagramWord[j];
