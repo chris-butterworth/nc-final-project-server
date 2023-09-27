@@ -122,7 +122,7 @@ const Login = ({ setUsername }) => {
           )}
         </Box>
       </Paper>
-      <ToastContainer />
+      <Toaster />
     </Box>
   );
 };
