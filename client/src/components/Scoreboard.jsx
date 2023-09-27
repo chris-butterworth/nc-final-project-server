@@ -5,7 +5,7 @@ import socket from "../socket";
 export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
   const theme = useTheme();
   const sortedPlayers = players.slice().sort((a, b) => b.score - a.score);
-
+  
   return (
     <Box>
       <Paper

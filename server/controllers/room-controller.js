@@ -75,9 +75,14 @@ const deleteEmptyRoom = (roomId) => {
 
 const getGameScoreFromSocketId = (socketId, roomId) => {
   const roomData = roomsMap.get(roomId);
-  return roomData.players.filter((player) => {
-    player.id === socketId;
-  });
+  const players = roomData.players
+  
+  const player= players.filter((player) => 
+  
+    player.id === (socketId)
+  );
+  
+  return player
 };
 
 module.exports = {

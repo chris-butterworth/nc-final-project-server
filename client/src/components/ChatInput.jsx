@@ -21,9 +21,10 @@ const ChatInput = () => {
         }}
       >
         <TextField
-          id="outlined-basic"
-          label="Chat"
-          variant="outlined"
+         id="outlined-multiline-static"
+         label="Chatty McGee"
+         multiline
+         maxRows={4}
           onChange={(e) => {
             setChatBoxInput(e.target.value);
           }}

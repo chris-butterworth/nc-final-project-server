@@ -11,6 +11,7 @@ const {
   handleSkip,
   handleDisconnect,
   handleJoinMultiPlayerRoom,
+  handleUpdateScore,
 } = require("./app.js");
 
 const {
@@ -79,9 +80,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updateScore", (user_id) => {
-    console.log("you got here");
-    console.log(user_id);
-  });
+    handleUpdateScore(socket, user_id)
+  })
 
   socket.on("highScoreLeaderboard", async (callback) => {
     const highScores = await getHighScoreLeaderboard();

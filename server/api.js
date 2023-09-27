@@ -32,16 +32,11 @@ const updateScoreOnDatabase = (user_id, score) => {
     });
 };
 
-const postSignUp = ({ user_id, username, avatar }) => {
-  console.log(user_id);
-  console.log(username);
-  console.log(avatar);
-  return myApi.post(
-    "/users/sign-up",
-    { user_id: `${user_id}`, username: `${username}`, avatar_url: `${avatar}` },
-    auth
-  );
-};
+const postSignUp = ({user_id, username, avatar}) => {
+     
+     return myApi.post("/users/sign-up", {user_id: `${user_id}`, username: `${username}`, avatar_url: `${avatar}`}, auth)
+
+}
 
 const getHighScoreLeaderboard = () => {
   return myApi.get("/users?order_by=high_score", auth).then(({ data }) => {
