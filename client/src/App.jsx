@@ -21,15 +21,18 @@ function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([]);
+  const [loggedIn, setLoggedIn]=useState(false)
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUsername(user.displayName);
+        setLoggedIn(true)
         socket.emit("avatar", user.photoURL);
         socket.emit("username", user.displayName);
       } else {
         setUsername("");
+        setLoggedIn(false)
         socket.emit("leaveRoom");
       }
     });
@@ -44,6 +47,7 @@ function App() {
     });
   }, []);
 
+ 
   return (
     <>
       <ThemeProvider theme={mode}>
