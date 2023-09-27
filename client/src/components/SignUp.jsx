@@ -3,17 +3,13 @@ import { useState, useContext } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  Button,
-  Typography,
-  Box,
-  Paper,
-} from "@mui/material";
+import { Button, Typography, Box, Paper } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import socket from "../socket";
 
 export const SignUp = ({
   setUsername,

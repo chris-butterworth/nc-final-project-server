@@ -8,6 +8,7 @@ const templatePlayerObject = {
   totalScore: 0, // for the whole game
   correct: false,
   skipped: false,
+  signedIn: false,
 };
 
 const templateAnagrams = [
