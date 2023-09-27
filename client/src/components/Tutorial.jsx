@@ -3,15 +3,16 @@ import Typography from "@mui/material/Typography";
 
 const Typewriter = ({ text, onComplete }) => {
   const [displayText, setDisplayText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const delay = 150; //typing speed
+    const delay = 150; // Typing speed
+    let currentIndex = 0;
 
     const typeText = async () => {
-      for (let i = 0; i < text.length; i++) {
+      while (currentIndex <= text.length) {
         await new Promise((resolve) => setTimeout(resolve, delay));
-        setDisplayText(text.slice(0, i + 1));
+        setDisplayText(text.slice(0, currentIndex));
+        currentIndex++;
       }
       onComplete();
     };
@@ -25,48 +26,43 @@ const Typewriter = ({ text, onComplete }) => {
 export const Tutorial = () => {
   const linesOfText = [
     "Welcome to the Anagram game!",
-    "Each game will consist of three rounds, with each round containing three separate anagrams.",
-    "The quicker you guess, the more points you get!",
-    "Stuck on a question? You get 3 hints per game, so hit the hint button",
-    "So stuck you're giving up? No drama, press the skip button! Be careful though, you will lose precious points!",
-    "Playing with friends? Don't forget to hit up the chat!",
-    "Loving the game? Sign up, and your scores will join the leaderboard!",
+    "3 words per round, 3 rounds per game.",
+    "Faster you guess, the more points you get!",
+    "Click for a more detailed tutorial.",
   ];
 
   const [currentLine, setCurrentLine] = useState(0);
+  const [completedLines, setCompletedLines] = useState([]);
   const [isTyping, setIsTyping] = useState(true);
-  const [completedText, setCompletedText] = useState("");
 
   useEffect(() => {
     if (currentLine < linesOfText.length) {
       const lineLength = linesOfText[currentLine].length;
       const timeout = setTimeout(() => {
+        setCompletedLines((prevLines) => [
+          ...prevLines,
+          linesOfText[currentLine],
+        ]);
         setCurrentLine((prevLine) => prevLine + 1);
-      }, lineLength * 100 + 1500);
+      }, (lineLength + 1) * 150); // Added 1 to lineLength to ensure the last character is displayed
       return () => clearTimeout(timeout);
     } else {
       setIsTyping(false);
     }
   }, [currentLine]);
 
-  const onCompleteLine = () => {
-    if (currentLine < linesOfText.length) {
-      setCompletedText(
-        (prevText) => prevText + linesOfText[currentLine] + "\n"
-      );
-      setCurrentLine((prevLine) => prevLine + 1);
-    }
-  };
-
   return (
     <div>
       {isTyping ? (
-        <Typewriter
-          text={linesOfText[currentLine]}
-          onComplete={onCompleteLine}
-        />
+        <Typewriter text={linesOfText[currentLine]} onComplete={() => {}} />
       ) : (
-        <Typography variant="body1">{completedText}</Typography>
+        <>
+          {completedLines.map((line, index) => (
+            <Typography key={index} variant="body1">
+              {line}
+            </Typography>
+          ))}
+        </>
       )}
     </div>
   );

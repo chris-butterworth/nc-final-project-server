@@ -9,6 +9,7 @@ import {
   Button,
   Container,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
@@ -21,6 +22,9 @@ import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
 import { FastForward, Close } from "@mui/icons-material";
 import PlayerControls from "../components/PlayerControls";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { HintBar } from "../components/HintBar";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -31,13 +35,14 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   minHeight: "50vh",
   maxHeight: "50vh",
+  maxWidth: "50vw",
 }));
 
 const GamePageGrid = ({ players, room, setRoom }) => {
   const { mode } = useContext(ModeContext);
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
-  const [score, setScore] = useState(0); // if truthy then means you've guess correctly
+  const [score, setScore] = useState(0); // if truthy then means you've guessed correctly
   const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
   const [betweenWords, setBetweenWords] = useState(false);
@@ -58,8 +63,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
+ 
 
   const Ref = useRef(null);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     socket.on(
@@ -97,6 +104,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       timerFunction(time);
     });
   }, []);
+
   useEffect(() => {
     socket.on("anagram", (time, anagram, answer, round, category) => {
       setSkippedOrCorrect(false);
@@ -131,6 +139,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       setFullScreenCustomDialog("");
     });
   }, []);
+
   useEffect(() => {
     socket.on("newGame", () => {
       setGameOver(false);
@@ -221,29 +230,85 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     clearTimer(getDeadline());
   };
 
+  // const handleQuitButtonClick = () => {
+  //   setRoom("");
+  //   // setPlayers([])
+  //   socket.emit("leaveRoom");
+  //   setPlayerReady(false);
+  //   setTimer(0);
+  //   setScore(0);
+  //   setAnagramNumber(1);
+  //   setRoundNumber(1);
+  //   setBetweenWords(false);
+  //   setBetweenRounds(false);
+  //   setGameOver(false);
+  //   setAnagramWords([]);
+  //   setDisabledButtons([]);
+  //   setFormattedAnswerArray([]);
+  //   setHint("");
+  //   setHintCount(0);
+  //   setGameMessage("");
+  //   setGameScores("");
+  //   setGameScroll([]);
+  //   setFullScreenCustomDialog("");
+  //   setLastPlayedAnswer("");
+  //   setLastRoundScores([]);
+  // };
+
   const handleQuitButtonClick = () => {
-    setRoom("");
-    // setPlayers([])
-    socket.emit("leaveRoom");
-    setPlayerReady(false);
-    setTimer(0);
-    setScore(0);
-    setAnagramNumber(1);
-    setRoundNumber(1);
-    setBetweenWords(false);
-    setBetweenRounds(false);
-    setGameOver(false);
-    setAnagramWords([]);
-    setDisabledButtons([]);
-    setFormattedAnswerArray([]);
-    setHint("");
-    setHintCount(0);
-    setGameMessage("");
-    setGameScores("");
-    setGameScroll([]);
-    setFullScreenCustomDialog("");
-    setLastPlayedAnswer("");
-    setLastRoundScores([]);
+    console.log(handleQuitButtonClick, "quit button click looking for toast");
+    const confirmQuit = async () => {
+      try {
+        const result = await toast.promise(
+          (resolve, reject) => {
+            const confirmResult = window.confirm(
+              "Are you sure you want to quit?"
+            );
+            if (confirmResult) {
+              resolve("You have quit the game!");
+            } else {
+              reject("Cancelled");
+            }
+          },
+          {
+            loading: "Checking...",
+            timeout: 5000, // Adjust the timeout as needed
+            icon: "⚠️", // Customize the icon as needed
+            style: {
+              backgroundColor: "red", // Customize the toast background color
+              color: "white", // Customize the text color
+            },
+          }
+        );
+
+        // User confirmed quitting
+        setRoom("");
+        socket.emit("leaveRoom");
+        setPlayerReady(false);
+        setTimer(0);
+        setScore(0);
+        setAnagramNumber(1);
+        setRoundNumber(1);
+        setBetweenWords(false);
+        setBetweenRounds(false);
+        setGameOver(false);
+        setAnagramWords([]);
+        setDisabledButtons([]);
+        setFormattedAnswerArray([]);
+        setHint("");
+        setHintCount(0);
+        setGameMessage("");
+        setGameScores("");
+        setGameScroll([]);
+        setFullScreenCustomDialog("");
+        setLastPlayedAnswer("");
+        setLastRoundScores([]);
+      } catch (error) {
+        // Handle any errors here
+      }
+    };
+
+    confirmQuit();
   };
 
   const handleSkipButtonClick = () => {
@@ -257,6 +322,45 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     return `${window.location.origin}?room=${room}`;
   };
 
+  const handleHintButtonClick = () => {
+    // Combine the words in formattedAnswerArray into a single string
+    const currentAnswer = formattedAnswerArray
+      .map((word) => word.join(""))
+      .join(" ");
+
+    // Get the full anagram answer
+    const fullAnswer = anagramAnswer.replace(/\s/g, "");
+
+    // Find the index of the first incorrect character
+    const firstIncorrectIndex = currentAnswer
+      .split("")
+      .findIndex((char, index) => char !== fullAnswer.charAt(index));
+
+    if (firstIncorrectIndex !== -1) {
+      // Extract the correct letter from the full answer
+      const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
+
+      // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
+      let wordIndex = 0;
+      let letterIndex = 0;
+
+      for (let i = 0; i < formattedAnswerArray.length; i++) {
+        const wordLength = formattedAnswerArray[i].length;
+        if (firstIncorrectIndex >= letterIndex + wordLength) {
+          letterIndex += wordLength;
+          wordIndex++;
+        } else {
+          break;
+        }
+      }
+
+      // Update formattedAnswerArray with the correct letter
+      const updatedArray = [...formattedAnswerArray];
+      updatedArray[wordIndex][letterIndex] = correctLetter;
+      setFormattedAnswerArray(updatedArray);
+    }
+  };
+
   return (
     <Paper sx={{ minWidth: "80vw" }}>
       <Grid container>
@@ -264,11 +368,14 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              minWidth: "25vw",
+              maxWidth: isMobile ? "25" : "100vw", // Adjusted maxWidth
               minHeight: "8em",
-              margin: "2em",
+              margin: isMobile ? "0" : "2em",
               padding: "1em",
               textAlign: "center",
+              flexDirection: "column", // Add this to make it a flex container
+              alignItems: "center", // Center its children horizontally
+              justifyContent: "center",
             }}
           >
             <Timer
@@ -282,14 +389,17 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              minWidth: "25vw",
+              maxWidth: isMobile ? "100" : "50vw", // Adjusted maxWidth
               minHeight: "8em",
-              margin: "2em",
+              margin: isMobile ? "0" : "2em",
               padding: "1em",
-              textAlign: "center",
+              textAlign: "right",
+              flexDirection: "column", 
+              alignItems:"flex-end", 
+              justifyContent: "flex-end",
             }}
           >
-            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Container>
               <Typography
                 variant="h5"
                 sx={{
@@ -309,7 +419,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 }}
               />
             </Container>
-            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Container>
               <Typography
                 variant="h5"
                 sx={{
@@ -372,36 +482,88 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           </Grid>
 
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
-            <Item>
-              {gameOver ? (
-                <Scoreboard
-                  gameScores={gameScores}
-                  players={players}
-                  setPlayerReady={setPlayerReady}
-                />
-              ) : (
-                <PlayBox
-                  sx={{ minWidth: "50vw" }}
-                  anagramWords={anagramWords}
-                  setAnagramWords={setAnagramWords}
-                  formattedAnswerArray={formattedAnswerArray}
-                  setFormattedAnswerArray={setFormattedAnswerArray}
-                  disabledButtons={disabledButtons}
-                  setDisabledButtons={setDisabledButtons}
-                  roundNumber={roundNumber}
-                  anagramNumber={anagramNumber}
-                  category={category}
-                  skippedOrCorrect={skippedOrCorrect}
-                  setSkippedOrCorrect={setSkippedOrCorrect}
-                  hint={hint}
+          <Item
+  sx={{
+    display: "flex",
+    flex: 1,
+    flexDirection: "column", 
+    justifyContent: "flex-end",
+    minHeight: "50vh",
+    
+  }}
+>
+  {gameOver ? (
+    <Scoreboard
+      gameScores={gameScores}
+      players={players}
+      setPlayerReady={setPlayerReady}
+    />
+  ) : (
+    <>
+      <div
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          overflow: "hidden", 
+        }}
+      >
+         <HintBar sx={{ minWidth: "100%", flex: 1, justifyContent: "flex-start"}}
+         anagramWords={anagramWords}
+         formattedAnswerArray={formattedAnswerArray}
+         setFormattedAnswerArray={setFormattedAnswerArray}
+          disabledButtons={disabledButtons}
+          setDisabledButtons={setDisabledButtons}
+          roundNumber={roundNumber}
+          anagramNumber={anagramNumber}
+          category={category}
+          skippedOrCorrect={skippedOrCorrect}
+          handleSkipButtonClick = {handleSkipButtonClick}
+          handleHintButtonClick={handleHintButtonClick}
+         />
+        <PlayBox
+          sx={{ minWidth: "100%", flex: 1 }}
+          anagramWords={anagramWords}
+          setAnagramWords={setAnagramWords}
+          formattedAnswerArray={formattedAnswerArray}
+          setFormattedAnswerArray={setFormattedAnswerArray}
+          disabledButtons={disabledButtons}
+          setDisabledButtons={setDisabledButtons}
+          roundNumber={roundNumber}
+          anagramNumber={anagramNumber}
+          category={category}
+          skippedOrCorrect={skippedOrCorrect}
+          setSkippedOrCorrect={setSkippedOrCorrect}
+          mode={mode}
+          hint={hint}
                   setHint={setHint}
                   hintCount={hintCount}
                   setHintCount={setHintCount}
                   hints={hints}
                   setHints={setHints}
-                />
-              )}
-            </Item>
+        />
+      </div>
+      <div
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          overflow: "hidden",
+        }}
+      >
+        <PlayerControls
+          sx={{ minWidth: "100%", flex: 1 }}
+          handleQuitButtonClick={handleQuitButtonClick}
+          handleSkipButtonClick={handleSkipButtonClick}
+          skippedOrCorrect={skippedOrCorrect}
+          anagramWords={anagramWords}
+          setAnagramWords={setAnagramWords}
+          mode={mode}
+        />
+      </div>
+    </>
+  )}
+</Item>
           </Grid>
 
           <Grid
@@ -437,15 +599,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={3} order={{ xs: 3, md: 1 }}></Grid>
-          <Grid item xs={6} order={{ xs: 1, md: 2 }}>
-            <PlayerControls
-              handleQuitButtonClick={handleQuitButtonClick}
-              handleSkipButtonClick={handleSkipButtonClick}
-              skippedOrCorrect={skippedOrCorrect}
-              anagramWords={anagramWords}
-              mode={mode}
-            />
-          </Grid>
+          <Grid item xs={6} order={{ xs: 1, md: 2 }}></Grid>
           <Grid item order={{ xs: 2, md: 2 }} xs={3}>
             {players.length > 1 && (
               <Paper

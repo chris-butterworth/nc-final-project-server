@@ -122,18 +122,21 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Paper
-            sx={{
-              minWidth: "20vw",
-              minHeight: "30vh",
-              margin: "2em",
-              padding: "1em",
-              textAlign: "center",
-            }}
-          >
-            <SchoolIcon fontSize="large" color="primary" />
-            <Tutorial />
-          </Paper>
+          <Link to="/tutorial" style={{ textDecoration: "none" }}>
+            <Paper
+              sx={{
+                minWidth: "20vw",
+                minHeight: "30vh",
+                margin: "2em",
+                padding: "1em",
+                textAlign: "center",
+              }}
+            >
+              <SchoolIcon fontSize="large" color="primary" />
+              <Typography variant="h3">Tutorial</Typography>
+              <Tutorial />
+            </Paper>
+          </Link>
         </Grid>
       </Grid>
     </Box>

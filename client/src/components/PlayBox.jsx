@@ -1,6 +1,9 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { ModeContext } from "../context/Mode";
 import { useState, useEffect, useContext } from "react";
+import PlayerControls from "./PlayerControls";
+import { HintBar } from "./HintBar";
+
 import findHintIndices from "../utils/findHintIndices";
 import findReenableButton from "../utils/findReenableButton";
 export const PlayBox = ({
@@ -16,6 +19,12 @@ export const PlayBox = ({
   category,
   skippedOrCorrect,
   setSkippedOrCorrect,
+  children,
+  handleSkipButtonClick,
+  handleHintButtonClick, 
+}) => {
+  const { mode, setMode } = useContext(ModeContext);
+
   hint,
   hintCount,
   setHintCount,
@@ -309,6 +318,7 @@ export const PlayBox = ({
           renderWord(anagramWord, wordIndex)
         )}
       </Paper>
+      
     </>
   );
 };
