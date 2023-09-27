@@ -1,6 +1,9 @@
-import { io } from "socket.io-client"; // import connection function
+import { io } from "socket.io-client";
 
-const socket = io("https://ainagrams-server.onrender.com"); // initialize websocket connection
-// const socket = io("localhost:8080"); // initialize websocket connection
+const socket = io(
+  process.env.NODE_ENV === "prod"
+    ? "https://ainagrams-server.onrender.com"
+    : "localhost:8080"
+);
 //
 export default socket;

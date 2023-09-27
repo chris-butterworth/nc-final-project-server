@@ -1,7 +1,14 @@
 const axios = require("axios");
 
+const ENV = process.env.NODE_ENV || "development";
+
+if (ENV === "development")
+  require("dotenv").config({
+    path: `./.env.${ENV}`,
+  });
+
 const myApi = axios.create({
-  baseURL: "https://sphinx-api-gjqf.onrender.com/api",
+  baseURL: process.env.API_URL,
 });
 
 const auth = {

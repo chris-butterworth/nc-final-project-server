@@ -1,4 +1,5 @@
 const { getNineAnagrams } = require("../api");
+const { templateAnagrams } = require("../testData");
 
 const getAnagrams = () => {
   return getNineAnagrams()
@@ -11,6 +12,7 @@ const getAnagrams = () => {
     })
     .catch(({ code }) => {
       console.log("getAnagrams error", code);
+      return templateAnagrams;
     });
 };
 
