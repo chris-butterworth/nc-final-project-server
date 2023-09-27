@@ -22,6 +22,7 @@ import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
 import { FastForward, Close } from "@mui/icons-material";
 import PlayerControls from "../components/PlayerControls";
+import {auth} from "../../firebase"
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { HintBar } from "../components/HintBar";
@@ -63,10 +64,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
- 
+   
+
 
   const Ref = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  
 
   useEffect(() => {
     socket.on(
@@ -128,6 +131,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
   useEffect(() => {
     socket.on("endGame", (scores) => {
+      if(auth.currentUser) {
+        
+        socket.emit("updateScore", auth.currentUser.uid )
+      }
       timerFunction(0);
       setAnagramWords([]);
       setFormattedAnswerArray([]);

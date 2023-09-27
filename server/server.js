@@ -13,6 +13,8 @@ const {
   handleJoinMultiPlayerRoom,
 } = require("./app.js");
 
+const {postSignUp} = require("./api.js")
+
 const app = express();
 
 const server = http.createServer(app);
@@ -66,6 +68,16 @@ io.on("connection", (socket) => {
   socket.on("playerSkip", () => {
     handleSkip(socket);
   });
+
+  socket.on("signUp", (user) => {
+    console.log(user)
+    postSignUp(user)
+  })
+
+  socket.on("updateScore", (user_id) => {
+    console.log("you got here")
+    console.log(user_id)
+  })
 
   socket.on("disconnect", (reason) => {
     console.log(socket.id, "disconnected due to:", reason);

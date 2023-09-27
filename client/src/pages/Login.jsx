@@ -40,6 +40,7 @@ const Login = ({ setUsername }) => {
         socket.emit("username", userCredential.user.displayName);
       })
       .catch((err) => {
+        console.log("invalid Login")
         toast("invalid login");
       });
   };
@@ -137,6 +138,7 @@ const Login = ({ setUsername }) => {
           )}
         </Box>
       </Paper>
+      <Toaster />
     </Box>
   );
 };
