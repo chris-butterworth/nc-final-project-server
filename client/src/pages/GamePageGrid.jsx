@@ -237,86 +237,86 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     clearTimer(getDeadline());
   };
 
-  // const handleQuitButtonClick = () => {
-  //   setRoom("");
-  //   // setPlayers([])
-  //   socket.emit("leaveRoom");
-  //   setPlayerReady(false);
-  //   setTimer(0);
-  //   setScore(0);
-  //   setAnagramNumber(1);
-  //   setRoundNumber(1);
-  //   setBetweenWords(false);
-  //   setBetweenRounds(false);
-  //   setGameOver(false);
-  //   setAnagramWords([]);
-  //   setDisabledButtons([]);
-  //   setFormattedAnswerArray([]);
-  //   setHint("");
-  //   setHintCount(0);
-  //   setGameMessage("");
-  //   setGameScores("");
-  //   setGameScroll([]);
-  //   setFullScreenCustomDialog("");
-  //   setLastPlayedAnswer("");
-  //   setLastRoundScores([]);
-  // };
-
   const handleQuitButtonClick = () => {
-    console.log(handleQuitButtonClick, "quit button click looking for toast");
-    const confirmQuit = async () => {
-      try {
-        const result = await toast.promise(
-          (resolve, reject) => {
-            const confirmResult = window.confirm(
-              "Are you sure you want to quit?"
-            );
-            if (confirmResult) {
-              resolve("You have quit the game!");
-            } else {
-              reject("Cancelled");
-            }
-          },
-          {
-            loading: "Checking...",
-            timeout: 5000, // Adjust the timeout as needed
-            icon: "⚠️", // Customize the icon as needed
-            style: {
-              backgroundColor: "red", // Customize the toast background color
-              color: "white", // Customize the text color
-            },
-          }
-        );
-
-        // User confirmed quitting
-        setRoom("");
-        socket.emit("leaveRoom");
-        setPlayerReady(false);
-        setTimer(0);
-        setScore(0);
-        setAnagramNumber(1);
-        setRoundNumber(1);
-        setBetweenWords(false);
-        setBetweenRounds(false);
-        setGameOver(false);
-        setAnagramWords([]);
-        setDisabledButtons([]);
-        setFormattedAnswerArray([]);
-        setHint("");
-        setHintCount(0);
-        setGameMessage("");
-        setGameScores("");
-        setGameScroll([]);
-        setFullScreenCustomDialog("");
-        setLastPlayedAnswer("");
-        setLastRoundScores([]);
-      } catch (error) {
-        // Handle any errors here
-      }
-    };
-
-    confirmQuit();
+    setRoom("");
+    // setPlayers([])
+    socket.emit("leaveRoom");
+    setPlayerReady(false);
+    setTimer(0);
+    setScore(0);
+    setAnagramNumber(1);
+    setRoundNumber(1);
+    setBetweenWords(false);
+    setBetweenRounds(false);
+    setGameOver(false);
+    setAnagramWords([]);
+    setDisabledButtons([]);
+    setFormattedAnswerArray([]);
+    setHint("");
+    setHintCount(0);
+    setGameMessage("");
+    setGameScores("");
+    setGameScroll([]);
+    setFullScreenCustomDialog("");
+    setLastPlayedAnswer("");
+    setLastRoundScores([]);
   };
+
+  // const handleQuitButtonClick = () => {
+  //   console.log(handleQuitButtonClick, "quit button click looking for toast");
+  //   const confirmQuit = async () => {
+  //     try {
+  //       const result = await toast.promise(
+  //         (resolve, reject) => {
+  //           const confirmResult = window.confirm(
+  //             "Are you sure you want to quit?"
+  //           );
+  //           if (confirmResult) {
+  //             resolve("You have quit the game!");
+  //           } else {
+  //             reject("Cancelled");
+  //           }
+  //         },
+  //         {
+  //           loading: "Checking...",
+  //           timeout: 5000, // Adjust the timeout as needed
+  //           icon: "⚠️", // Customize the icon as needed
+  //           style: {
+  //             backgroundColor: "red", // Customize the toast background color
+  //             color: "white", // Customize the text color
+  //           },
+  //         }
+  //       );
+
+  //       // User confirmed quitting
+  //       setRoom("");
+  //       socket.emit("leaveRoom");
+  //       setPlayerReady(false);
+  //       setTimer(0);
+  //       setScore(0);
+  //       setAnagramNumber(1);
+  //       setRoundNumber(1);
+  //       setBetweenWords(false);
+  //       setBetweenRounds(false);
+  //       setGameOver(false);
+  //       setAnagramWords([]);
+  //       setDisabledButtons([]);
+  //       setFormattedAnswerArray([]);
+  //       setHint("");
+  //       setHintCount(0);
+  //       setGameMessage("");
+  //       setGameScores("");
+  //       setGameScroll([]);
+  //       setFullScreenCustomDialog("");
+  //       setLastPlayedAnswer("");
+  //       setLastRoundScores([]);
+  //     } catch (error) {
+  //       // Handle any errors here
+  //     }
+  //   };
+
+  //   confirmQuit();
+  // };
 
   const handleSkipButtonClick = () => {
     if (!skippedOrCorrect) {
@@ -369,7 +369,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   return (
-    <Paper sx={{ minWidth: "80vw" }}>
+    <Paper sx={{ minWidth: "80vw", minHeight:"100vh"}}>
       <Grid container>
         <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
           <Paper
@@ -583,7 +583,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             <Item sx={{ overflow: "auto" }}>
               <Grid item xs={12} md={12}>
                 <Typography variant="h6">Game Scroll </Typography>
-                <Box>
+                <Box textAlign={"left"}>
                   {gameScroll.map((item, index) => {
                     return (
                       <Box key={index}>
@@ -607,7 +607,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         <Grid container spacing={2}>
           <Grid item xs={3} order={{ xs: 3, md: 1 }}></Grid>
           <Grid item xs={6} order={{ xs: 1, md: 2 }}></Grid>
-          <Grid item order={{ xs: 2, md: 2 }} xs={3}>
+          <Grid item sx={{ maxWidth: "auto", maxHeight: "30em" }} order={{ xs: 2, md: 2 }} xs={3}>
             {players.length > 1 && (
               <Paper
                 sx={{
@@ -621,7 +621,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                     mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
                 }}
               >
-                <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
+                <ChatInput sx={{ maxWidth: "auto", maxHeight: "30em" }} />
               </Paper>
             )}
           </Grid>
