@@ -39,7 +39,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{marginBottom: "1em"}}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <Hidden mdUp>

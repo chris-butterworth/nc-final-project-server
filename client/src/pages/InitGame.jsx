@@ -71,9 +71,9 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
           >
             <Paper
               sx={{
-                minWidth: "25vw",
+                minWidth: "100",
                 minHeight: "30vh",
-                margin: "2em",
+                margin: "auto",
                 padding: "1em",
                 textAlign: "center",
               }}
@@ -87,9 +87,9 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
         <Grid item xs={12} md={6}>
           <Paper
             sx={{
-              minWidth: "25vw",
+              minWidth: "100",
               minHeight: "30vh",
-              margin: "2em",
+              margin: "auto",
               padding: "1em",
               textAlign: "center",
             }}
@@ -125,9 +125,9 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
           <Link to="/tutorial" style={{ textDecoration: "none" }}>
             <Paper
               sx={{
-                minWidth: "20vw",
+                minWidth: "100",
                 minHeight: "30vh",
-                margin: "2em",
+                margin: "auto",
                 padding: "1em",
                 textAlign: "center",
               }}
