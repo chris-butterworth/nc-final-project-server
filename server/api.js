@@ -1,16 +1,27 @@
 const axios = require("axios");
-const { templateAnagrams } = require("./testData");
 
 const myApi = axios.create({
   baseURL: "https://sphinx-api-gjqf.onrender.com/api",
+  headers: { auth: { username: "admin", password: "admin" } },
 });
 
-const auth = { headers: { auth: { user: "admin", password: "admin" } } };
+const auth = { auth: { username: "admin", password: "admin" } };
 
 const getNineAnagrams = () => {
-  return myApi.get("/questions").then(({ data }) => {
+  return myApi.get("/questions", auth).then(({ data }) => {
     return data;
   });
 };
 
-module.exports = { getNineAnagrams };
+const testApi = () => {
+  return myApi
+    .get("", auth)
+    .then(({ data }) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+module.exports = { getNineAnagrams, testApi };
