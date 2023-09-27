@@ -37,6 +37,7 @@ export const SignUp = ({
         setUsername(newUsername);
         socket.emit("avatar", avatars[currentAvatarIndex]);
         socket.emit("username", newUsername);
+        socket.emit("signUp", {user_id: auth.currentUser.uid, username: newUsername, avatar : avatars[currentAvatarIndex] })
       })
       .catch((err) => {
         console.log(err.code);
