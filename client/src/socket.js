@@ -1,9 +1,8 @@
 import { io } from "socket.io-client";
+const ENV = process.env.NODE_ENV || "development";
+const socket =
+  ENV === "development"
+    ? io("localhost:8080")
+    : io("https://ainagrams-server.onrender.com");
 
-const socket = io(
-  process.env.NODE_ENV === "prod"
-    ? "https://ainagrams-server.onrender.com"
-    : "localhost:8080"
-);
-//
 export default socket;
