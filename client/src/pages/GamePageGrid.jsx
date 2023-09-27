@@ -80,7 +80,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   useEffect(() => {
     socket.on("gameScroll", (username, message) => {
       setGameScroll((current) => {
-        return [{ username, message }, ...current];
+        return [...current, { username, message }];
       });
     });
   }, []);
@@ -363,7 +363,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   };
 
   return (
-    <Paper sx={{ minWidth: "80vw", minHeight:"100vh"}}>
+    <Paper sx={{ minWidth: "80vw", minHeight: "100vh" }}>
       <Grid container>
         <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
           <Paper
@@ -600,7 +600,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             <Item sx={{ overflow: "auto" }}>
               <Grid item xs={12} md={12}>
                 <Typography variant="h6">Game Scroll </Typography>
-                <Box textAlign={"left"}>
+                <Box textAlign={"left"} sx={{ height: "40vh" }}>
                   {gameScroll.map((item, index) => {
                     return (
                       <Box key={index}>
@@ -624,7 +624,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         <Grid container spacing={2}>
           <Grid item xs={3} order={{ xs: 3, md: 1 }}></Grid>
           <Grid item xs={6} order={{ xs: 1, md: 2 }}></Grid>
-          <Grid item sx={{ maxWidth: "auto", maxHeight: "30em" }} order={{ xs: 2, md: 2 }} xs={3}>
+          <Grid
+            item
+            sx={{ maxWidth: "auto", maxHeight: "30em" }}
+            order={{ xs: 2, md: 2 }}
+            xs={3}
+          >
             {players.length > 1 && (
               <Paper
                 sx={{
