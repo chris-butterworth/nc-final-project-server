@@ -163,13 +163,25 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
   useEffect(() => {
     socket.on("incorrectAttempt", () => {
-      setDisabledButtons([]);
+      setDisabledButtons(() => {
+        return hints.map((hint) => {
+          return {
+            wordIndex: hint.questionWordIndex,
+            letterIndex: hint.questionLetterIndex,
+            letter: hint.letter,
+          };
+        });
+      });
       setFormattedAnswerArray((current) => {
-        return current.map((word) => {
-          return word.map((letter) => {
+        const hintsOnly = current.map((word) => {
+          return word.map(() => {
             return "";
           });
         });
+        hints.forEach((hint) => {
+          hintsOnly[hint.answerWordIndex][hint.answerLetterIndex] = hint.letter;
+        });
+        return hintsOnly;
       });
     });
   }, []);

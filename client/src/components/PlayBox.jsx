@@ -51,7 +51,6 @@ export const PlayBox = ({
     });
   };
 
-
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
     const updatedArray = [...formattedAnswerArray];
     for (let i = 0; i < updatedArray.length; i++) {
@@ -153,7 +152,6 @@ export const PlayBox = ({
       sx={{
         margin: "1em",
         display: "flex",
-        
       }}
     >
       {Array.from(word.toUpperCase()).map((questionLetter, letterIndex) => (
@@ -205,10 +203,17 @@ export const PlayBox = ({
       </Button>
       <Button
         onClick={handleHintButtonClick}
-        disabled={skippedOrCorrect || anagramWords.length === 0}
+        disabled={
+          skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
+        }
       >
         Hint
       </Button>
+      <Typography
+        sx={{ color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41" }}
+      >
+        {3 - hintCount} hints remaining
+      </Typography>
       <Typography>
         Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
       </Typography>
@@ -238,7 +243,6 @@ export const PlayBox = ({
                   sx={{
                     border: "0.1em solid #B8ADA0",
                     borderRadius: "0.5em",
-                    
                   }}
                 >
                   {answerLetter !== "" ? (
@@ -249,7 +253,6 @@ export const PlayBox = ({
                         width: "2.5em",
                         height: "2.5em",
                         display: "block",
-                        
                       }}
                     ></Box>
                   )}
@@ -261,7 +264,7 @@ export const PlayBox = ({
       <Paper
         className="question-container"
         sx={{
-          marginTop:"1em",
+          marginTop: "1em",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
@@ -274,5 +277,3 @@ export const PlayBox = ({
     </>
   );
 };
-
-
