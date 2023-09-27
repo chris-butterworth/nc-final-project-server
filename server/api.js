@@ -24,15 +24,12 @@ const getNineAnagrams = () => {
   });
 };
 
-const testApi = () => {
+const updateScoreOnDatabase = (user_id, score) => {
   return myApi
-    .get("", auth)
+    .patch("/users/new-score", { user_id, score }, auth)
     .then(({ data }) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
+      return data;
     });
 };
 
-module.exports = { getNineAnagrams, testApi };
+module.exports = { getNineAnagrams, updateScoreOnDatabase,  };

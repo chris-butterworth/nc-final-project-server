@@ -202,6 +202,12 @@ const handleSkip = (socket) => {
   }
 };
 
+const handleUpdateScore = (socket, auth) => {
+  const roomId = getRoomIdFromSocket(socket);
+  const [{ totalScore }] = getGameScoreFromSocketId(socket.id, roomId);
+  updateScoreOnDatabase(auth, score);
+};
+
 module.exports = {
   newSession,
   handleJoinMultiPlayerRoom,
@@ -211,4 +217,5 @@ module.exports = {
   handleLeaveRoom,
   handleSkip,
   handleDisconnect,
+  handleUpdateScore,
 };
