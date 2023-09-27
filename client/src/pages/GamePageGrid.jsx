@@ -447,20 +447,22 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             />
           </Grid>
           <Grid item order={{ xs: 2, md: 2 }} xs={3}>
-            <Paper
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: "0.5em",
-                marginRight: "0.5em",
-                backgroundColor:
-                  mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
-              }}
-            >
-              <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
-            </Paper>
+            {players.length > 1 && (
+              <Paper
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  marginLeft: "0.5em",
+                  marginRight: "0.5em",
+                  backgroundColor:
+                    mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
+                }}
+              >
+                <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Box>
