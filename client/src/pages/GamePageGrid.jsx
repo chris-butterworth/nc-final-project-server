@@ -258,62 +258,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     setLastRoundScores([]);
   };
 
-  // const handleQuitButtonClick = () => {
-  //   console.log(handleQuitButtonClick, "quit button click looking for toast");
-  //   const confirmQuit = async () => {
-  //     try {
-  //       const result = await toast.promise(
-  //         (resolve, reject) => {
-  //           const confirmResult = window.confirm(
-  //             "Are you sure you want to quit?"
-  //           );
-  //           if (confirmResult) {
-  //             resolve("You have quit the game!");
-  //           } else {
-  //             reject("Cancelled");
-  //           }
-  //         },
-  //         {
-  //           loading: "Checking...",
-  //           timeout: 5000, // Adjust the timeout as needed
-  //           icon: "⚠️", // Customize the icon as needed
-  //           style: {
-  //             backgroundColor: "red", // Customize the toast background color
-  //             color: "white", // Customize the text color
-  //           },
-  //         }
-  //       );
-
-  //       // User confirmed quitting
-  //       setRoom("");
-  //       socket.emit("leaveRoom");
-  //       setPlayerReady(false);
-  //       setTimer(0);
-  //       setScore(0);
-  //       setAnagramNumber(1);
-  //       setRoundNumber(1);
-  //       setBetweenWords(false);
-  //       setBetweenRounds(false);
-  //       setGameOver(false);
-  //       setAnagramWords([]);
-  //       setDisabledButtons([]);
-  //       setFormattedAnswerArray([]);
-  //       setHint("");
-  //       setHintCount(0);
-  //       setGameMessage("");
-  //       setGameScores("");
-  //       setGameScroll([]);
-  //       setFullScreenCustomDialog("");
-  //       setLastPlayedAnswer("");
-  //       setLastRoundScores([]);
-  //     } catch (error) {
-  //       // Handle any errors here
-  //     }
-  //   };
-
-  //   confirmQuit();
-  // };
-
   const handleSkipButtonClick = () => {
     if (!skippedOrCorrect) {
       setSkippedOrCorrect(true);
@@ -371,13 +315,13 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "100vw" : "25", // Adjusted maxWidth
+              maxWidth: isMobile ? "100vw" : "25", 
               minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",
               textAlign: "center",
-              flexDirection: "column", // Add this to make it a flex container
-              alignItems: "center", // Center its children horizontally
+              flexDirection: "column", 
+              alignItems: "center", 
               justifyContent: "center",
             }}
           >
@@ -392,7 +336,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "100vw" : "50vw", // Adjusted maxWidth
+              maxWidth: isMobile ? "100vw" : "50vw", 
               minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",

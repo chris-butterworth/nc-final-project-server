@@ -26,25 +26,28 @@ const CustomDialog = ({
       }}
     >
       {" "}
-      {/*dialog container*/}
+   
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         {" "}
-        {/* Main body of modal/dialog */}
+     
         <DialogContentText>
           {" "}
-          {/* main text */}
+          </DialogContentText>
+          <DialogContentText>
           {contentText}
+          </DialogContentText>
+          <DialogContentText>
           {secondaryText}
+          </DialogContentText>
+          <DialogContentText>
           {roundScores}
         </DialogContentText>
-        {children} {/* Other content */}
+        {children}
       </DialogContent>
       <DialogActions>
         {" "}
-        {/* Dialog action buttons */}
-        {/* Force users to make input without option to cancel */}
-        {/* <Button onClick={handleClose}>Cancel</Button> */}
+       
       </DialogActions>
     </Dialog>
   );
