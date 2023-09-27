@@ -38,5 +38,21 @@ const postSignUp = ({user_id, username, avatar}) => {
 
 }
 
+const getHighScoreLeaderboard = () => {
+  return myApi.get("/users?order_by=high_score", auth).then(({ data }) => {
+    return data;
+  });
+};
+const getLifetimeScoreLeaderboard = () => {
+  return myApi.get("/users?order_by=lifetime_score", auth).then(({ data }) => {
+    return data;
+  });
+};
 
-module.exports = { getNineAnagrams, updateScoreOnDatabase, postSignUp };
+module.exports = {
+  getNineAnagrams,
+  updateScoreOnDatabase,
+  postSignUp,
+  getHighScoreLeaderboard,
+  getLifetimeScoreLeaderboard,
+};
