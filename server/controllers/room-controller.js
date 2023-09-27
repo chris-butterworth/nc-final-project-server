@@ -46,7 +46,7 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
         ...templatePlayerObject,
         id: socket.id,
         username: socket.data?.username,
-        avatar: socket.data?.avatar
+        avatar: socket.data?.avatar,
       },
     ],
   };
@@ -73,10 +73,18 @@ const deleteEmptyRoom = (roomId) => {
   }
 };
 
+const getGameScoreFromSocketId = (socketId, roomId) => {
+  const roomData = roomsMap.get(roomId);
+  return roomData.players.filter((player) => {
+    player.id === socketId;
+  });
+};
+
 module.exports = {
   resetReadyStateAndCurrentWord,
   createNewRoom,
   joinMultiPlayerRoom,
   populateScoreboard,
   deleteEmptyRoom,
+  getGameScoreFromSocketId,
 };
