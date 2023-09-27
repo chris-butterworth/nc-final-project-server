@@ -46,11 +46,13 @@ export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5" sx={{paddingTop: "1em" }}>
+        {/* <Typography component="h1" variant="h5" sx={{paddingTop: "1em" }}>
           Set a username (play as guest)
-        </Typography>
-        <FormControl sx={{ width: "20vw", mt: 2}}>
-          <InputLabel htmlFor="username">Username</InputLabel>
+        </Typography> */}
+        <FormControl sx={{ width: "90%", mt: 2 }}>
+          <InputLabel htmlFor="username">
+          Username (play as guest)
+          </InputLabel>
           <Input
             id="username"
             value={usernameInput}

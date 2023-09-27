@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu"; 
+import MenuIcon from "@mui/icons-material/Menu";
 import { ModeContext } from "../context/Mode.jsx";
 import { lightTheme, darkTheme } from "../themes";
 import pills from "../assets/red-pill-blue-pill.jpg";
@@ -17,7 +17,7 @@ import Hidden from "@mui/material/Hidden";
 
 const NavBar = ({ username, setUsername, setRoom }) => {
   const { mode, setMode } = useContext(ModeContext);
-  const [menuOpen, setMenuOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleModeChange = () => {
     if (mode === lightTheme) {
@@ -48,7 +48,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
                 color="inherit"
                 aria-label="menu"
                 sx={{ height: "40px" }}
-                onClick={() => setMenuOpen(!menuOpen)} 
+                onClick={() => setMenuOpen(!menuOpen)}
               >
                 <MenuIcon />
               </IconButton>
@@ -71,7 +71,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
                 variant="text"
                 color="inherit"
               >
-                Leader Board
+                Leaderboards
               </Button>
             </Hidden>
           </div>
@@ -108,7 +108,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
                 variant="text"
                 color="inherit"
                 fullWidth
-                onClick={() => setMenuOpen(false)} 
+                onClick={() => setMenuOpen(false)}
               >
                 Anagram Game
               </Button>

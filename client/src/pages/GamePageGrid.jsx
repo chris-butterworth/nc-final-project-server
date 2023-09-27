@@ -410,7 +410,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               }}
             >
               <Typography
-                variant="h6"
+                // variant="h6"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -442,7 +442,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               }}
             >
               <Typography
-                variant="h6"
+                // variant="h6"
                 sx={{
                   maxHeight: "25px",
                   maxWidth: "calc(100%-1em)",
@@ -602,7 +602,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           >
             <Item sx={{ overflow: "auto" }}>
               <Grid item xs={12} md={12}>
-                <Typography variant="h6">Game Scroll </Typography>
                 <Box textAlign={"left"} sx={{ height: "40vh" }}>
                   {gameScroll.map((item, index) => {
                     return (
