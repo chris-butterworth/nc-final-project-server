@@ -121,7 +121,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={12}>
           <Link to="/tutorial" style={{ textDecoration: "none" }}>
             <Paper
               sx={{
