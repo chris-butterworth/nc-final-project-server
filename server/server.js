@@ -79,6 +79,11 @@ io.on("connection", (socket) => {
     postSignUp(user)
   })
 
+  socket.on("updateScore", (user_id) => {
+    console.log("you got here")
+    console.log(user_id)
+  })
+
   socket.on("disconnect", (reason) => {
     console.log(socket.id, "disconnected due to:", reason);
     handleDisconnect(socket);

@@ -21,6 +21,7 @@ import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
 import { FastForward, Close } from "@mui/icons-material";
 import PlayerControls from "../components/PlayerControls";
+import {auth} from "../../firebase"
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -56,8 +57,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
+  
 
   const Ref = useRef(null);
+  
 
   useEffect(() => {
     socket.on(
@@ -118,6 +121,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
   useEffect(() => {
     socket.on("endGame", (scores) => {
+      if(auth.currentUser) {
+        
+        socket.emit("updateScore", auth.currentUser.uid )
+      }
       timerFunction(0);
       setAnagramWords([]);
       setFormattedAnswerArray([]);

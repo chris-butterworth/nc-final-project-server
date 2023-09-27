@@ -62,6 +62,9 @@ const betweenRoundStageEmit = (roomId) => {
     );
 };
 
+//socket.on(updatescore, (auth.key))
+
+//player list.find matching socketid list, grab score 
 module.exports = {
   startGameEmit,
   endGameEmit,
