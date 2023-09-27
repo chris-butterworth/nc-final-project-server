@@ -80,12 +80,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updateScore", (user_id) => {
-    handleUpdateScore(socket, user_id)
-  })
+    handleUpdateScore(socket, user_id);
+  });
 
   socket.on("highScoreLeaderboard", async (callback) => {
     const highScores = await getHighScoreLeaderboard();
-    callback( highScores );
+    callback(highScores);
   });
 
   socket.on("liftimeLeaderboard", async (callback) => {

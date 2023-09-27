@@ -41,6 +41,7 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
           Ready for the next game
         </Button>
         {gameScores.map((anagram, index) => (
+          
           <Box
             key={index}
             sx={{
@@ -51,7 +52,7 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
             }}
           >
             <Typography variant="h6" sx={{color: theme.palette.mode === "light" ? "#ef476f" : "#fff"}}>
-              {anagram.question} = {anagram.answer}
+              {anagram.question.join(' ')} = {anagram.answer}
             </Typography>
             <Box
               sx={{
