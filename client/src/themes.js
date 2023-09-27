@@ -85,7 +85,7 @@ export const lightTheme = createTheme({
           fontWeightMedium: 500,
           color: "#118ab2",
         },
-        h6: { color: "#ffd166" },
+        h6: { color: "#118ab2" },
       },
     },
     MuiButton: {
@@ -115,17 +115,17 @@ export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#ef476f",
+      main: "#ef476f", 
       
     },
     secondary: {
-      main: "#06d6a0",
+      main: "#06d6a0", 
     },
     info: {
       main: "#ffd166",
     },
     background: {
-      default: "#118ab2",
+      default: "#118ab2", 
     },
   },
 });

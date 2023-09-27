@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, useMediaQuery } from "@mui/material";
 import { ModeContext } from "./context/Mode.jsx";
 import { Paper } from "@mui/material";
 import NavBar from "./components/NavBar";
@@ -22,6 +22,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [players, setPlayers] = useState([]);
+  const isMobile = useMediaQuery("(max-width: 600px)"); 
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -59,7 +60,7 @@ function App() {
               backgroundSize: "cover",
             }),
             minHeight: "100vh",
-            minWidth: "100vh",
+            minWidth: isMobile ? "75vw" : "100vh", 
           }}
         >
           <NavBar
@@ -68,9 +69,9 @@ function App() {
             username={username}
           />
           <Routes>
-            <Route path="/tutorial" element={<TutorialPage />} />
+            <Route path="/tutorial" element={<TutorialPage/>} />
             <Route path="/leaderboard" element={<LeaderBoard />} />
-            <Route path="/thebuild" element={<TheBuild/>} />
+            <Route path="/thebuild" element={<TheBuild />} />
             <Route
               path="/"
               element={
@@ -85,7 +86,7 @@ function App() {
               }
             />
           </Routes>
-          <Footer/>
+          <Footer />
         </Paper>
       </ThemeProvider>
     </>

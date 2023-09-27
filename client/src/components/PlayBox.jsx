@@ -1,6 +1,9 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { ModeContext } from "../context/Mode";
 import { useState, useEffect, useContext } from "react";
+import PlayerControls from "./PlayerControls";
+import { HintBar } from "./HintBar";
+
 export const PlayBox = ({
   anagramWords,
   setAnagramWords,
@@ -14,20 +17,11 @@ export const PlayBox = ({
   category,
   skippedOrCorrect,
   setSkippedOrCorrect,
+  children,
+  handleSkipButtonClick,
+  handleHintButtonClick, 
 }) => {
   const { mode, setMode } = useContext(ModeContext);
-
-  const handleClearButtonClick = () => {
-    setDisabledButtons([]);
-
-    setFormattedAnswerArray((current) => {
-      return current.map((word) => {
-        return word.map((letter) => {
-          return "";
-        });
-      });
-    });
-  };
 
 
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
@@ -44,45 +38,6 @@ export const PlayBox = ({
           return;
         }
       }
-    }
-  };
-
-  const handleHintButtonClick = () => {
-    // Combine the words in formattedAnswerArray into a single string
-    const currentAnswer = formattedAnswerArray
-      .map((word) => word.join(""))
-      .join(" ");
-
-    // Get the full anagram answer
-    const fullAnswer = anagramAnswer.replace(/\s/g, "");
-
-    // Find the index of the first incorrect character
-    const firstIncorrectIndex = currentAnswer
-      .split("")
-      .findIndex((char, index) => char !== fullAnswer.charAt(index));
-
-    if (firstIncorrectIndex !== -1) {
-      // Extract the correct letter from the full answer
-      const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
-
-      // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
-      let wordIndex = 0;
-      let letterIndex = 0;
-
-      for (let i = 0; i < formattedAnswerArray.length; i++) {
-        const wordLength = formattedAnswerArray[i].length;
-        if (firstIncorrectIndex >= letterIndex + wordLength) {
-          letterIndex += wordLength;
-          wordIndex++;
-        } else {
-          break;
-        }
-      }
-
-      // Update formattedAnswerArray with the correct letter
-      const updatedArray = [...formattedAnswerArray];
-      updatedArray[wordIndex][letterIndex] = correctLetter;
-      setFormattedAnswerArray(updatedArray);
     }
   };
 
@@ -132,25 +87,6 @@ export const PlayBox = ({
   console.log({ roundNumber, anagramNumber, category });
   return (
     <>
-      <Button
-        onClick={handleClearButtonClick}
-        disabled={
-          skippedOrCorrect ||
-          anagramWords.length === 0 ||
-          disabledButtons.length === 0
-        }
-      >
-        Clear
-      </Button>
-      <Button
-        onClick={handleHintButtonClick}
-        disabled={skippedOrCorrect || anagramWords.length === 0}
-      >
-        Hint
-      </Button>
-      <Typography>
-        Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
-      </Typography>
       <Paper
         className="solution-container"
         sx={{
@@ -210,6 +146,7 @@ export const PlayBox = ({
           renderWord(anagramWord, wordIndex)
         )}
       </Paper>
+      
     </>
   );
 };
