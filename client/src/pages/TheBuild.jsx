@@ -1,13 +1,13 @@
 import React from "react";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { Paper } from "@mui/material";
+import { Paper, Typography, Grid } from "@mui/material";
+
+
 
 const theTeam = [
   {
@@ -40,7 +40,14 @@ const theTeam = [
     github: "https://github.com/TypeError92",
     linkedIn: "https://www.linkedin.com/in/simon-walgenbach-b06960142/",
   },
+  {
+    name: "Bootcamp Details: Northcoders",
+    img: "https://pbs.twimg.com/profile_images/1333392601450426370/x_DT51WI_400x400.jpg",
+    github: "https://github.com/northcoders",
+    linkedIn: "https://www.linkedin.com/company/northcoders/mycompany/",
+  },
 ];
+
 
 const TeamMember = ({ name, img, linkedIn, github }) => {
   return (
@@ -85,23 +92,56 @@ export const TheBuild = () => {
   return (
     <Container>
       <Paper sx={{ marginTop: "3em", padding: "2em", textAlign: "center" }}>
-        <Typography variant="h3" gutterBottom>
-          This project was created as a portfolio piece to showcase the culmination 
-        </Typography>
+    <Typography variant="h4" gutterBottom sx={{paddingTop: "2em"}}>
+      This project was created as a portfolio piece in the final 8 days of the industry-leading Northcoders software engineering boot camp.
+    </Typography>
 
-        <TextField
-          id="project-details"
-          label="Enter project details"
-          multiline
-          rows={4}
-          variant="outlined"
-          fullWidth
-        />
+    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
+      We decided to build a game to test our full-stack skills and see if we could build a real-time multiplayer game using this tech stack: socket.io, ExpressJs, NodeJS, React, Flask, FireBase, Material UI, PostGres, we were working on some integration with OpenAi, but the robots aren't good enough at anagrams yet to be able to play with us!
+     
+    </Typography>
+{/* 
+    <Grid container justifyContent="center" spacing={2}>
+      <Grid item>
+        <TechLogo src="../" alt="Socket.IO" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={ReactLogo} alt="React" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={FirebaseLogo} alt="Firebase" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={MaterialUILogo} alt="Material UI" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={FlaskLogo} alt="Flask" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={ExpressLogo} alt="Express" />
+      </Grid>
+      <Grid item>
+        <TechLogo src={NodeJSLogo} alt="Node.js" />
+      </Grid>
+    </Grid> */}
 
-        <Typography variant="h4" gutterBottom>
-          Team Members
-        </Typography>
+    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
+      Languages used: JavaScript, Python, HTML & CSS
+    </Typography>
 
+    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
+      We think that we've done a pretty good job and exceeded our MVP goals. There's obviously more we would have liked to have done, but 8 days is pretty short, and we're happy with this initial version.
+      We may reunite the team to develop some more features, or we may simply move on to bigger and better things.
+    </Typography>
+
+    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
+      Either way, thank you for stopping by & playing. If you'd like to talk to any of us, use the links below to connect with us.
+      If you're wondering how we achieved such levels of wizardry, this is a public repo so hit one of the GitHub links below.
+    </Typography>
+
+    <Typography variant="h4" gutterBottom sx={{paddingTop: "2em"}}>
+      Team Members
+    </Typography>
         <Grid container spacing={2}>
           {theTeam.map((teamMember) => (
             <TeamMember
