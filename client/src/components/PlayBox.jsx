@@ -1,8 +1,7 @@
-import { Paper, Box, Button, Typography } from "@mui/material";
+import { Paper, Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { ModeContext } from "../context/Mode";
 import { useState, useEffect, useContext } from "react";
 import PlayerControls from "./PlayerControls";
-import { HintBar } from "./HintBar";
 
 import findHintIndices from "../utils/findHintIndices";
 import findReenableButton from "../utils/findReenableButton";
@@ -28,6 +27,7 @@ export const PlayBox = ({
   setHints,
 }) => {
   const { mode, setMode } = useContext(ModeContext);
+  const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
 
   const handleClearButtonClick = () => {
     // Hint buttons stay disabled after clear
@@ -231,32 +231,66 @@ export const PlayBox = ({
 
   return (
     <>
-      <Button
-        onClick={handleClearButtonClick}
-        disabled={
-          skippedOrCorrect ||
-          anagramWords.length === 0 ||
-          disabledButtons.length === 0
-        }
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: "center",
+          minWidth: "25vw",
+          minHeight: "2vh",
+          margin: "1em",
+          padding: "0.5em",
+          textAlign: "center",
+          justifyContent: "center",
+          backgroundColor:
+            mode.palette.mode === "light" ? "#e4dfda" : "#252b32",
+          borderRadius: "0.5em",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+        }}
       >
-        Clear
-      </Button>
-      <Button
-        onClick={handleHintButtonClick}
-        disabled={
-          skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
-        }
-      >
-        Hint
-      </Button>
-      <Typography
-        sx={{ color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41" }}
-      >
-        {3 - hintCount} hints remaining
-      </Typography>
-      <Typography>
-        Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
-      </Typography>
+        <Button
+          onClick={handleClearButtonClick}
+          disabled={
+            skippedOrCorrect ||
+            anagramWords.length === 0 ||
+            disabledButtons.length === 0
+          }
+          variant="contained"
+          sx={{
+            backgroundColor:
+              mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+            color: mode.palette.mode === "light" ? "#fff" : "#fff",
+            margin: isMobile ? "0.5em 0" : "0.5em",
+          }}
+        >
+          Clear
+        </Button>
+        <Button
+          onClick={handleHintButtonClick}
+          disabled={
+            skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
+          }
+          sx={{
+            backgroundColor:
+              mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+            color: mode.palette.mode === "light" ? "#fff" : "#fff",
+            margin: isMobile ? "0.5em 0" : "0.5em",
+          }}
+        >
+          Hint
+        </Button>
+        <Typography
+          sx={{
+            color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41",
+            marginLeft: "10px",
+          }}
+        >
+          {3 - hintCount} hints remaining
+        </Typography>
+        <Typography sx={{ padding: "5px" }}>
+          Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
+        </Typography>
+      </Box>
       <Paper
         className="solution-container"
         sx={{
@@ -286,7 +320,16 @@ export const PlayBox = ({
                   }}
                 >
                   {answerLetter !== "" ? (
-                    <Button>{answerLetter}</Button>
+                    <Button
+                      sx={{
+                        padding: "0",
+                        minWidth: "40px",
+                        height: "80%",
+                        border: "0.1em solid #B8ADA0",
+                      }}
+                    >
+                      {answerLetter}
+                    </Button>
                   ) : (
                     <Box
                       sx={{
