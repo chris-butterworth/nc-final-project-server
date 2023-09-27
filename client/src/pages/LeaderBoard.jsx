@@ -1,101 +1,140 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import PersonIcon from "@mui/icons-material/Person";
-import GroupIcon from "@mui/icons-material/Group";
-import SchoolIcon from "@mui/icons-material/School";
 import {
   Typography,
-  FormControl,
-  InputLabel,
-  Input,
-  Button,
+  Avatar,
+  Container,
+  TableContainer,
+  TableBody,
+  TableRow,
+  TableCell,
+  Divider,
 } from "@mui/material";
 import socket from "../socket";
 import { useState, useEffect, useContext } from "react";
-import { auth } from "../../firebase";
 import { ModeContext } from "../context/Mode";
 import { useTheme } from "@emotion/react";
 
 export const LeaderBoard = () => {
   const theme = useTheme();
-  const [leaderboard, setLeaderboard] = useState();
+  const [lifetimeLeaderboard, setLifetimeLeaderboard] = useState();
+  const [highScoreLeaderboard, setHighScoreLeaderboard] = useState();
+  const { mode, setMode } = useContext(ModeContext);
 
   useEffect(() => {
-    socket.on("leaderboard", (data) => {});
+    socket.emit("liftimeLeaderboard", (lifetimeScores) => {
+      setLifetimeLeaderboard(lifetimeScores);
+    });
   }, []);
-  const { mode, setMode } = useContext(ModeContext);
+
+  useEffect(() => {
+    socket.emit("highScoreLeaderboard", (highScores) => {
+      setHighScoreLeaderboard(highScores);
+    });
+  }, []);
+
   return (
     <Box>
       <Paper
         elevation={3}
+        label="Single Game High Scores"
         sx={{
-          minWidth: "25vw",
-          minHeight: "8em",
-          maxHeight: "40vh",
-          margin: "2em",
+          maxWidth: "600px",
+
+          maxHeight: "30em",
+          margin: "auto",
+          marginBottom: "1em",
+          marginTop: "1em",
           padding: "1em",
           textAlign: "center",
           backgroundColor:
             theme.palette.mode === "light" ? "#e4dfda" : "#252b32",
           borderRadius: "0.5em",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-          overflow: "auto",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Typography variant="h5">Single Game High Scores</Typography>
-        {gameScores.map((anagram, index) => (
-          <Box
-            key={index}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "1em",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                marginTop: "0.5em",
-                overflow: "auto",
-              }}
-            >
-              {sortedPlayers.map((player) => {
-                const playerScore = anagram.scores.find(
-                  (score) => score.username === player.username
-                );
-
-                if (playerScore && playerScore.score > 0) {
-                  return (
-                    <Box
-                      key={player.username}
+        <Typography variant="h5" sx={{ paddingBottom: "0.2em" }}>
+          Single Game High Scores
+        </Typography>
+        <TableContainer
+          sx={{
+            overflow: "auto",
+          }}
+        >
+          <TableBody>
+            {highScoreLeaderboard &&
+              highScoreLeaderboard.map((player, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    {" "}
+                    <Avatar
+                      src={player.avatar_url}
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "0.2em",
+                        width: 24,
+                        height: 24,
+                        marginRight: "0.5em",
                       }}
-                    >
-                      <Avatar
-                        src={player.avatar}
-                        sx={{ width: 24, height: 24, marginRight: "0.5em" }}
-                      />
-                      <Typography>
-                        {player.username}: {playerScore.score} points
-                      </Typography>
-                    </Box>
-                  );
-                }
+                    />
+                  </TableCell>
+                  <TableCell>{player.username}</TableCell>
+                  <TableCell>{player.high_score} points</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </TableContainer>
+      </Paper>
 
-                return null;
-              })}
-            </Box>
-          </Box>
-        ))}
+      <Paper
+        elevation={3}
+        label="Single Game High Scores"
+        sx={{
+          maxWidth: "600px",
+          maxHeight: "30em",
+          marginBottom: "1em",
+          marginTop: "1em",
+          margin: "auto",
+          padding: "1em",
+          textAlign: "center",
+          backgroundColor:
+            theme.palette.mode === "light" ? "#e4dfda" : "#252b32",
+          borderRadius: "0.5em",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ paddingBottom: "0.2em" }}>
+          Lifetime Points
+        </Typography>
+        <TableContainer
+          sx={{
+            overflow: "auto",
+          }}
+        >
+          <TableBody>
+            {lifetimeLeaderboard &&
+              lifetimeLeaderboard.map((player, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    {" "}
+                    <Avatar
+                      src={player.avatar_url}
+                      sx={{
+                        width: 24,
+                        height: 24,
+                        marginRight: "0.5em",
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>{player.username}</TableCell>
+                  <TableCell>{player.lifetime_score} points</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </TableContainer>
       </Paper>
     </Box>
   );
