@@ -8,7 +8,6 @@ import {
   Typography,
   Button,
   Container,
-  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import { Timer } from "../components/Timer";
@@ -22,10 +21,9 @@ import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
 import { FastForward, Close } from "@mui/icons-material";
 import PlayerControls from "../components/PlayerControls";
-import {auth} from "../../firebase"
+import { auth } from "../../firebase";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
-import { HintBar } from "../components/HintBar";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -35,8 +33,8 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
   minHeight: "50vh",
-  maxHeight: "50vh",
-  maxWidth: "50vw",
+  maxHeight: "auto",
+  maxWidth: "100vw",
 }));
 
 const GamePageGrid = ({ players, room, setRoom }) => {
@@ -64,12 +62,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
-   
-
 
   const Ref = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
-  
 
   useEffect(() => {
     socket.on(
@@ -131,9 +126,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
   useEffect(() => {
     socket.on("endGame", (scores) => {
-      if(auth.currentUser) {
-        
-        socket.emit("updateScore", auth.currentUser.uid )
+      if (auth.currentUser) {
+        socket.emit("updateScore", auth.currentUser.uid);
       }
       timerFunction(0);
       setAnagramWords([]);
@@ -375,8 +369,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "25" : "100vw", // Adjusted maxWidth
-              minHeight: "8em",
+              maxWidth: isMobile ? "100vw" : "25", // Adjusted maxWidth
+              minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",
               textAlign: "center",
@@ -392,23 +386,29 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
+        <Grid item xs={12} sm={12} md={6} order={{ xs: 1, md: 2 }}>
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "100" : "50vw", // Adjusted maxWidth
-              minHeight: "8em",
+              maxWidth: isMobile ? "100vw" : "50vw", // Adjusted maxWidth
+              minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",
               textAlign: "right",
-              flexDirection: "column", 
-              alignItems:"flex-end", 
+              flexDirection: "column",
+              alignItems: "flex-end",
               justifyContent: "flex-end",
             }}
           >
-            <Container>
+            <Container
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
               <Typography
-                variant="h5"
+                variant="h6"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -419,19 +419,34 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               >
                 Game Room ID: {room}
               </Typography>
-              <ContentCopyIcon
-                fontSize="medium"
+              <Button
+                sx={{
+                  "&hover": { cursor: "pointer" },
+                  padding: "0",
+                  margin: "0",
+                }}
                 onClick={() => {
                   navigator.clipboard.writeText(room);
                 }}
-              />
+              >
+                <ContentCopyIcon fontSize="medium" />
+              </Button>
             </Container>
-            <Container>
+            <Container
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
               <Typography
-                variant="h5"
+                variant="h6"
                 sx={{
                   maxHeight: "25px",
+                  maxWidth: "calc(100%-1em)",
                   paddingRight: "1em",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
                 }}
                 onClick={() => {
                   navigator.clipboard.writeText(createRoomURL());
@@ -439,12 +454,18 @@ const GamePageGrid = ({ players, room, setRoom }) => {
               >
                 {createRoomURL()}
               </Typography>
-              <ContentCopyIcon
-                fontSize="medium"
+              <Button
+                sx={{
+                  "&hover": { cursor: "pointer" },
+                  padding: "0",
+                  margin: "0",
+                }}
                 onClick={() => {
                   navigator.clipboard.writeText(createRoomURL());
                 }}
-              />
+              >
+                <ContentCopyIcon fontSize="medium" />
+              </Button>
             </Container>
           </Paper>
         </Grid>
@@ -480,7 +501,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
         />
       </CustomDialog>
 
-      <Box sx={{ flexGrow: 1 }}>
+      <Paper sx={{ flexGrow: 1, height: "auto", width: "100vw" }}>
         <Grid container spacing={2}>
           <Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
             <Item sx={{ overflow: "auto" }}>
@@ -489,88 +510,84 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           </Grid>
 
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={6}>
-          <Item
-  sx={{
-    display: "flex",
-    flex: 1,
-    flexDirection: "column", 
-    justifyContent: "flex-end",
-    minHeight: "50vh",
-    
-  }}
->
-  {gameOver ? (
-    <Scoreboard
-      gameScores={gameScores}
-      players={players}
-      setPlayerReady={setPlayerReady}
-    />
-  ) : (
-    <>
-      <div
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          overflow: "hidden", 
-        }}
-      >
-         <HintBar sx={{ minWidth: "100%", flex: 1, justifyContent: "flex-start"}}
-         anagramWords={anagramWords}
-         formattedAnswerArray={formattedAnswerArray}
-         setFormattedAnswerArray={setFormattedAnswerArray}
-          disabledButtons={disabledButtons}
-          setDisabledButtons={setDisabledButtons}
-          roundNumber={roundNumber}
-          anagramNumber={anagramNumber}
-          category={category}
-          skippedOrCorrect={skippedOrCorrect}
-          handleSkipButtonClick = {handleSkipButtonClick}
-          handleHintButtonClick={handleHintButtonClick}
-         />
-        <PlayBox
-          sx={{ minWidth: "100%", flex: 1 }}
-          anagramWords={anagramWords}
-          setAnagramWords={setAnagramWords}
-          formattedAnswerArray={formattedAnswerArray}
-          setFormattedAnswerArray={setFormattedAnswerArray}
-          disabledButtons={disabledButtons}
-          setDisabledButtons={setDisabledButtons}
-          roundNumber={roundNumber}
-          anagramNumber={anagramNumber}
-          category={category}
-          skippedOrCorrect={skippedOrCorrect}
-          setSkippedOrCorrect={setSkippedOrCorrect}
-          mode={mode}
-          hint={hint}
-                  setHint={setHint}
-                  hintCount={hintCount}
-                  setHintCount={setHintCount}
-                  hints={hints}
-                  setHints={setHints}
-        />
-      </div>
-      <div
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          overflow: "hidden",
-        }}
-      >
-        <PlayerControls
-          sx={{ minWidth: "100%", flex: 1 }}
-          handleQuitButtonClick={handleQuitButtonClick}
-          handleSkipButtonClick={handleSkipButtonClick}
-          skippedOrCorrect={skippedOrCorrect}
-          anagramWords={anagramWords}
-          setAnagramWords={setAnagramWords}
-          mode={mode}
-        />
-      </div>
-    </>
-  )}
-</Item>
+            <Item
+              sx={{
+                display: "flex",
+                // flex: 1,
+                flexDirection: "column",
+                justifyContent: "space-between",
+                minHeight: "50vh",
+                width: "100%",
+              }}
+            >
+              {gameOver ? (
+                <Scoreboard
+                  gameScores={gameScores}
+                  players={players}
+                  setPlayerReady={setPlayerReady}
+                />
+              ) : (
+                <div
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignItems: "space-between",
+                  }}
+                >
+                  {/* <div
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      flex: 1,
+                      overflow: "hidden",
+                    }}
+                  > */}
+                  <PlayBox
+                    sx={{ minWidth: "100%", height: "auto" }}
+                    anagramWords={anagramWords}
+                    setAnagramWords={setAnagramWords}
+                    formattedAnswerArray={formattedAnswerArray}
+                    setFormattedAnswerArray={setFormattedAnswerArray}
+                    disabledButtons={disabledButtons}
+                    setDisabledButtons={setDisabledButtons}
+                    roundNumber={roundNumber}
+                    anagramNumber={anagramNumber}
+                    category={category}
+                    skippedOrCorrect={skippedOrCorrect}
+                    setSkippedOrCorrect={setSkippedOrCorrect}
+                    mode={mode}
+                    hint={hint}
+                    setHint={setHint}
+                    hintCount={hintCount}
+                    setHintCount={setHintCount}
+                    hints={hints}
+                    setHints={setHints}
+                  />
+                  {/* <div
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flex: 1,
+                        overflow: "hidden",
+                      }}
+                    > */}
+                  <PlayerControls
+                    sx={{ minWidth: "100%", flex: 1, justifySelf: "flex-end" }}
+                    handleQuitButtonClick={handleQuitButtonClick}
+                    handleSkipButtonClick={handleSkipButtonClick}
+                    skippedOrCorrect={skippedOrCorrect}
+                    anagramWords={anagramWords}
+                    setAnagramWords={setAnagramWords}
+                    mode={mode}
+                  />
+                  {/* </div>
+                  </div> */}
+                </div>
+              )}
+            </Item>
           </Grid>
 
           <Grid
@@ -626,7 +643,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             )}
           </Grid>
         </Grid>
-      </Box>
+      </Paper>
     </Paper>
   );
 };
