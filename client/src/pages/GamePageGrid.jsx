@@ -1,5 +1,15 @@
+import { useContext } from "react";
+import { ModeContext } from "../context/Mode";
 import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, Typography, Button, Container } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  Button,
+  Container,
+  IconButton,
+} from "@mui/material";
 import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
@@ -9,6 +19,8 @@ import CustomDialog from "../components/CustomDialog";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
 import ChatInput from "../components/ChatInput";
+import { FastForward, Close } from "@mui/icons-material";
+import PlayerControls from "../components/PlayerControls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -22,14 +34,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const GamePageGrid = ({ players, room, setRoom }) => {
+  const { mode } = useContext(ModeContext);
   const [playerReady, setPlayerReady] = useState(false);
   const [timer, setTimer] = useState(0);
-
   const [score, setScore] = useState(0); // if truthy then means you've guess correctly
-
   const [anagramNumber, setAnagramNumber] = useState(1);
   const [roundNumber, setRoundNumber] = useState(1);
-
   const [betweenWords, setBetweenWords] = useState(false);
   const [betweenRounds, setBetweenRounds] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -63,9 +73,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
 
   useEffect(() => {
-    socket.on("gameScroll", (message) => {
+    socket.on("gameScroll", (username, message) => {
       setGameScroll((current) => {
-        return [message, ...current];
+        return [{ username, message }, ...current];
       });
     });
   }, []);
@@ -261,18 +271,15 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             elevation={3}
             sx={{
               minWidth: "25vw",
-              minHeight: "8em", // maxHeight: "auto",
+              minHeight: "8em",
               margin: "2em",
-              display: "flex" | "inline-flex",
-
-              justifyContent: "center",
-              paddingTop: "2.25em",
-              cursor: "pointer",
+              padding: "1em",
+              textAlign: "center",
             }}
           >
-            <Container sx={{ display: "flex" }}>
+            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
-                variant="h7"
+                variant="h5"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -284,15 +291,15 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 Game Room ID: {room}
               </Typography>
               <ContentCopyIcon
-                fontSize="small"
+                fontSize="medium"
                 onClick={() => {
                   navigator.clipboard.writeText(room);
                 }}
               />
             </Container>
-            <Container sx={{ display: "flex" }}>
+            <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Typography
-                variant="h7"
+                variant="h5"
                 sx={{
                   maxHeight: "25px",
                   paddingRight: "1em",
@@ -304,7 +311,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                 {createRoomURL()}
               </Typography>
               <ContentCopyIcon
-                fontSize="small"
+                fontSize="medium"
                 onClick={() => {
                   navigator.clipboard.writeText(createRoomURL());
                 }}
@@ -343,12 +350,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           sx={{ maxHeight: "25px" }}
         />
       </CustomDialog>
-      {/* <CustomDialog
-        open={gameOver}
-        title={gameMessage}
-        contentText={fullScreenCustomDialog}
-        // secondaryText={gameScores}
-      /> */}
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
@@ -391,56 +392,65 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             </Item>
           </Grid>
 
-          <Grid item xs={12} order={{ xs: 2, md: 3 }} md={3}>
+          <Grid
+            item
+            xs={12}
+            order={{ xs: 2, md: 3 }}
+            md={3}
+            sx={{ flexDirection: "column", alignItems: "baseline" }}
+          >
             <Item sx={{ overflow: "auto" }}>
-              <Typography variant="h4">Game Scroll </Typography>
-              <Typography>
-                {gameScroll.map((item, index) => {
-                  return <Typography key={index}>{item}</Typography>;
-                })}
-              </Typography>
-              <ChatInput />
+              <Grid item xs={12} md={12}>
+                <Typography variant="h6">Game Scroll </Typography>
+                <Box>
+                  {gameScroll.map((item, index) => {
+                    return (
+                      <Box key={index}>
+                        {item.username !== "system" && (
+                          <Typography sx={{ display: "inline", color: "blue" }}>
+                            {item.username}
+                            {" - "}
+                          </Typography>
+                        )}
+                        <Typography sx={{ display: "inline" }}>
+                          {item.message}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Grid>
             </Item>
           </Grid>
         </Grid>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="span">Player Controls</Typography>
-          <Button onClick={handleQuitButtonClick}>Quit</Button>
-          <Button
-            onClick={handleSkipButtonClick}
-            disabled={skippedOrCorrect || anagramWords.length === 0}
-          >
-            Skip
-          </Button>
-        </Paper>
-        <Paper
-          elevation={3}
-          sx={{
-            minWidth: "25vw",
-            minHeight: "5vh",
-            margin: "2em",
-            padding: "1em",
-            textAlign: "center",
-          }}
-        ></Paper>
+        <Grid container spacing={2}>
+          <Grid item xs={3} order={{ xs: 3, md: 1 }}></Grid>
+          <Grid item xs={6} order={{ xs: 1, md: 2 }}>
+            <PlayerControls
+              handleQuitButtonClick={handleQuitButtonClick}
+              handleSkipButtonClick={handleSkipButtonClick}
+              skippedOrCorrect={skippedOrCorrect}
+              anagramWords={anagramWords}
+              mode={mode}
+            />
+          </Grid>
+          <Grid item order={{ xs: 2, md: 2 }} xs={3}>
+            <Paper
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                marginLeft: "0.5em",
+                marginRight: "0.5em",
+                backgroundColor:
+                  mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
+              }}
+            >
+              <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </Paper>
   );

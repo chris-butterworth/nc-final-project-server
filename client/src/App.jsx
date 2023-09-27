@@ -6,14 +6,15 @@ import { Paper } from "@mui/material";
 import NavBar from "./components/NavBar";
 import AppContainer from "./components/AppContainer";
 import TutorialPage from "./pages/TutorialPage";
+import { TheBuild } from "./pages/TheBuild.jsx";
 import "./App.css";
 import socket from "./socket.js";
 import matrix from "./assets/matrix.gif";
 import light from "./assets/light.avif";
-import SingleTutorial from "./pages/SingleTutorial.jsx";
 import MultiTutorial from "./pages/MultiTutorial.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
+import { Footer } from "./components/Footer.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -22,24 +23,20 @@ function App() {
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    console.log("change of user");
-    socket.emit("assignUsername", username);
-  }, [username]);
-
-  useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(auth, "auth in auth");
-        console.log(user.displayName, "user in auth");
         setUsername(user.displayName);
+        socket.emit("avatar", user.photoURL);
+        socket.emit("username", user.displayName);
       } else {
         setUsername("");
+        socket.emit("leaveRoom");
       }
     });
     return () => {
       listen();
     };
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     socket.on("updatePlayers", (players) => {
@@ -71,8 +68,8 @@ function App() {
           />
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
-            <Route path="/tutorial/single" element={<SingleTutorial />} />
-            <Route path="/tutorial/multi" element={<MultiTutorial />} />
+            {/* <Route path="/tutorial/single" element={<SingleTutorial />} /> */}
+            <Route path="/thebuild" element={<TheBuild/>} />
             <Route
               path="/"
               element={
@@ -87,6 +84,7 @@ function App() {
               }
             />
           </Routes>
+          <Footer/>
         </Paper>
       </ThemeProvider>
     </>

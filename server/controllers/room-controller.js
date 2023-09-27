@@ -46,13 +46,13 @@ const joinMultiPlayerRoom = (socket, roomId, callback) => {
         ...templatePlayerObject,
         id: socket.id,
         username: socket.data?.username,
+        avatar: socket.data?.avatar
       },
     ],
   };
   roomsMap.set(roomId, roomUpdate);
   socket.join(roomId);
   socket.data.roomId = roomId;
-  socket.to(roomId).emit("updatePlayers", roomUpdate.players);
   callback(roomUpdate);
 };
 
@@ -63,7 +63,7 @@ const populateScoreboard = (roomId) => {
       return { username: user.username, score: 0, isSolved: false };
     });
   });
-  roomsMap.set(roomData.roomId, roomData);
+  roomsMap.set(roomData?.roomId, roomData);
 };
 
 const deleteEmptyRoom = (roomId) => {
