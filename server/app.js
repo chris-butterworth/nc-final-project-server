@@ -162,6 +162,7 @@ const handleLeaveRoom = (socket) => {
   removePlayerFromRoom(roomId, socket.id);
   deleteEmptyRoom(roomId);
   pushPlayerlistToClients(roomId);
+  testAllPlayersGuessedCorrectly(socket);
 };
 
 const handleDisconnect = (socket) => {
@@ -170,6 +171,7 @@ const handleDisconnect = (socket) => {
   removePlayerFromRoom(roomId, socket.id);
   deleteEmptyRoom(roomId);
   pushPlayerlistToClients(roomId);
+  testAllPlayersGuessedCorrectly(socket);
 };
 
 const handleSkip = (socket) => {
