@@ -8,7 +8,7 @@ if (ENV === "development")
   });
 
 const myApi = axios.create({
-  baseURL: "https://sphinx-api-gjqf.onrender.com/api",
+  baseURL: process.env.API_URL,
 });
 
 const auth = {
@@ -23,7 +23,6 @@ const getNineAnagrams = () => {
     return data;
   });
 };
-
 
 const testApi = () => {
   return myApi

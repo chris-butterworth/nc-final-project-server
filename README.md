@@ -21,3 +21,5 @@ Create file called .env.development in the /server folder, add the following:
 `API_USERNAME=admin`
 
 `API_PASSWORD=admin`
+
+`API_URL=https://sphinx-api-gjqf.onrender.com/api`
