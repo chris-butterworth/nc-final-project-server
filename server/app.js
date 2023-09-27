@@ -26,6 +26,7 @@ const {
   populateScoreboard,
   deleteEmptyRoom,
   joinMultiPlayerRoom,
+  getGameScoreFromSocketId
 } = require("./controllers/room-controller");
 const { killTimer, startTimer } = require("./controllers/timer-controller");
 const { getAnagrams } = require("./models/anagram-model");
@@ -38,6 +39,7 @@ const {
 } = require("./utils");
 const { gameScrollEmit } = require("./controllers/im-controller");
 const { templateAnagrams } = require("./testData");
+const {updateScoreOnDatabase}= require("./api")
 
 const newSession = (socket, callback) => {
   const roomId = createNewRoom(socket, callback);
@@ -204,8 +206,10 @@ const handleSkip = (socket) => {
 
 const handleUpdateScore = (socket, auth) => {
   const roomId = getRoomIdFromSocket(socket);
-  const [{ totalScore }] = getGameScoreFromSocketId(socket.id, roomId);
-  updateScoreOnDatabase(auth, score);
+  const player = getGameScoreFromSocketId(socket.id, roomId);
+  
+  const totalScore = player[0].totalScore
+  updateScoreOnDatabase(auth, totalScore);
 };
 
 module.exports = {
