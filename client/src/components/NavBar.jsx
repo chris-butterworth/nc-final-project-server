@@ -14,6 +14,7 @@ import { auth } from '../../firebase.js'
 import socket from '../socket.js'
 import { Link } from 'react-router-dom'
 import Hidden from '@mui/material/Hidden'
+import { Typography } from '@mui/material'
 
 const NavBar = ({ username, setUsername, setRoom, room }) => {
 	const { mode, setMode } = useContext(ModeContext)

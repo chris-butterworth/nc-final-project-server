@@ -386,89 +386,93 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						/>
 					</Paper>
 				</Grid>
-				<Grid item xs={12} sm={12} md={6} order={{ xs: 1, md: 2 }}>
-					<Paper
-						elevation={3}
-						sx={{
-							maxWidth: isMobile ? '100vw' : '50vw', // Adjusted maxWidth
-							minHeight: isMobile ? '' : '6em',
-							margin: isMobile ? '0' : '2em',
-							padding: '1em',
-							textAlign: 'right',
-							flexDirection: "column",
-							alignItems: "flex-end",
-							justifyContent: 'flex-end',
-						}}
-					>
-						<Container
+				{isMobile ? (
+					''
+				) : (
+					<Grid item xs={12} sm={12} md={6} order={{ xs: 1, md: 2 }}>
+						<Paper
+							elevation={3}
 							sx={{
-								display: 'flex',
-								flexDirection: 'row',
+								maxWidth: isMobile ? '100vw' : '50vw', // Adjusted maxWidth
+								minHeight: isMobile ? '' : '6em',
+								margin: isMobile ? '0' : '2em',
+								padding: '1em',
+								textAlign: 'right',
+								flexDirection: 'column',
+								alignItems: 'flex-end',
 								justifyContent: 'flex-end',
 							}}
 						>
-							<Typography
-								// variant="h6"
+							<Container
 								sx={{
-									maxHeight: '25px',
-									paddingRight: '1em',
-								}}
-								onClick={() => {
-									navigator.clipboard.writeText(room)
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'flex-end',
 								}}
 							>
-								Game Room ID: {room}
-							</Typography>
-							<Button
+								<Typography
+									// variant="h6"
+									sx={{
+										maxHeight: '25px',
+										paddingRight: '1em',
+									}}
+									onClick={() => {
+										navigator.clipboard.writeText(room)
+									}}
+								>
+									Game Room ID: {room}
+								</Typography>
+								<Button
+									sx={{
+										'&hover': { cursor: 'pointer' },
+										padding: '0',
+										margin: '0',
+									}}
+									onClick={() => {
+										navigator.clipboard.writeText(room)
+									}}
+								>
+									<ContentCopyIcon fontSize="medium" />
+								</Button>
+							</Container>
+							<Container
 								sx={{
-									'&hover': { cursor: 'pointer' },
-									padding: '0',
-									margin: '0',
-								}}
-								onClick={() => {
-									navigator.clipboard.writeText(room)
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'flex-end',
 								}}
 							>
-								<ContentCopyIcon fontSize="medium" />
-							</Button>
-						</Container>
-						<Container
-							sx={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'flex-end',
-							}}
-						>
-							<Typography
-								// variant="h6"
-								sx={{
-									maxHeight: '25px',
-									maxWidth: 'calc(100%-1em)',
-									paddingRight: '1em',
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-								}}
-								onClick={() => {
-									navigator.clipboard.writeText(createRoomURL())
-								}}
-							>
-								Copy link
-							</Typography>
-							<Button
-								sx={{
-									'&hover': { cursor: 'pointer' },
-									padding: '0',
-									margin: '0',
-								}}
-								onClick={() => {
-									navigator.clipboard.writeText(createRoomURL())
-								}}
-							>
-								<ContentCopyIcon fontSize="medium" />
-							</Button>
-						</Container>
-					</Paper>
-				</Grid>
+								<Typography
+									// variant="h6"
+									sx={{
+										maxHeight: '25px',
+										maxWidth: 'calc(100%-1em)',
+										paddingRight: '1em',
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+									}}
+									onClick={() => {
+										navigator.clipboard.writeText(createRoomURL())
+									}}
+								>
+									Copy Room Lslaink
+								</Typography>
+								<Button
+									sx={{
+										'&hover': { cursor: 'pointer' },
+										padding: '0',
+										margin: '0',
+									}}
+									onClick={() => {
+										navigator.clipboard.writeText(createRoomURL())
+									}}
+								>
+									<ContentCopyIcon fontSize="medium" />
+								</Button>
+							</Container>
+						</Paper>
+					</Grid>
+				)}
 			</Grid>
 
 			<CustomDialog
