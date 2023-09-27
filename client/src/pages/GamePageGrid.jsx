@@ -54,6 +54,8 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [hint, setHint] = useState("");
   const [hintCount, setHintCount] = useState(0);
   const [skippedOrCorrect, setSkippedOrCorrect] = useState(false);
+  const [hints, setHints] = useState([]);
+
   const [gameMessage, setGameMessage] = useState("");
   const [gameScores, setGameScores] = useState("");
   const [gameScroll, setGameScroll] = useState([]);
@@ -118,12 +120,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           .split(" ")
           .map((word) => Array.from({ length: word.length }, () => ""))
       );
-
+      setHint(answer.toUpperCase());
       timerFunction(time);
+      setHintCount(0);
+      setHints([]);
     });
   }, []);
-  console.log(category);
-
   useEffect(() => {
     socket.on("endGame", (scores) => {
       timerFunction(0);
@@ -170,13 +172,25 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
   useEffect(() => {
     socket.on("incorrectAttempt", () => {
-      setDisabledButtons([]);
+      setDisabledButtons(() => {
+        return hints.map((hint) => {
+          return {
+            wordIndex: hint.questionWordIndex,
+            letterIndex: hint.questionLetterIndex,
+            letter: hint.letter,
+          };
+        });
+      });
       setFormattedAnswerArray((current) => {
-        return current.map((word) => {
-          return word.map((letter) => {
+        const hintsOnly = current.map((word) => {
+          return word.map(() => {
             return "";
           });
         });
+        hints.forEach((hint) => {
+          hintsOnly[hint.answerWordIndex][hint.answerLetterIndex] = hint.letter;
+        });
+        return hintsOnly;
       });
     });
   }, []);
@@ -521,6 +535,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           skippedOrCorrect={skippedOrCorrect}
           setSkippedOrCorrect={setSkippedOrCorrect}
           mode={mode}
+          hint={hint}
+                  setHint={setHint}
+                  hintCount={hintCount}
+                  setHintCount={setHintCount}
+                  hints={hints}
+                  setHints={setHints}
         />
       </div>
       <div
@@ -581,20 +601,22 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Grid item xs={3} order={{ xs: 3, md: 1 }}></Grid>
           <Grid item xs={6} order={{ xs: 1, md: 2 }}></Grid>
           <Grid item order={{ xs: 2, md: 2 }} xs={3}>
-            <Paper
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: "0.5em",
-                marginRight: "0.5em",
-                backgroundColor:
-                  mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
-              }}
-            >
-              <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
-            </Paper>
+            {players.length > 1 && (
+              <Paper
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  marginLeft: "0.5em",
+                  marginRight: "0.5em",
+                  backgroundColor:
+                    mode.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
+                }}
+              >
+                <ChatInput sx={{ maxWidth: "20em", maxHeight: "10em" }} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Box>

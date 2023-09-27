@@ -2,8 +2,6 @@ const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
 
-const { joinMultiPlayerRoom } = require("./controllers/room-controller.js");
-
 const {
   newSession,
   handleTestAttempt,
@@ -13,7 +11,6 @@ const {
   handleSkip,
   handleDisconnect,
   handleJoinMultiPlayerRoom,
-
 } = require("./app.js");
 
 const app = express();
@@ -27,7 +24,6 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-
   socket.on("username", (username) => {
     console.log("socket", socket.id, "=", username); // Don't delete
     socket.data.username = username;
@@ -49,7 +45,6 @@ io.on("connection", (socket) => {
   socket.on("joinMultiPlayerRoom", async (roomId, callback) => {
     handleJoinMultiPlayerRoom(socket, roomId, callback);
   });
-
 
   socket.on("playerReady", () => {
     socket.emit("newGame");
