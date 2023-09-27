@@ -15,3 +15,9 @@ New terminal
 `npm i`
 
 `npm run dev`
+
+Create file called .env.development in the /server folder, add the following:
+
+`API_USERNAME=admin`
+
+`API_PASSWORD=admin`
