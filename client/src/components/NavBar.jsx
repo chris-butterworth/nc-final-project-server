@@ -52,6 +52,14 @@ const NavBar = ({ username, setUsername, setRoom }) => {
             >
               The Build
             </Button>
+            <Button
+              component={Link}
+              to="/leaderboard"
+              variant="text"
+              color="inherit"
+            >
+              Leader Board
+            </Button>
           </div>
           <div>
             <IconButton
