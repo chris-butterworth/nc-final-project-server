@@ -27,6 +27,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  testApi()
   socket.on("username", (username) => {
     console.log("socket", socket.id, "=", username); // Don't delete
     socket.data.username = username;

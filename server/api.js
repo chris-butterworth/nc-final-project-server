@@ -2,10 +2,14 @@ const axios = require("axios");
 
 const myApi = axios.create({
   baseURL: "https://sphinx-api-gjqf.onrender.com/api",
-  headers: { auth: { username: "admin", password: "admin" } },
 });
 
-const auth = { auth: { username: "admin", password: "admin" } };
+const auth = {
+  auth: {
+    username: process.env.API_USERNAME,
+    password: process.env.API_PASSWORD,
+  },
+};
 
 const getNineAnagrams = () => {
   return myApi.get("/questions", auth).then(({ data }) => {
