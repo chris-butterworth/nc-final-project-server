@@ -7,8 +7,7 @@ import {
   Grid,
 } from "@mui/material";
 import { ModeContext } from "../context/Mode";
-import { useState, useEffect, useContext } from "react";
-import PlayerControls from "./PlayerControls";
+import { useContext } from "react";
 
 import findHintIndices from "../utils/findHintIndices";
 import findReenableButton from "../utils/findReenableButton";
@@ -24,9 +23,6 @@ export const PlayBox = ({
   anagramNumber,
   category,
   skippedOrCorrect,
-  setSkippedOrCorrect,
-  children,
-  handleSkipButtonClick,
   hint,
   hintCount,
   setHintCount,

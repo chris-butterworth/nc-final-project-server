@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import socket from "../socket";
 import { uniqueNamesGenerator, starWars } from "unique-names-generator";
 import {
-  Button,
-  FormControl,
-  InputLabel,
   Paper,
   Tab,
   Tabs,

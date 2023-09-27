@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -26,29 +25,16 @@ const CustomDialog = ({
       }}
     >
       {" "}
-   
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         {" "}
-     
-        <DialogContentText>
-          {" "}
-          </DialogContentText>
-          <DialogContentText>
-          {contentText}
-          </DialogContentText>
-          <DialogContentText>
-          {secondaryText}
-          </DialogContentText>
-          <DialogContentText>
-          {roundScores}
-        </DialogContentText>
-        {children}
+        <DialogContentText> </DialogContentText>
+        <DialogContentText>{contentText}</DialogContentText>
+        <DialogContentText>{secondaryText}</DialogContentText>
+        <DialogContentText>{roundScores}</DialogContentText>
+        <DialogContentText>{children}</DialogContentText>
       </DialogContent>
-      <DialogActions>
-        {" "}
-       
-      </DialogActions>
+      <DialogActions> </DialogActions>
     </Dialog>
   );
 };

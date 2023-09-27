@@ -50,9 +50,7 @@ export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
           Set a username (play as guest)
         </Typography> */}
         <FormControl sx={{ width: "90%", mt: 2 }}>
-          <InputLabel htmlFor="username">
-          Username (play as guest)
-          </InputLabel>
+          <InputLabel htmlFor="username">Username (play as guest)</InputLabel>
           <Input
             id="username"
             value={usernameInput}

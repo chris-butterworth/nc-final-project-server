@@ -58,8 +58,8 @@ const TutorialPage = () => {
             Want to know more about the geniuses who built this app?{" "}
             <Link to="/thebuild">Click here to see our faces!</Link>
           </Typography>
-          <Link style={{paddingTop: "1em"}} to="/">
-            <Button variant="contained" color="primary" >
+          <Link style={{ paddingTop: "1em" }} to="/">
+            <Button variant="contained" color="primary">
               Start a Game
             </Button>
           </Link>

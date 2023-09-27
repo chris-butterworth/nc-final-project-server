@@ -1,19 +1,19 @@
 import { useContext, useState } from "react";
+import { ModeContext } from "../context/Mode.jsx";
+import { lightTheme, darkTheme } from "../themes";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase.js";
+import { Link } from "react-router-dom";
+import socket from "../socket.js";
+import pills from "../assets/red-pill-blue-pill.jpg";
+import crayon from "../assets/crayon.png";
+import Hidden from "@mui/material/Hidden";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { ModeContext } from "../context/Mode.jsx";
-import { lightTheme, darkTheme } from "../themes";
-import pills from "../assets/red-pill-blue-pill.jpg";
-import crayon from "../assets/crayon.png";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase.js";
-import socket from "../socket.js";
-import { Link } from "react-router-dom";
-import Hidden from "@mui/material/Hidden";
 
 const NavBar = ({ username, setUsername, setRoom }) => {
   const { mode, setMode } = useContext(ModeContext);
@@ -39,7 +39,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{marginBottom: "1em"}}>
+      <AppBar position="static" sx={{ marginBottom: "1em" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <Hidden mdUp>

@@ -14,16 +14,15 @@ import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
-import socket from "../socket";
-import CustomDialog from "../components/CustomDialog";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
-import ChatInput from "../components/ChatInput";
-import { FastForward, Close } from "@mui/icons-material";
-import PlayerControls from "../components/PlayerControls";
 import { auth } from "../../firebase";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
+import socket from "../socket";
+import CustomDialog from "../components/CustomDialog";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ChatInput from "../components/ChatInput";
+import PlayerControls from "../components/PlayerControls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",

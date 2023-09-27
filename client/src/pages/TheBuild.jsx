@@ -9,8 +9,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import python from "../assets/stackLogos/python.png";
 import html from "../assets/stackLogos/html.png";
-import css from "../assets/stackLogos/css.png"
-
+import css from "../assets/stackLogos/css.png";
 
 const theTeam = [
   {
@@ -144,7 +143,11 @@ const ProjectDescription = () => (
       </Grid>
     </Grid>
 
-    <Typography variant="h6" gutterBottom sx={{ marginTop: "2em", marginBottom: "3em" }}>
+    <Typography
+      variant="h6"
+      gutterBottom
+      sx={{ marginTop: "2em", marginBottom: "3em" }}
+    >
       Languages used:
     </Typography>
 
@@ -155,26 +158,26 @@ const ProjectDescription = () => (
       sx={{ marginBottom: "1em", textAlign: "center" }}
     >
       <Grid item>
-        <LanguageLogo src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="JavaScript" />
-      </Grid>
-      <Grid item>
         <LanguageLogo
-          src={python}
-          alt="Python"
+          src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png"
+          alt="JavaScript"
         />
       </Grid>
       <Grid item>
-        <LanguageLogo
-          src={html}
-          alt="HTML"
-        />
+        <LanguageLogo src={python} alt="Python" />
       </Grid>
       <Grid item>
-        <LanguageLogo src={css}
-        alt="CSS" />
+        <LanguageLogo src={html} alt="HTML" />
+      </Grid>
+      <Grid item>
+        <LanguageLogo src={css} alt="CSS" />
       </Grid>
     </Grid>
-    <Typography variant="body2" gutterBottom sx={{ marginBottom: "1em", textAlign: "center" }}>
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
       We think that we've done a pretty good job and exceeded our MVP goals.
       There's obviously more we would have liked to have done, but 8 days is
       pretty short, and we're happy with this initial version. We may reunite
@@ -182,20 +185,30 @@ const ProjectDescription = () => (
       and better things.
     </Typography>
 
-    <Typography variant="body2" gutterBottom sx={{ marginBottom: "1em", textAlign: "center" }}>
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
       Either way, thank you for stopping by & playing. If you'd like to talk to
       any of us, use the links below to connect with us. If you're wondering how
-      we achieved such levels of wizardry, this is a public repo so follow one of the
-      the GitHub links below.
+      we achieved such levels of wizardry, this is a public repo so follow one
+      of the the GitHub links below.
     </Typography>
 
-   
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      We all want to thank the team at Northcoders for the teaching, mentoring
+      and support throughout the course.
+    </Typography>
   </Paper>
 );
 
 const TeamMember = ({ name, img, linkedIn, github }) => {
   return (
-    
     <Grid
       item
       xs={6}
@@ -240,20 +253,33 @@ export const TheBuild = () => {
     <Container>
       <ProjectDescription />
       <Paper>
-      <Typography variant="h4" gutterBottom sx={{ marginTop: "1em", marginBottom: "1em", paddingTop: "1em", textAlign: "center" }}>
-      Team Members
-    </Typography>
-      <Grid container spacing={1} sx={{ paddingTop: "1em", paddingBottom: "3em"}}>
-        {theTeam.map((teamMember) => (
-          <TeamMember
-            key={teamMember.name}
-            name={teamMember.name}
-            img={teamMember.img}
-            linkedIn={teamMember.linkedIn}
-            github={teamMember.github}
-          />
-        ))}
-      </Grid>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            marginTop: "1em",
+            marginBottom: "1em",
+            paddingTop: "1em",
+            textAlign: "center",
+          }}
+        >
+          Team Members
+        </Typography>
+        <Grid
+          container
+          spacing={1}
+          sx={{ paddingTop: "1em", paddingBottom: "3em" }}
+        >
+          {theTeam.map((teamMember) => (
+            <TeamMember
+              key={teamMember.name}
+              name={teamMember.name}
+              img={teamMember.img}
+              linkedIn={teamMember.linkedIn}
+              github={teamMember.github}
+            />
+          ))}
+        </Grid>
       </Paper>
     </Container>
   );
