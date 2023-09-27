@@ -597,9 +597,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
             md={3}
             sx={{ flexDirection: "column", alignItems: "baseline" }}
           >
-            <Item sx={{ overflow: "auto" }}>
+            <Item >
+            <Typography variant="h4">Messages</Typography>
               <Grid item xs={12} md={12}>
-                <Box textAlign={"left"} sx={{ height: "40vh" }}>
+                <Box textAlign={"left"} sx={{ height: "40vh", overflow:'auto' }}>
                   {gameScroll.map((item, index) => {
                     return (
                       <Box key={index}>

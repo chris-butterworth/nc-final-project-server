@@ -234,7 +234,7 @@ export const PlayBox = ({
       <Box
         sx={{
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
+          flexDirection:  "row",
           alignItems: "center",
           minWidth: "25vw",
           minHeight: "2vh",

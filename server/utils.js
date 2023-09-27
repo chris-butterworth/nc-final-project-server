@@ -1,6 +1,6 @@
 const roomsMap = require("./roomsDatabase");
 
-const numOfWords = 3;
+const numOfWords = 9;
 const timeBetweenWords = 3;
 const timeBetweenRounds = 10;
 const anagramTime = 120;
@@ -20,3 +20,4 @@ module.exports = {
   timeBetweenWords,
   anagramTime,
 };
+
