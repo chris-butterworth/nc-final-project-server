@@ -47,8 +47,11 @@ const PlayerControls = ({
 				minHeight: '5vh',
 				margin: '1em',
 				padding: '0.5em',
+				paddingLeft: '2em',
+				paddingRight: '2em',
 				textAlign: 'center',
-				justifyContent: 'center',
+				justifyContent: 'space-between',
+
 				backgroundColor: mode.palette.mode === 'light' ? '#e4dfda' : '#252b32',
 				borderRadius: '0.5em',
 				boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
@@ -66,12 +69,12 @@ const PlayerControls = ({
 			>
 				Quit
 			</Button>
-			<Typography
+			{/* <Typography
 				variant="span"
 				sx={{ color: mode.palette.mode === 'light' ? '#ef476f' : '#fff' }}
 			>
 				Player Controls
-			</Typography>
+			</Typography> */}
 			<Dialog
 				open={open}
 				onClose={handleClose}

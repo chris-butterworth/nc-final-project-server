@@ -239,9 +239,11 @@ export const PlayBox = ({
           minWidth: "25vw",
           minHeight: "2vh",
           margin: "1em",
-          padding: "0.5em",
+          padding: '0.5em',
+          paddingLeft: isMobile ? '0.7m': '2em',
+          paddingRight: isMobile ? '0.7em': '2em',
           textAlign: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
           backgroundColor:
             mode.palette.mode === "light" ? "#e4dfda" : "#252b32",
           borderRadius: "0.5em",
@@ -277,18 +279,21 @@ export const PlayBox = ({
             margin: isMobile ? "0.5em 0" : "0.5em",
           }}
         >
-          Hint
+          Hint ({3-hintCount})
         </Button>
-        <Typography
+        {/* <Typography
           sx={{
             color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41",
             marginLeft: "10px",
           }}
         >
-          {3 - hintCount} hints remaining
+          {3 - hintCount} hints <br/> remaining
+        </Typography> */}
+        <Typography sx={{ padding: "5px" }}>
+          Round: {roundNumber} <br/> Word: {anagramNumber}
         </Typography>
         <Typography sx={{ padding: "5px" }}>
-          Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
+        Category <br/> {category}
         </Typography>
       </Box>
       <Paper
