@@ -11,6 +11,7 @@ const {
   handleSkip,
   handleDisconnect,
   handleJoinMultiPlayerRoom,
+  handleUpdateScore,
 } = require("./app.js");
 
 const {postSignUp} = require("./api.js")
@@ -77,6 +78,7 @@ io.on("connection", (socket) => {
   socket.on("updateScore", (user_id) => {
     console.log("you got here")
     console.log(user_id)
+    handleUpdateScore(socket, user_id)
   })
 
   socket.on("disconnect", (reason) => {
