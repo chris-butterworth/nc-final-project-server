@@ -25,6 +25,7 @@ export const PlayBox = ({
   setHintCount,
   hints,
   setHints,
+  subcategory
 }) => {
   const { mode, setMode } = useContext(ModeContext);
   const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
@@ -288,7 +289,7 @@ export const PlayBox = ({
           {3 - hintCount} hints remaining
         </Typography>
         <Typography sx={{ padding: "5px" }}>
-          Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
+          Round: {roundNumber}. Word: {anagramNumber}. Category: {category} : {subcategory}
         </Typography>
       </Box>
       <Paper

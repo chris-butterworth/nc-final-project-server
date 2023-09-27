@@ -12,7 +12,7 @@ export const Footer = () => {
           Charlotte Cody
         </Link>
         <Link color="inherit" href="https://github.com/chris-butterworth" sx={{ marginRight: "1em" }}>
-          Chris Butterwoth
+          Chris Butterworth
         </Link>
         <Link color="inherit" href="https://github.com/Lex5mith" sx={{ marginRight: "1em" }}>
           Lex Smith

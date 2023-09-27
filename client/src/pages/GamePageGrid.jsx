@@ -62,6 +62,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
 
   const Ref = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -104,7 +105,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
 
   useEffect(() => {
-    socket.on("anagram", (time, anagram, answer, round, category) => {
+    socket.on("anagram", (time, anagram, answer, round, category, subcategory) => {
       setSkippedOrCorrect(false);
       setRoundNumber(round.round);
       setAnagramNumber(round.anagram);
@@ -113,6 +114,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       setDisabledButtons([]);
       setAnagramWords(anagram);
       setCategory(category);
+      setSubcategory(subcategory)
       setFormattedAnswerArray(
         answer
           .split(" ")
@@ -565,6 +567,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                     setHintCount={setHintCount}
                     hints={hints}
                     setHints={setHints}
+                    subcategory={subcategory}
                   />
                   {/* <div
                       sx={{
