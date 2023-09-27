@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Paper,
   Typography,
@@ -10,6 +10,12 @@ import {
 import { FastForward, Close } from "@mui/icons-material";
 import { ModeContext } from "../context/Mode"
 import { Toaster } from "react-hot-toast";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 const PlayerControls = ({
   handleQuitButtonClick,
@@ -21,6 +27,16 @@ const PlayerControls = ({
   const { mode } = useContext(ModeContext);
 
   const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
+  
+    const [open, setOpen] = useState(false);
+  
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    }
 
   return (
     <Box
@@ -47,7 +63,7 @@ const PlayerControls = ({
       </Typography>
       
       <Button
-        onClick={handleQuitButtonClick}
+        onClick={handleClickOpen}
         variant="contained"
         sx={{
           
@@ -59,6 +75,28 @@ const PlayerControls = ({
       >
         Quit
       </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"QUIT"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            
+          Are you sure you want to leave the game?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleQuitButtonClick} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Button
         onClick={handleSkipButtonClick}
         disabled={skippedOrCorrect || anagramWords.length === 0}
