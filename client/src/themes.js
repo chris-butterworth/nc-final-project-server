@@ -9,9 +9,7 @@ export const darkTheme = createTheme({
         },
       },
     },
-    MuiInput
-    
-    : {
+    MuiInput: {
       styleOverrides: {
         root: {
           fontFamily: `"Share Tech Mono", monospace`,
@@ -19,6 +17,19 @@ export const darkTheme = createTheme({
       },
     },
     MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: `"SpaceMono", "Share Tech Mono", "Fira Mono", "OverpassMono", monospace`,
+          fontWeightLight: 300,
+          fontWeightRegular: 400,
+          fontWeightMedium: 500,
+        },
+        h3: {
+          color: "#00FF41",
+        },
+      },
+    },
+    MuiTableCell: {
       styleOverrides: {
         root: {
           fontFamily: `"SpaceMono", "Share Tech Mono", "Fira Mono", "OverpassMono", monospace`,
@@ -88,6 +99,19 @@ export const lightTheme = createTheme({
         h6: { color: "#118ab2" },
       },
     },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          fontFamily: `"Itim", "Annie Use Your Telescope", "Mali", "Grandstander", handwriting`,
+          fontWeightLight: 300,
+          fontWeightRegular: 400,
+          fontWeightMedium: 500,
+          color: "#118ab2",
+          fontSize: "large",
+        },
+        h6: { color: "#118ab2" },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -107,7 +131,6 @@ export const lightTheme = createTheme({
           // fontSize: "1rem",
           borderRadius: "10px",
           backgroundColor: "#f0ece2",
-  
         },
       },
     },
@@ -115,17 +138,16 @@ export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#ef476f", 
-      
+      main: "#ef476f",
     },
     secondary: {
-      main: "#06d6a0", 
+      main: "#06d6a0",
     },
     info: {
       main: "#ffd166",
     },
     background: {
-      default: "#118ab2", 
+      default: "#118ab2",
     },
   },
 });

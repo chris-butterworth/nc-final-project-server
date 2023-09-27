@@ -11,9 +11,14 @@ const {
   handleSkip,
   handleDisconnect,
   handleJoinMultiPlayerRoom,
+  handleUpdateScore,
 } = require("./app.js");
 
-const {postSignUp} = require("./api.js")
+const {
+  postSignUp,
+  getHighScoreLeaderboard,
+  getLifetimeScoreLeaderboard,
+} = require("./api.js");
 
 const app = express();
 
@@ -70,14 +75,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("signUp", (user) => {
-    console.log(user)
-    postSignUp(user)
-  })
+    console.log(user);
+    postSignUp(user);
+  });
 
   socket.on("updateScore", (user_id) => {
-    console.log("you got here")
-    console.log(user_id)
+    handleUpdateScore(socket, user_id)
   })
+
+  socket.on("highScoreLeaderboard", async (callback) => {
+    const highScores = await getHighScoreLeaderboard();
+    callback( highScores );
+  });
+
+  socket.on("liftimeLeaderboard", async (callback) => {
+    lifetimeScores = await getLifetimeScoreLeaderboard();
+    callback(lifetimeScores);
+  });
 
   socket.on("disconnect", (reason) => {
     console.log(socket.id, "disconnected due to:", reason);
