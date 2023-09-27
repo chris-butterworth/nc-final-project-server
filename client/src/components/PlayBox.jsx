@@ -21,10 +21,6 @@ export const PlayBox = ({
   setSkippedOrCorrect,
   children,
   handleSkipButtonClick,
-  handleHintButtonClick, 
-}) => {
-  const { mode, setMode } = useContext(ModeContext);
-
   hint,
   hintCount,
   setHintCount,
@@ -318,7 +314,6 @@ export const PlayBox = ({
           renderWord(anagramWord, wordIndex)
         )}
       </Paper>
-      
     </>
   );
 };

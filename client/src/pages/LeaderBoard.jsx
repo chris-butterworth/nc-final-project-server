@@ -18,9 +18,14 @@ import { useState, useEffect, useContext } from "react";
 import { auth } from "../../firebase";
 import { ModeContext } from "../context/Mode";
 import { useTheme } from "@emotion/react";
-const theme = useTheme();
 
 export const LeaderBoard = () => {
+  const theme = useTheme();
+  const [leaderboard, setLeaderboard] = useState();
+
+  useEffect(() => {
+    socket.on("leaderboard", (data) => {});
+  }, []);
   const { mode, setMode } = useContext(ModeContext);
   return (
     <Box>

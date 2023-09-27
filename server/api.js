@@ -41,4 +41,4 @@ const postSignUp = ({user_id, username, avatar}) => {
 }
 
 
-module.exports = { getNineAnagrams, updateScoreOnDatabase, , postSignUp };
+module.exports = { getNineAnagrams, updateScoreOnDatabase, postSignUp };
