@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
 import {
@@ -12,6 +13,7 @@ import {
   InputLabel,
   Input,
   Button,
+  Divider,
 } from "@mui/material";
 import socket from "../socket";
 import { useState, useEffect } from "react";
@@ -62,31 +64,6 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
             to={`/`}
             style={{ textDecoration: "none" }}
             onClick={() => {
-              socket.emit("createSinglePlayerRoom", (room) => {
-                setRoomAndPlayers(room.roomId, room.players);
-              });
-            }}
-          >
-            <Paper
-              sx={{
-                minWidth: "25vw",
-                minHeight: "30vh",
-                margin: "2em",
-                padding: "1em",
-                textAlign: "center",
-              }}
-            >
-              <PersonIcon fontSize="large" color="primary" />
-              <Typography variant="h3">Single Player</Typography>
-            </Paper>
-          </Link>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Link
-            to={`/`}
-            style={{ textDecoration: "none" }}
-            onClick={() => {
               socket.emit("createMultiPlayerRoom", (room) => {
                 setRoomAndPlayers(room.roomId, room.players);
               });
@@ -101,8 +78,8 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
                 textAlign: "center",
               }}
             >
-              <GroupIcon fontSize="large" color="primary" />
-              <Typography variant="h3">New Multi-Player</Typography>
+              <VideogameAssetIcon fontSize="large" color="primary" />
+              <Typography variant="h3">Start New Game</Typography>
             </Paper>
           </Link>
         </Grid>
@@ -145,18 +122,21 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Paper
-            sx={{
-              minWidth: "20vw",
-              minHeight: "30vh",
-              margin: "2em",
-              padding: "1em",
-              textAlign: "center",
-            }}
-          >
-            <SchoolIcon fontSize="large" color="primary" />
-            <Tutorial/>
-          </Paper>
+          <Link to="/tutorial" style={{ textDecoration: "none" }}>
+            <Paper
+              sx={{
+                minWidth: "20vw",
+                minHeight: "30vh",
+                margin: "2em",
+                padding: "1em",
+                textAlign: "center",
+              }}
+            >
+              <SchoolIcon fontSize="large" color="primary" />
+              <Typography variant="h3">Tutorial</Typography>
+              <Tutorial />
+            </Paper>
+          </Link>
         </Grid>
       </Grid>
     </Box>

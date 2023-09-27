@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import {
   Paper,
   Typography,
@@ -6,19 +6,21 @@ import {
   IconButton,
   Box,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { FastForward, Close } from "@mui/icons-material";
+import { ModeContext } from "../context/Mode"
+import { Toaster } from "react-hot-toast";
 
 const PlayerControls = ({
   handleQuitButtonClick,
   handleSkipButtonClick,
   skippedOrCorrect,
   anagramWords,
-  mode,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); 
+  console.log(anagramWords, "<<<words in player controls")
+  const { mode } = useContext(ModeContext);
+
+  const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
 
   return (
     <Box
@@ -43,49 +45,28 @@ const PlayerControls = ({
       >
         Player Controls
       </Typography>
-      <IconButton
-        onClick={handleQuitButtonClick}
-        sx={{
-          backgroundColor:
-            mode.palette.mode === "light" ? "#06d6a0" : "#ff0000",
-          color: mode.palette.mode === "light" ? "#ef476f" : "#fff",
-          margin: isMobile ? "0.5em 0" : "0.5em",
-        }}
-      >
-        <Close />
-      </IconButton>
+      
       <Button
         onClick={handleQuitButtonClick}
         variant="contained"
         sx={{
+          
           backgroundColor:
-            mode.palette.mode === "light" ? "#06d6a0" : "#ff0000",
-          color: mode.palette.mode === "light" ? "#ef476f" : "#fff",
-          margin: isMobile ? "0.5em 0" : "0.5em",
+          mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+        color: mode.palette.mode === "light" ? "#fff" : "#fff",
+        margin: isMobile ? "0.5em 0" : "0.5em",
         }}
       >
         Quit
       </Button>
-      <IconButton
-        onClick={handleSkipButtonClick}
-        disabled={skippedOrCorrect || anagramWords.length === 0}
-        sx={{
-          backgroundColor:
-            mode.palette.mode === "light" ? "#ef476f" : "#003B00",
-          color: mode.palette.mode === "light" ? "#06d6a0" : "#fff",
-          margin: isMobile ? "0.5em 0" : "0.5em",
-        }}
-      >
-        <FastForward />
-      </IconButton>
       <Button
         onClick={handleSkipButtonClick}
         disabled={skippedOrCorrect || anagramWords.length === 0}
         variant="contained"
         sx={{
           backgroundColor:
-            mode.palette.mode === "light" ? "#ef476f" : "#003B00",
-          color: mode.palette.mode === "light" ? "#06d6a0" : "#fff",
+            mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+          color: mode.palette.mode === "light" ? "#fff" : "#fff",
           margin: isMobile ? "0.5em 0" : "0.5em",
         }}
       >

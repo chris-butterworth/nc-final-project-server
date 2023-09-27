@@ -1,16 +1,35 @@
 const axios = require("axios");
-const { templateAnagrams } = require("./testData");
+
+const ENV = process.env.NODE_ENV || "development";
+
+if (ENV === "development")
+  require("dotenv").config({
+    path: `./.env.${ENV}`,
+  });
 
 const myApi = axios.create({
-  baseURL: "https://sphinx-api-gjqf.onrender.com/api",
+  baseURL: process.env.API_URL,
 });
 
-const auth =  { auth: { username: "admin", password: "admin" }  };
+const auth = {
+  auth: {
+    username: process.env.API_USERNAME,
+    password: process.env.API_PASSWORD,
+  },
+};
 
 const getNineAnagrams = () => {
-  return myApi.get("/questions").then(({ data }) => {
+  return myApi.get("/questions", auth).then(({ data }) => {
     return data;
   });
+};
+
+const updateScoreOnDatabase = (user_id, score) => {
+  return myApi
+    .patch("/users/new-score", { user_id, score }, auth)
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 const postSignUp = ({user_id, username, avatar}) => {
@@ -22,4 +41,4 @@ const postSignUp = ({user_id, username, avatar}) => {
 }
 
 
-module.exports = { getNineAnagrams, postSignUp };
+module.exports = { getNineAnagrams, updateScoreOnDatabase, , postSignUp };

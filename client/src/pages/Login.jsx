@@ -11,6 +11,7 @@ import {
   Typography,
   Box,
   Input,
+  useMediaQuery,
 } from "@mui/material";
 import AvatarGallery from "../components/AvatarGallery";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -28,12 +29,14 @@ const Login = ({ setUsername }) => {
   const [password, setPassword] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const signIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUsername(userCredential.user.displayName);
-        socket.emit("avatar", userCredential.user.photoURL);  
+        socket.emit("avatar", userCredential.user.photoURL);
         socket.emit("username", userCredential.user.displayName);
       })
       .catch((err) => {
@@ -61,8 +64,8 @@ const Login = ({ setUsername }) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          minHeight: "60vh",
-          width: "30vw",
+          minHeight: isMobile ? "80vh" : "60vh",
+          width: isMobile ? "80vw" : "40vw",
         }}
       >
         <Box
@@ -70,7 +73,7 @@ const Login = ({ setUsername }) => {
             justifyContent: "center",
             alignItems: "center",
             textAlign: "center",
-            width: "30vw",
+            width: "80%",
           }}
         >
           <Typography sx={{ textAlign: "center" }} variant="h2">
@@ -90,12 +93,25 @@ const Login = ({ setUsername }) => {
           centered
           sx={{ width: "80%", marginTop: "1em" }}
         >
-          <Tab label={<Typography variant="h5">Sign In As Guest</Typography>} />
-          <Tab label={<Typography variant="h5">Sign In</Typography>} />
-          <Tab label={<Typography variant="h5">Sign Up</Typography>} />
+          <Tab
+            label={
+              <Typography
+                variant={isMobile ? "body2" : "h6"} 
+              >
+                Guest
+              </Typography>
+            }
+          />
+          <Tab label={<Typography variant={isMobile ? "body2" : "h6"}>Sign In</Typography>} />
+          <Tab label={<Typography variant={isMobile ? "body2" : "h6"}>Sign Up</Typography>} />
         </Tabs>
 
-        <Box sx={{ width: "100%" }}>
+        <Box
+          sx={{
+            width: "100%",
+            padding: isMobile ? "0.5em" : "2em",
+          }}
+        >
           {selectedTab === 0 && (
             <SignInAsGuest
               avatars={avatars}

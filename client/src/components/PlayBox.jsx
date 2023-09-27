@@ -1,6 +1,11 @@
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { ModeContext } from "../context/Mode";
 import { useState, useEffect, useContext } from "react";
+import PlayerControls from "./PlayerControls";
+import { HintBar } from "./HintBar";
+
+import findHintIndices from "../utils/findHintIndices";
+import findReenableButton from "../utils/findReenableButton";
 export const PlayBox = ({
   anagramWords,
   setAnagramWords,
@@ -14,21 +19,46 @@ export const PlayBox = ({
   category,
   skippedOrCorrect,
   setSkippedOrCorrect,
+  children,
+  handleSkipButtonClick,
+  handleHintButtonClick, 
+}) => {
+  const { mode, setMode } = useContext(ModeContext);
+
+  hint,
+  hintCount,
+  setHintCount,
+  hints,
+  setHints,
 }) => {
   const { mode, setMode } = useContext(ModeContext);
 
   const handleClearButtonClick = () => {
-    setDisabledButtons([]);
-
+    // Hint buttons stay disabled after clear
+    setDisabledButtons(() => {
+      return hints.map((hint) => {
+        return {
+          wordIndex: hint.questionWordIndex,
+          letterIndex: hint.questionLetterIndex,
+          letter: hint.letter,
+        };
+      });
+    });
+    // Hinted letters stay in the formattedAnswerArray on clear
     setFormattedAnswerArray((current) => {
-      return current.map((word) => {
-        return word.map((letter) => {
+      // Empty nested answer array
+      const hintsOnly = current.map((word) => {
+        return word.map(() => {
           return "";
         });
       });
+      // For each hint, add this hint to the empty nested answer array in the correct position
+      hints.forEach((hint) => {
+        hintsOnly[hint.answerWordIndex][hint.answerLetterIndex] = hint.letter;
+      });
+      return hintsOnly;
     });
   };
-
 
   const handleAttempt = (questionLetter, wordIndex, letterIndex) => {
     const updatedArray = [...formattedAnswerArray];
@@ -38,51 +68,126 @@ export const PlayBox = ({
           updatedArray[i][j] = questionLetter;
           setFormattedAnswerArray(updatedArray);
           const newDisabledButtons = [...disabledButtons];
-          newDisabledButtons.push({ wordIndex, letterIndex });
+          newDisabledButtons.push({
+            wordIndex,
+            letterIndex,
+            letter: questionLetter,
+          });
           setDisabledButtons(newDisabledButtons);
-
-          return;
+          return; // Exit the function after adding the letter
         }
       }
     }
   };
 
   const handleHintButtonClick = () => {
-    // Combine the words in formattedAnswerArray into a single string
-    const currentAnswer = formattedAnswerArray
-      .map((word) => word.join(""))
-      .join(" ");
-
-    // Get the full anagram answer
-    const fullAnswer = anagramAnswer.replace(/\s/g, "");
-
-    // Find the index of the first incorrect character
-    const firstIncorrectIndex = currentAnswer
-      .split("")
-      .findIndex((char, index) => char !== fullAnswer.charAt(index));
-
-    if (firstIncorrectIndex !== -1) {
-      // Extract the correct letter from the full answer
-      const correctLetter = fullAnswer.charAt(firstIncorrectIndex);
-
-      // Find the corresponding wordIndex and letterIndex in formattedAnswerArray
-      let wordIndex = 0;
-      let letterIndex = 0;
-
-      for (let i = 0; i < formattedAnswerArray.length; i++) {
-        const wordLength = formattedAnswerArray[i].length;
-        if (firstIncorrectIndex >= letterIndex + wordLength) {
-          letterIndex += wordLength;
-          wordIndex++;
-        } else {
-          break;
-        }
-      }
-
-      // Update formattedAnswerArray with the correct letter
+    if (hintCount <= 2) {
+      //Split the full answer into a nested array of letters
+      const fullAnswerWords = hint.split(" ");
+      const fullAnswerArray = fullAnswerWords.map((word) => {
+        return word.split("");
+      });
+      // Find the word and letter indices for the first incorrect letter, as well as the button to add to the disabled buttons, as well as the button to remove from the disabled buttons
+      const foundHintIndices = findHintIndices(
+        formattedAnswerArray,
+        fullAnswerArray,
+        anagramWords,
+        disabledButtons
+      );
+      const [
+        { answerWord, answerLetter, correctLetter },
+        { disableWordIndex, disableLetterIndex, disableLetter },
+      ] = foundHintIndices;
+      // Add hinted button to the disabled buttons array
+      setDisabledButtons((currentlyDisabled) => {
+        return [
+          ...currentlyDisabled,
+          {
+            wordIndex: disableWordIndex,
+            letterIndex: disableLetterIndex,
+            letter: disableLetter,
+          },
+        ];
+      });
+      // Update the Formatted Answer Array to include the correct letter
       const updatedArray = [...formattedAnswerArray];
-      updatedArray[wordIndex][letterIndex] = correctLetter;
+      updatedArray[answerWord][answerLetter] = correctLetter;
       setFormattedAnswerArray(updatedArray);
+      // Check if there is a button to reenable (if the hint swapped out another button)
+      if (foundHintIndices.length === 3) {
+        const reenableLetter = foundHintIndices[2];
+        //remove the reenable button from the disabled buttons array
+        const buttonToReenableIndex = findReenableButton(
+          reenableLetter,
+          disabledButtons
+        );
+        setDisabledButtons((currentlyDisabled) => {
+          const remainingDisabledButtons = [];
+          currentlyDisabled.forEach((button, index) => {
+            if (index !== buttonToReenableIndex) {
+              remainingDisabledButtons.push(button);
+            }
+          });
+          return remainingDisabledButtons;
+        });
+      }
+      if (foundHintIndices.length > 3) {
+        const reenableLetter = foundHintIndices[2];
+        const buttonToReenableIndex = findReenableButton(
+          reenableLetter,
+          disabledButtons
+        );
+        setDisabledButtons((currentlyDisabled) => {
+          const remainingDisabledButtons = [];
+          currentlyDisabled.forEach((button, index) => {
+            if (index !== buttonToReenableIndex) {
+              remainingDisabledButtons.push(button);
+            }
+          });
+          return remainingDisabledButtons;
+        });
+
+        // Only enters this if block if there is a letter to remove from later in the array
+        const { removeWord, removeLetter } = foundHintIndices[3];
+        // Gets the word and letter index of the letter to remove from formattedAnswerArray
+        setFormattedAnswerArray((prev) => {
+          // Creates a new formattedAnswerArray
+          const newFormattedAnswer = [];
+          for (let i = 0; i < prev.length; i++) {
+            const newFormattedWord = [];
+            for (let j = 0; j < prev[i].length; j++) {
+              // If this is the letter we want to remove, we push an empty string to our new array in its place
+              if (removeWord === i && removeLetter === j) {
+                newFormattedWord.push("");
+              } else {
+                // If this is any other letter, we push the current letter into the new formattedAnswerArray
+                newFormattedWord.push(prev[i][j]);
+              }
+            }
+            // Push each word into the full newFormattedAnswer array once completed
+            newFormattedAnswer.push(newFormattedWord);
+          }
+          // Return our newFormattedAnswer array
+          return newFormattedAnswer;
+        });
+      }
+      // Increase hintCount by 1
+      setHintCount((prev) => {
+        return prev + 1;
+      });
+      // Update hints array
+      setHints((previousHints) => {
+        return [
+          ...previousHints,
+          {
+            letter: correctLetter,
+            questionWordIndex: disableWordIndex,
+            questionLetterIndex: disableLetterIndex,
+            answerWordIndex: answerWord,
+            answerLetterIndex: answerLetter,
+          },
+        ];
+      });
     }
   };
 
@@ -92,10 +197,9 @@ export const PlayBox = ({
       sx={{
         margin: "1em",
         display: "flex",
-        
       }}
     >
-      {Array.from(word).map((questionLetter, letterIndex) => (
+      {Array.from(word.toUpperCase()).map((questionLetter, letterIndex) => (
         <Box key={`letter-${letterIndex}`}>
           <Button
             className={`button anagram-button ${
@@ -129,7 +233,6 @@ export const PlayBox = ({
     </Paper>
   );
 
-  console.log({ roundNumber, anagramNumber, category });
   return (
     <>
       <Button
@@ -144,10 +247,17 @@ export const PlayBox = ({
       </Button>
       <Button
         onClick={handleHintButtonClick}
-        disabled={skippedOrCorrect || anagramWords.length === 0}
+        disabled={
+          skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
+        }
       >
         Hint
       </Button>
+      <Typography
+        sx={{ color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41" }}
+      >
+        {3 - hintCount} hints remaining
+      </Typography>
       <Typography>
         Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
       </Typography>
@@ -177,7 +287,6 @@ export const PlayBox = ({
                   sx={{
                     border: "0.1em solid #B8ADA0",
                     borderRadius: "0.5em",
-                    
                   }}
                 >
                   {answerLetter !== "" ? (
@@ -188,7 +297,6 @@ export const PlayBox = ({
                         width: "2.5em",
                         height: "2.5em",
                         display: "block",
-                        
                       }}
                     ></Box>
                   )}
@@ -200,7 +308,7 @@ export const PlayBox = ({
       <Paper
         className="question-container"
         sx={{
-          marginTop:"1em",
+          marginTop: "1em",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
@@ -210,8 +318,7 @@ export const PlayBox = ({
           renderWord(anagramWord, wordIndex)
         )}
       </Paper>
+      
     </>
   );
 };
-
-

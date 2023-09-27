@@ -1,10 +1,27 @@
 import React from "react";
-import { Button, Box, Paper, Typography, Avatar, useTheme } from "@mui/material";
+import { Link, useSearchParams } from "react-router-dom";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group";
+import SchoolIcon from "@mui/icons-material/School";
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+} from "@mui/material";
 import socket from "../socket";
+import { useState, useEffect, useContext } from "react";
+import { auth } from "../../firebase";
+import { ModeContext } from "../context/Mode";
+import { useTheme } from "@emotion/react";
+const theme = useTheme();
 
-export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
-  const theme = useTheme();
-
+export const LeaderBoard = () => {
+  const { mode, setMode } = useContext(ModeContext);
   return (
     <Box>
       <Paper
@@ -12,7 +29,7 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
         sx={{
           minWidth: "25vw",
           minHeight: "8em",
-          maxHeight: "40vh", 
+          maxHeight: "40vh",
           margin: "2em",
           padding: "1em",
           textAlign: "center",
@@ -20,25 +37,10 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
             theme.palette.mode === "light" ? "#e4dfda" : "#252b32",
           borderRadius: "0.5em",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-          overflow: "auto", 
+          overflow: "auto",
         }}
       >
-        <Typography variant="h5">Scores</Typography>
-        <Button
-          onClick={() => {
-            socket.emit("playerReady");
-            setPlayerReady(true);
-          }}
-          variant="contained"
-          sx={{
-            backgroundColor:
-              theme.palette.mode === "light" ? "#06d6a0" : "#ff0000",
-            color: theme.palette.mode === "light" ? "#ef476f" : "#fff",
-            marginTop: "1em",
-          }}
-        >
-          Ready for the next game
-        </Button>
+        <Typography variant="h5">Single Game High Scores</Typography>
         {gameScores.map((anagram, index) => (
           <Box
             key={index}
@@ -49,9 +51,6 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
               marginTop: "1em",
             }}
           >
-            <Typography variant="h6" sx={{color: theme.palette.mode === "light" ? "#ef476f" : "#fff"}}>
-              {anagram.question} = {anagram.answer}
-            </Typography>
             <Box
               sx={{
                 display: "flex",

@@ -1,11 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import MenuIcon from "@mui/icons-material/Menu"; 
 import { ModeContext } from "../context/Mode.jsx";
 import { lightTheme, darkTheme } from "../themes";
 import pills from "../assets/red-pill-blue-pill.jpg";
@@ -14,9 +13,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.js";
 import socket from "../socket.js";
 import { Link } from "react-router-dom";
+import Hidden from "@mui/material/Hidden";
 
 const NavBar = ({ username, setUsername, setRoom }) => {
   const { mode, setMode } = useContext(ModeContext);
+  const [menuOpen, setMenuOpen] = useState(false); 
 
   const handleModeChange = () => {
     if (mode === lightTheme) {
@@ -41,17 +42,38 @@ const NavBar = ({ username, setUsername, setRoom }) => {
       <AppBar position="static">
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <div>
-            <Button component={Link} to="/" variant="text" color="inherit">
-              Anagram Game
-            </Button>
-            <Button
-              component={Link}
-              to="/thebuild"
-              variant="text"
-              color="inherit"
-            >
-              The Build
-            </Button>
+            <Hidden mdUp>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ height: "40px" }}
+                onClick={() => setMenuOpen(!menuOpen)} 
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+            <Hidden mdDown>
+              <Button component={Link} to="/" variant="text" color="inherit">
+                Anagram Game
+              </Button>
+              <Button
+                component={Link}
+                to="/thebuild"
+                variant="text"
+                color="inherit"
+              >
+                The Build
+              </Button>
+              <Button
+                component={Link}
+                to="/leaderboard"
+                variant="text"
+                color="inherit"
+              >
+                Leader Board
+              </Button>
+            </Hidden>
           </div>
           <div>
             <IconButton
@@ -63,7 +85,7 @@ const NavBar = ({ username, setUsername, setRoom }) => {
               onClick={handleModeChange}
             >
               {mode.palette.mode === "dark" ? (
-                <Box component="img" sx={{ height: "40px" }} src={crayon}></Box>
+                <Box component="img" sx={{ height: "40px" }} src={crayon} />
               ) : (
                 <Box
                   component="img"
@@ -77,6 +99,42 @@ const NavBar = ({ username, setUsername, setRoom }) => {
             </Button>
           </div>
         </Toolbar>
+        <Hidden mdUp>
+          {menuOpen && (
+            <div style={{ backgroundColor: "#333", padding: "1rem" }}>
+              <Button
+                component={Link}
+                to="/"
+                variant="text"
+                color="inherit"
+                fullWidth
+                onClick={() => setMenuOpen(false)} 
+              >
+                Anagram Game
+              </Button>
+              <Button
+                component={Link}
+                to="/thebuild"
+                variant="text"
+                color="inherit"
+                fullWidth
+                onClick={() => setMenuOpen(false)}
+              >
+                The Build
+              </Button>
+              <Button
+                component={Link}
+                to="/leaderboard"
+                variant="text"
+                color="inherit"
+                fullWidth
+                onClick={() => setMenuOpen(false)}
+              >
+                Leader Board
+              </Button>
+            </div>
+          )}
+        </Hidden>
       </AppBar>
     </Box>
   );
