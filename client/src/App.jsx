@@ -15,6 +15,7 @@ import MultiTutorial from "./pages/MultiTutorial.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
 import { Footer } from "./components/Footer.jsx";
+import { LeaderBoard } from "./pages/LeaderBoard.jsx";
 
 function App() {
   const { mode } = useContext(ModeContext);
@@ -68,7 +69,7 @@ function App() {
           />
           <Routes>
             <Route path="/tutorial" element={<TutorialPage />} />
-            {/* <Route path="/tutorial/single" element={<SingleTutorial />} /> */}
+            <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/thebuild" element={<TheBuild/>} />
             <Route
               path="/"
