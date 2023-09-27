@@ -1,14 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import { Paper, Box, Grid, Card } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import GroupIcon from "@mui/icons-material/Group";
-import SchoolIcon from "@mui/icons-material/School";
+import { Grid, Card } from "@mui/material";
 import { Typography, Avatar } from "@mui/material";
-import { useState, useRef, useEffect } from "react";
 
 export const PlayerListCard = ({ player, position }) => {
-
   return (
     <Card
       sx={{

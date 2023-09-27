@@ -64,10 +64,6 @@ export const darkTheme = createTheme({
     info: {
       main: "#003B00",
     },
-    // background: {
-    //   default: `url(${matrix})`,
-    //   // default: "#008000",
-    // },
   },
 });
 
@@ -115,9 +111,6 @@ export const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          // margin: "5px",
-          // padding: "5px",
-          // fontSize: "1rem",
           borderRadius: "10px",
           fontFamily: `"Grandstander", handwriting`,
         },
@@ -126,9 +119,6 @@ export const lightTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          // margin: "5px",
-          // padding: "5px",
-          // fontSize: "1rem",
           borderRadius: "10px",
           backgroundColor: "#f0ece2",
         },

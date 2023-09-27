@@ -3,19 +3,18 @@ import { Route, Routes } from "react-router-dom";
 import { ThemeProvider, useMediaQuery } from "@mui/material";
 import { ModeContext } from "./context/Mode.jsx";
 import { Paper } from "@mui/material";
-import NavBar from "./components/NavBar";
-import AppContainer from "./components/AppContainer";
-import TutorialPage from "./pages/TutorialPage";
 import { TheBuild } from "./pages/TheBuild.jsx";
-import "./App.css";
-import socket from "./socket.js";
-import matrix from "./assets/matrix.gif";
-import light from "./assets/light.avif";
-import MultiTutorial from "./pages/MultiTutorial.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
 import { Footer } from "./components/Footer.jsx";
 import { LeaderBoard } from "./pages/LeaderBoard.jsx";
+import NavBar from "./components/NavBar";
+import AppContainer from "./components/AppContainer";
+import TutorialPage from "./pages/TutorialPage";
+import "./App.css";
+import socket from "./socket.js";
+import matrix from "./assets/matrix.gif";
+import light from "./assets/light.avif";
 
 function App() {
   const { mode } = useContext(ModeContext);

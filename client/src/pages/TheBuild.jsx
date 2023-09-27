@@ -1,13 +1,15 @@
 import React from "react";
 import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { Paper, Typography, Grid } from "@mui/material";
-
-
+import python from "../assets/stackLogos/python.png";
+import html from "../assets/stackLogos/html.png";
+import css from "../assets/stackLogos/css.png";
 
 const theTeam = [
   {
@@ -48,6 +50,162 @@ const theTeam = [
   },
 ];
 
+const TechLogo = ({ src, alt }) => (
+  <Grid container direction="column" alignItems="center">
+    <img
+      src={src}
+      alt={alt}
+      width="80"
+      height="80"
+      style={{ marginBottom: "8px" }}
+    />
+    <Typography variant="caption">{alt}</Typography>
+  </Grid>
+);
+
+const LanguageLogo = ({ src, alt }) => (
+  <Grid container direction="column" alignItems="center">
+    <img
+      src={src}
+      alt={alt}
+      width="80"
+      height="80"
+      style={{ marginBottom: "8px" }}
+    />
+    <Typography variant="caption">{alt}</Typography>
+  </Grid>
+);
+
+const ProjectDescription = () => (
+  <Paper
+    sx={{
+      marginTop: "3em",
+      marginBottom: "2em",
+      padding: "2em",
+      textAlign: "center",
+    }}
+  >
+    <Typography
+      variant="h5"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      This project was created as a portfolio piece in the final 8 days of the
+      industry-leading Northcoders software engineering boot camp.
+    </Typography>
+
+    <Typography variant="body2" gutterBottom sx={{ marginBottom: "3em" }}>
+      We decided to build a game to test our full-stack skills and see if we
+      could build a real-time multiplayer game using this tech stack:
+    </Typography>
+
+    <Grid
+      container
+      justifyContent="center"
+      spacing={3}
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      <Grid item>
+        <TechLogo src="https://socket.io/images/logo.svg" alt="Socket.IO" />
+      </Grid>
+      <Grid item>
+        <TechLogo
+          src="https://cdn.freebiesupply.com/logos/large/2x/react-1-logo-png-transparent.png"
+          alt="React"
+        />
+      </Grid>
+      <Grid item>
+        <TechLogo
+          src="https://www.gstatic.com/devrel-devsite/prod/v47c000584df8fd5ed12554bcabcc16cd4fd28aee940bdc8ae9e35cab77cbb7da/firebase/images/lockup.svg"
+          alt="Firebase"
+        />
+      </Grid>
+      <Grid item>
+        <TechLogo src="https://mui.com/static/logo.png" alt="Material UI" />
+      </Grid>
+      <Grid item>
+        <TechLogo
+          src="https://ih1.redbubble.net/image.2488655049.9084/st,small,507x507-pad,600x600,f8f8f8.jpg"
+          alt="Flask"
+        />
+      </Grid>
+      <Grid item>
+        <TechLogo
+          src="https://w7.pngwing.com/pngs/925/447/png-transparent-express-js-node-js-javascript-mongodb-node-js-text-trademark-logo.png"
+          alt="Express"
+        />
+      </Grid>
+      <Grid item>
+        <TechLogo
+          src="https://cdn-icons-png.flaticon.com/512/919/919825.png"
+          alt="Node.js"
+        />
+      </Grid>
+    </Grid>
+
+    <Typography
+      variant="h6"
+      gutterBottom
+      sx={{ marginTop: "2em", marginBottom: "3em" }}
+    >
+      Languages used:
+    </Typography>
+
+    <Grid
+      container
+      justifyContent="center"
+      spacing={3}
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      <Grid item>
+        <LanguageLogo
+          src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png"
+          alt="JavaScript"
+        />
+      </Grid>
+      <Grid item>
+        <LanguageLogo src={python} alt="Python" />
+      </Grid>
+      <Grid item>
+        <LanguageLogo src={html} alt="HTML" />
+      </Grid>
+      <Grid item>
+        <LanguageLogo src={css} alt="CSS" />
+      </Grid>
+    </Grid>
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      We think that we've done a pretty good job and exceeded our MVP goals.
+      There's obviously more we would have liked to have done, but 8 days is
+      pretty short, and we're happy with this initial version. We may reunite
+      the team to develop some more features, or we may simply move on to bigger
+      and better things.
+    </Typography>
+
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      Either way, thank you for stopping by & playing. If you'd like to talk to
+      any of us, use the links below to connect with us. If you're wondering how
+      we achieved such levels of wizardry, this is a public repo so follow one
+      of the the GitHub links below.
+    </Typography>
+
+    <Typography
+      variant="body2"
+      gutterBottom
+      sx={{ marginBottom: "1em", textAlign: "center" }}
+    >
+      We all want to thank the team at Northcoders for the teaching, mentoring
+      and support throughout the course.
+    </Typography>
+  </Paper>
+);
 
 const TeamMember = ({ name, img, linkedIn, github }) => {
   return (
@@ -65,8 +223,10 @@ const TeamMember = ({ name, img, linkedIn, github }) => {
       <Avatar alt={name} src={img} sx={{ width: 100, height: 100 }}>
         M1
       </Avatar>
-      <Typography variant="subtitle1">{name}</Typography>
-      <div>
+      <Typography variant="subtitle1" sx={{ paddingTop: "8px" }}>
+        {name}
+      </Typography>
+      <div style={{ paddingTop: "8px" }}>
         <IconButton
           color="primary"
           aria-label="GitHub"
@@ -91,58 +251,25 @@ const TeamMember = ({ name, img, linkedIn, github }) => {
 export const TheBuild = () => {
   return (
     <Container>
-      <Paper sx={{ marginTop: "3em", padding: "2em", textAlign: "center" }}>
-    <Typography variant="h4" gutterBottom sx={{paddingTop: "2em"}}>
-      This project was created as a portfolio piece in the final 8 days of the industry-leading Northcoders software engineering boot camp.
-    </Typography>
-
-    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
-      We decided to build a game to test our full-stack skills and see if we could build a real-time multiplayer game using this tech stack: socket.io, ExpressJs, NodeJS, React, Flask, FireBase, Material UI, PostGres, we were working on some integration with OpenAi, but the robots aren't good enough at anagrams yet to be able to play with us!
-     
-    </Typography>
-{/* 
-    <Grid container justifyContent="center" spacing={2}>
-      <Grid item>
-        <TechLogo src="../" alt="Socket.IO" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={ReactLogo} alt="React" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={FirebaseLogo} alt="Firebase" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={MaterialUILogo} alt="Material UI" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={FlaskLogo} alt="Flask" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={ExpressLogo} alt="Express" />
-      </Grid>
-      <Grid item>
-        <TechLogo src={NodeJSLogo} alt="Node.js" />
-      </Grid>
-    </Grid> */}
-
-    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
-      Languages used: JavaScript, Python, HTML & CSS
-    </Typography>
-
-    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
-      We think that we've done a pretty good job and exceeded our MVP goals. There's obviously more we would have liked to have done, but 8 days is pretty short, and we're happy with this initial version.
-      We may reunite the team to develop some more features, or we may simply move on to bigger and better things.
-    </Typography>
-
-    <Typography variant="body2" gutterBottom sx={{paddingTop: "2em"}}>
-      Either way, thank you for stopping by & playing. If you'd like to talk to any of us, use the links below to connect with us.
-      If you're wondering how we achieved such levels of wizardry, this is a public repo so hit one of the GitHub links below.
-    </Typography>
-
-    <Typography variant="h4" gutterBottom sx={{paddingTop: "2em"}}>
-      Team Members
-    </Typography>
-        <Grid container spacing={2}>
+      <ProjectDescription />
+      <Paper>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            marginTop: "1em",
+            marginBottom: "1em",
+            paddingTop: "1em",
+            textAlign: "center",
+          }}
+        >
+          Team Members
+        </Typography>
+        <Grid
+          container
+          spacing={1}
+          sx={{ paddingTop: "1em", paddingBottom: "3em" }}
+        >
           {theTeam.map((teamMember) => (
             <TeamMember
               key={teamMember.name}

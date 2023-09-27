@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import PersonIcon from "@mui/icons-material/Person";
 import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import GroupIcon from "@mui/icons-material/Group";
 import SchoolIcon from "@mui/icons-material/School";
@@ -17,7 +16,6 @@ import {
 } from "@mui/material";
 import socket from "../socket";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase";
 import { Tutorial } from "../components/Tutorial";
 
 const InitGame = ({ room, setRoom, setPlayers }) => {

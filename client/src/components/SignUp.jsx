@@ -2,8 +2,8 @@ import { ModeContext } from "../context/Mode";
 import { useState, useContext } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase";
-import toast, { Toaster } from "react-hot-toast";
 import { Button, Typography, Box, Paper } from "@mui/material";
+import toast, { Toaster } from "react-hot-toast";
 import Avatar from "@mui/material/Avatar";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
@@ -37,7 +37,11 @@ export const SignUp = ({
         setUsername(newUsername);
         socket.emit("avatar", avatars[currentAvatarIndex]);
         socket.emit("username", newUsername);
-        socket.emit("signUp", {user_id: auth.currentUser.uid, username: newUsername, avatar : avatars[currentAvatarIndex] })
+        socket.emit("signUp", {
+          user_id: auth.currentUser.uid,
+          username: newUsername,
+          avatar: avatars[currentAvatarIndex],
+        });
       })
       .catch((err) => {
         console.log(err.code);

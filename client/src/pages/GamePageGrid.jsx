@@ -14,16 +14,15 @@ import { Timer } from "../components/Timer";
 import { PlayerList } from "../components/PlayerList";
 import { PlayBox } from "../components/PlayBox";
 import { useState, useEffect, useRef } from "react";
-import socket from "../socket";
-import CustomDialog from "../components/CustomDialog";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Scoreboard } from "../components/Scoreboard";
-import ChatInput from "../components/ChatInput";
-import { FastForward, Close } from "@mui/icons-material";
-import PlayerControls from "../components/PlayerControls";
 import { auth } from "../../firebase";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
+import socket from "../socket";
+import CustomDialog from "../components/CustomDialog";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ChatInput from "../components/ChatInput";
+import PlayerControls from "../components/PlayerControls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#E4DFDA",
@@ -62,6 +61,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   const [lastPlayedAnswer, setLastPlayedAnswer] = useState("");
   const [lastRoundScores, setLastRoundScores] = useState([]);
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
 
   const Ref = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -104,7 +104,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
   }, []);
 
   useEffect(() => {
-    socket.on("anagram", (time, anagram, answer, round, category) => {
+    socket.on("anagram", (time, anagram, answer, round, category, subcategory) => {
       setSkippedOrCorrect(false);
       setRoundNumber(round.round);
       setAnagramNumber(round.anagram);
@@ -113,6 +113,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
       setDisabledButtons([]);
       setAnagramWords(anagram);
       setCategory(category);
+      setSubcategory(subcategory)
       setFormattedAnswerArray(
         answer
           .split(" ")
@@ -256,62 +257,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
     setLastRoundScores([]);
   };
 
-  // const handleQuitButtonClick = () => {
-  //   console.log(handleQuitButtonClick, "quit button click looking for toast");
-  //   const confirmQuit = async () => {
-  //     try {
-  //       const result = await toast.promise(
-  //         (resolve, reject) => {
-  //           const confirmResult = window.confirm(
-  //             "Are you sure you want to quit?"
-  //           );
-  //           if (confirmResult) {
-  //             resolve("You have quit the game!");
-  //           } else {
-  //             reject("Cancelled");
-  //           }
-  //         },
-  //         {
-  //           loading: "Checking...",
-  //           timeout: 5000, // Adjust the timeout as needed
-  //           icon: "⚠️", // Customize the icon as needed
-  //           style: {
-  //             backgroundColor: "red", // Customize the toast background color
-  //             color: "white", // Customize the text color
-  //           },
-  //         }
-  //       );
-
-  //       // User confirmed quitting
-  //       setRoom("");
-  //       socket.emit("leaveRoom");
-  //       setPlayerReady(false);
-  //       setTimer(0);
-  //       setScore(0);
-  //       setAnagramNumber(1);
-  //       setRoundNumber(1);
-  //       setBetweenWords(false);
-  //       setBetweenRounds(false);
-  //       setGameOver(false);
-  //       setAnagramWords([]);
-  //       setDisabledButtons([]);
-  //       setFormattedAnswerArray([]);
-  //       setHint("");
-  //       setHintCount(0);
-  //       setGameMessage("");
-  //       setGameScores("");
-  //       setGameScroll([]);
-  //       setFullScreenCustomDialog("");
-  //       setLastPlayedAnswer("");
-  //       setLastRoundScores([]);
-  //     } catch (error) {
-  //       // Handle any errors here
-  //     }
-  //   };
-
-  //   confirmQuit();
-  // };
-
   const handleSkipButtonClick = () => {
     if (!skippedOrCorrect) {
       setSkippedOrCorrect(true);
@@ -369,13 +314,13 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "100vw" : "25", // Adjusted maxWidth
+              maxWidth: isMobile ? "100vw" : "25", 
               minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",
               textAlign: "center",
-              flexDirection: "column", // Add this to make it a flex container
-              alignItems: "center", // Center its children horizontally
+              flexDirection: "column", 
+              alignItems: "center", 
               justifyContent: "center",
             }}
           >
@@ -390,7 +335,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
           <Paper
             elevation={3}
             sx={{
-              maxWidth: isMobile ? "100vw" : "50vw", // Adjusted maxWidth
+              maxWidth: isMobile ? "100vw" : "50vw", 
               minHeight: "6em",
               margin: isMobile ? "0" : "2em",
               padding: "1em",
@@ -565,6 +510,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                     setHintCount={setHintCount}
                     hints={hints}
                     setHints={setHints}
+                    subcategory={subcategory}
                   />
                   {/* <div
                       sx={{

@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -26,26 +25,16 @@ const CustomDialog = ({
       }}
     >
       {" "}
-      {/*dialog container*/}
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         {" "}
-        {/* Main body of modal/dialog */}
-        <DialogContentText>
-          {" "}
-          {/* main text */}
-          {contentText}
-          {secondaryText}
-          {roundScores}
-        </DialogContentText>
-        {children} {/* Other content */}
+        <DialogContentText> </DialogContentText>
+        <DialogContentText>{contentText}</DialogContentText>
+        <DialogContentText>{secondaryText}</DialogContentText>
+        <DialogContentText>{roundScores}</DialogContentText>
+        <DialogContentText>{children}</DialogContentText>
       </DialogContent>
-      <DialogActions>
-        {" "}
-        {/* Dialog action buttons */}
-        {/* Force users to make input without option to cancel */}
-        {/* <Button onClick={handleClose}>Cancel</Button> */}
-      </DialogActions>
+      <DialogActions> </DialogActions>
     </Dialog>
   );
 };

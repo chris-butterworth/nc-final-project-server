@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, FormControl, Input } from "@mui/material";
+import { TextField, Button, FormControl } from "@mui/material";
 import socket from "../socket";
 
 const ChatInput = () => {

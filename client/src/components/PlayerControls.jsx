@@ -1,21 +1,11 @@
 import { useContext, useState } from "react";
-import {
-  Paper,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
-import { FastForward, Close } from "@mui/icons-material";
-import { ModeContext } from "../context/Mode"
-import { Toaster } from "react-hot-toast";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
+import { Typography, Button, Box, useMediaQuery } from "@mui/material";
+import { ModeContext } from "../context/Mode";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const PlayerControls = ({
   handleQuitButtonClick,
@@ -23,20 +13,20 @@ const PlayerControls = ({
   skippedOrCorrect,
   anagramWords,
 }) => {
-  console.log(anagramWords, "<<<words in player controls")
+  console.log(anagramWords, "<<<words in player controls");
   const { mode } = useContext(ModeContext);
 
   const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
-  
-    const [open, setOpen] = useState(false);
-  
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    }
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box
@@ -61,16 +51,15 @@ const PlayerControls = ({
       >
         Player Controls
       </Typography>
-      
+
       <Button
         onClick={handleClickOpen}
         variant="contained"
         sx={{
-          
           backgroundColor:
-          mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
-        color: mode.palette.mode === "light" ? "#fff" : "#fff",
-        margin: isMobile ? "0.5em 0" : "0.5em",
+            mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+          color: mode.palette.mode === "light" ? "#fff" : "#fff",
+          margin: isMobile ? "0.5em 0" : "0.5em",
         }}
       >
         Quit
@@ -81,13 +70,10 @@ const PlayerControls = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"QUIT"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"QUIT"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            
-          Are you sure you want to leave the game?
+            Are you sure you want to leave the game?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

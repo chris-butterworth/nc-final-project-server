@@ -1,7 +1,13 @@
-import { Paper, Box, Button, Typography, useMediaQuery } from "@mui/material";
+import {
+  Paper,
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  Grid,
+} from "@mui/material";
 import { ModeContext } from "../context/Mode";
-import { useState, useEffect, useContext } from "react";
-import PlayerControls from "./PlayerControls";
+import { useContext } from "react";
 
 import findHintIndices from "../utils/findHintIndices";
 import findReenableButton from "../utils/findReenableButton";
@@ -17,14 +23,12 @@ export const PlayBox = ({
   anagramNumber,
   category,
   skippedOrCorrect,
-  setSkippedOrCorrect,
-  children,
-  handleSkipButtonClick,
   hint,
   hintCount,
   setHintCount,
   hints,
   setHints,
+  subcategory,
 }) => {
   const { mode, setMode } = useContext(ModeContext);
   const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
@@ -248,48 +252,75 @@ export const PlayBox = ({
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
         }}
       >
-        <Button
-          onClick={handleClearButtonClick}
-          disabled={
-            skippedOrCorrect ||
-            anagramWords.length === 0 ||
-            disabledButtons.length === 0
-          }
-          variant="contained"
-          sx={{
-            backgroundColor:
-              mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
-            color: mode.palette.mode === "light" ? "#fff" : "#fff",
-            margin: isMobile ? "0.5em 0" : "0.5em",
-          }}
+        <Grid
+          container
+          spacing={2}
+          sx={{ justifyContent: "space-evenly", alignItems: "center" }}
         >
-          Clear
-        </Button>
-        <Button
-          onClick={handleHintButtonClick}
-          disabled={
-            skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
-          }
-          sx={{
-            backgroundColor:
-              mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
-            color: mode.palette.mode === "light" ? "#fff" : "#fff",
-            margin: isMobile ? "0.5em 0" : "0.5em",
-          }}
-        >
-          Hint
-        </Button>
-        <Typography
-          sx={{
-            color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41",
-            marginLeft: "10px",
-          }}
-        >
-          {3 - hintCount} hints remaining
-        </Typography>
-        <Typography sx={{ padding: "5px" }}>
-          Round: {roundNumber}. Word: {anagramNumber}. Category: {category}
-        </Typography>
+          <Grid item>
+            <Button
+              onClick={handleClearButtonClick}
+              disabled={
+                skippedOrCorrect ||
+                anagramWords.length === 0 ||
+                disabledButtons.length === 0
+              }
+              variant="contained"
+              sx={{
+                backgroundColor:
+                  mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+                color: mode.palette.mode === "light" ? "#fff" : "#fff",
+                margin: isMobile ? "0.5em 0" : "0.5em",
+              }}
+            >
+              Clear
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={handleHintButtonClick}
+              disabled={
+                skippedOrCorrect || anagramWords.length === 0 || hintCount === 3
+              }
+              sx={{
+                backgroundColor:
+                  mode.palette.mode === "light" ? "#ef476f" : "#EE0000",
+                color: mode.palette.mode === "light" ? "#fff" : "#fff",
+                margin: isMobile ? "0.5em 0" : "0.5em",
+              }}
+            >
+              Hint
+            </Button>
+          </Grid>
+
+          <Grid item>
+            <Typography
+              sx={{
+                color: mode.palette.mode === "light" ? "#ef476f" : "#00FF41",
+                marginLeft: "10px",
+              }}
+            >
+              {3 - hintCount} hints remaining
+            </Typography>
+          </Grid>
+
+          <Grid item sx={{ flexDirection: "column" }}>
+            <Typography sx={{ padding: "5px" }}>
+              Round: {roundNumber}.
+            </Typography>
+            <Typography sx={{ padding: "5px" }}>
+              Word: {anagramNumber}.
+            </Typography>
+          </Grid>
+          <Grid item sx={{ flexDirection: "column" }}>
+            <Typography sx={{ padding: "5px" }}>
+              Category: {category}.
+            </Typography>
+            <Typography sx={{ padding: "5px" }}>
+              Subcategory: {subcategory}
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
       <Paper
         className="solution-container"
@@ -297,6 +328,7 @@ export const PlayBox = ({
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
+          alignContent: "center",
         }}
       >
         {formattedAnswerArray &&
@@ -324,7 +356,7 @@ export const PlayBox = ({
                       sx={{
                         padding: "0",
                         minWidth: "40px",
-                        height: "80%",
+                        height: "100%",
                         border: "0.1em solid #B8ADA0",
                       }}
                     >
