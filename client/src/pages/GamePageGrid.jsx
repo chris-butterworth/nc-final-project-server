@@ -496,11 +496,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						<Item
 							sx={{
 								display: 'flex',
-								// flex: 1,
 								flexDirection: 'column',
 								justifyContent: 'space-between',
 								minHeight: '50vh',
-								width: '100%',
 							}}
 						>
 							{gameOver ? (

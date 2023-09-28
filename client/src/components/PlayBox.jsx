@@ -241,12 +241,11 @@ export const PlayBox = ({
 					flexDirection: 'row',
 					alignItems: 'center',
 					minWidth: '25vw',
-
-					minHeight: '2vh',
+					// minHeight: '2vh',
 					margin: '1em',
-					padding: '0.5em',
-					paddingLeft: isMobile ? '0.7m' : '2em',
-					paddingRight: isMobile ? '0.7em' : '2em',
+					// padding: '0.5em',
+					// paddingLeft: isMobile ? '0.7m' : '2em',
+					// paddingRight: isMobile ? '0.7em' : '2em',
 					textAlign: 'center',
 					justifyContent: 'space-between',
 					backgroundColor:
@@ -289,7 +288,7 @@ export const PlayBox = ({
 								backgroundColor:
 									mode.palette.mode === 'light' ? '#ef476f' : '#EE0000',
 								color: mode.palette.mode === 'light' ? '#fff' : '#fff',
-								margin: isMobile ? '0.5em 0' : '0.5em',
+								margin: isMobile ? '0.5em' : '0.5em',
 							}}
 						>
 							Hint ({3 - hintCount})
