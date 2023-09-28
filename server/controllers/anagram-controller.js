@@ -20,7 +20,8 @@ const testAttempt = (socket, attempt, time, hintCount) => {
 		io.ioObject
 			.in(roomId)
 			.emit(
-				'gameScroll', 'system',
+				'gameScroll',
+				'system',
 				`${socket.data.username} got ${score} points!`
 			)
 		return score
