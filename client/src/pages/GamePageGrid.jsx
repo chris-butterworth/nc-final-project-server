@@ -428,7 +428,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 				open={betweenRounds}
 				title={gameMessage}
 				contentText={fullScreenCustomDialog}
-				
 				roundScores={lastRoundScores}
 			>
 				<Timer

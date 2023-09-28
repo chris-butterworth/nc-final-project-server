@@ -29,7 +29,7 @@ const CustomDialog = ({
 				<DialogContentText> </DialogContentText>
 				<DialogContentText>{contentText}</DialogContentText>
 				<DialogContentText>{secondaryText}</DialogContentText>
-				<DialogContentText>{children}</DialogContentText>
+				<>{children}</>
 			</DialogContent>
 			<DialogActions> </DialogActions>
 		</Dialog>

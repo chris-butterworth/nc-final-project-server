@@ -74,7 +74,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("signUp", (user) => {
-    console.log(user);
     postSignUp(user);
   });
 
