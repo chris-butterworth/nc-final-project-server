@@ -53,7 +53,7 @@ const betweenRoundStageEmit = (roomId) => {
 			return b.score - a.score
 		})
 	})
-	console.log(lastRoundAnswers)
+	
 	io.ioObject.in(roomId).emit('betweenRoundsCountdown', timeBetweenRounds)
 	io.ioObject
 		.in(roomId)

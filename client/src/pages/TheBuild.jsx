@@ -79,7 +79,7 @@ const LanguageLogo = ({ src, alt }) => (
 const ProjectDescription = () => (
 	<Paper
 		sx={{
-			// marginTop: "3em",
+		
 			maxWidth: '900px',
 			margin: 'auto',
 			marginBottom: '2em',

@@ -44,7 +44,7 @@ export const SignUp = ({
         });
       })
       .catch((err) => {
-        console.log(err.code);
+       
         if (err.code === "auth/weak-password") {
           toast("Password must be over six characters");
         } else if (err.code === "auth/email-already-in-use") {

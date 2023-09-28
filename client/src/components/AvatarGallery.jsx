@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import {  useContext } from "react";
 import { ModeContext } from "../context/Mode";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";

@@ -6,13 +6,13 @@ import App from "./App.jsx";
 import CssBaseline from "@mui/material/CssBaseline";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
+  
     <BrowserRouter>
       <ModeProvider>
         <CssBaseline />
         <App />
       </ModeProvider>
     </BrowserRouter>
-  // </React.StrictMode>
+ 
 );
 

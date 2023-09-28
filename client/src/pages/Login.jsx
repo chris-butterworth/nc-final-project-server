@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import socket from "../socket";
-import { uniqueNamesGenerator, starWars } from "unique-names-generator";
+
 import {
   Paper,
   Tab,
   Tabs,
   Typography,
   Box,
-  Input,
+  
   useMediaQuery,
 } from "@mui/material";
 import AvatarGallery from "../components/AvatarGallery";
@@ -19,7 +19,7 @@ import { SignInAsGuest } from "../components/SignInAsGuest";
 import toast, { Toaster } from "react-hot-toast";
 
 const Login = ({ setUsername }) => {
-  const [usernameInput, setUsernameInput] = useState("");
+  
   const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
   const [avatars, setAvatars] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ const Login = ({ setUsername }) => {
         socket.emit("username", userCredential.user.displayName);
       })
       .catch((err) => {
-        console.log("invalid Login")
+        
         toast("invalid login");
       });
   };
@@ -51,8 +51,7 @@ const Login = ({ setUsername }) => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        // alignItems: "center",
-        // height: "100vh",
+       
         width: "100vw",
       }}
     >
@@ -64,7 +63,7 @@ const Login = ({ setUsername }) => {
           paddingBottom:'2em',
           paddingTop:'2em',
           minHeight: isMobile ? "auto" : "70vh",
-          // width: isMobile ? "80vw" : "40vw",
+        
           minWidth:'365px'
         }}
       >
