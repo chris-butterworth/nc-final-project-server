@@ -5,7 +5,7 @@ const Typewriter = ({ text, onComplete }) => {
   const [displayText, setDisplayText] = useState("");
 
   useEffect(() => {
-    const delay = 150; // Typing speed
+    const delay = 50; // Typing speed
     let currentIndex = 0;
 
     const typeText = async () => {
