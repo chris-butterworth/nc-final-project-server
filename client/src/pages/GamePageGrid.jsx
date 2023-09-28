@@ -86,7 +86,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 	useEffect(() => {
 		socket.on('gameScroll', (username, message) => {
 			setGameScroll((current) => {
-				return [...current, { username, message }]
+				return [ { username, message }, ...current]
 			})
 		})
 	}, [])
@@ -354,7 +354,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							justifyContent: 'center',
 						}}
 					>
-						<Typography variant="h3" >NC-Anagrams</Typography>
+						<Typography variant="h3">NC-Anagrams</Typography>
 					</Paper>
 				</Grid>
 				{isMobile ? (
@@ -529,9 +529,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							) : anagramWords.length === 0 &&
 							  !betweenRounds &&
 							  !betweenWords ? (
-								<div >
+								<div>
 									{' '}
-									<Typography variant="h5" sx={{marginTop:'1em'}}>
+									<Typography variant="h5" sx={{ marginTop: '1em' }}>
 										Welcome to the game!
 									</Typography>{' '}
 									<Typography variant="h6">
@@ -596,7 +596,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							<Grid item xs={12} md={12}>
 								<Box
 									textAlign={'left'}
-									sx={{ height: '30em', overflow: 'auto' }}
+									sx={{
+										height: '30em',
+										overflow: 'auto',
+										display:'flex',
+										flexDirection: 'column-reverse',
+									}}
 								>
 									{gameScroll.map((item, index) => {
 										return (

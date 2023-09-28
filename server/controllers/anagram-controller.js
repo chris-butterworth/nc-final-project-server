@@ -21,7 +21,7 @@ const testAttempt = (socket, attempt, time, hintCount) => {
 			.in(roomId)
 			.emit(
 				'gameScroll', 'system',
-				`${socket.data.username} guessed correctly for ${score} points!`
+				`${socket.data.username} got ${score} points!`
 			)
 		return score
 	} else {
