@@ -16,7 +16,7 @@ const AppContainer = ({
 }) => {
 
   useEffect(() => {
-    setRoom(""); //added to refresh room when leaving page
+    setRoom(""); 
   }, []);
 
   return (

@@ -9,8 +9,7 @@ const TutorialPage = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        // alignItems: "center",
-        // minHeight: "100vh",
+        
         padding: isMobile ? "1em" : "0",
       }}
     >

@@ -4,7 +4,7 @@ import { Typography, Paper, Box } from "@mui/material";
 import { PersonIcon, GroupIcon, SchoolIcon } from "@mui/icons-material";
 import socket from "../socket";
 
-const PlayerSelector = ({ numberofPlayers, room, setRoom }) => {
+const PlayerSelector = ({ setRoom }) => {
   return (
     <>
       <Box
@@ -21,7 +21,7 @@ const PlayerSelector = ({ numberofPlayers, room, setRoom }) => {
             onClick={() => {
               socket.emit("createSinglePlayerRoom", (room) => {
                 setRoom(room);
-                console.log("joined room", room);
+               
               });
             }}
           >

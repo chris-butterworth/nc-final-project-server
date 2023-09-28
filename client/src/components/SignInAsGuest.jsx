@@ -4,12 +4,9 @@ import {
   Box,
   Button,
   FormControl,
-  Paper,
-  Grid,
   Input,
   InputLabel,
-  Link,
-  Typography,
+  
 } from "@mui/material";
 import { uniqueNamesGenerator, starWars } from "unique-names-generator";
 import socket from "../socket";
@@ -46,9 +43,7 @@ export const SignInAsGuest = ({ setUsername, avatars, currentAvatarIndex }) => {
           alignItems: "center",
         }}
       >
-        {/* <Typography component="h1" variant="h5" sx={{paddingTop: "1em" }}>
-          Set a username (play as guest)
-        </Typography> */}
+       
         <FormControl sx={{ width: "90%", mt: 2 }}>
           <InputLabel htmlFor="username">Username (play as guest)</InputLabel>
           <Input

@@ -276,44 +276,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 		return `${window.location.origin}?room=${room}`
 	}
 
-	const handleHintButtonClick = () => {
-		// Combine the words in formattedAnswerArray into a single string
-		const currentAnswer = formattedAnswerArray
-			.map((word) => word.join(''))
-			.join(' ')
-
-		// Get the full anagram answer
-		const fullAnswer = anagramAnswer.replace(/\s/g, '')
-
-		// Find the index of the first incorrect character
-		const firstIncorrectIndex = currentAnswer
-			.split('')
-			.findIndex((char, index) => char !== fullAnswer.charAt(index))
-
-		if (firstIncorrectIndex !== -1) {
-			// Extract the correct letter from the full answer
-			const correctLetter = fullAnswer.charAt(firstIncorrectIndex)
-
-			// Find the corresponding wordIndex and letterIndex in formattedAnswerArray
-			let wordIndex = 0
-			let letterIndex = 0
-
-			for (let i = 0; i < formattedAnswerArray.length; i++) {
-				const wordLength = formattedAnswerArray[i].length
-				if (firstIncorrectIndex >= letterIndex + wordLength) {
-					letterIndex += wordLength
-					wordIndex++
-				} else {
-					break
-				}
-			}
-
-			// Update formattedAnswerArray with the correct letter
-			const updatedArray = [...formattedAnswerArray]
-			updatedArray[wordIndex][letterIndex] = correctLetter
-			setFormattedAnswerArray(updatedArray)
-		}
-	}
+	
 
 	return (
 		<Paper sx={{ minWidth: '80vw' }}>
@@ -322,14 +285,14 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					<Paper
 						elevation={3}
 						sx={{
-							maxWidth: isMobile ? '100vw' : '25', // Adjusted maxWidth
+							maxWidth: isMobile ? '100vw' : '25', 
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
 							marginTop: isMobile ? '1em' : '',
 							padding: '1em',
 							textAlign: 'center',
-							flexDirection: 'column', // Add this to make it a flex container
-							alignItems: 'center', // Center its children horizontally
+							flexDirection: 'column', 
+							alignItems: 'center', 
 							justifyContent: 'center',
 						}}
 					>
@@ -344,13 +307,13 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					<Paper
 						elevation={3}
 						sx={{
-							maxWidth: isMobile ? '100vw' : '25', // Adjusted maxWidth
+							maxWidth: isMobile ? '100vw' : '25', 
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
 							padding: '1em',
 							textAlign: 'center',
-							flexDirection: 'column', // Add this to make it a flex container
-							alignItems: 'center', // Center its children horizontally
+							flexDirection: 'column', 
+							alignItems: 'center', 
 							justifyContent: 'center',
 						}}
 					>
@@ -364,7 +327,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						<Paper
 							elevation={3}
 							sx={{
-								maxWidth: isMobile ? '100vw' : '50vw', // Adjusted maxWidth
+								maxWidth: isMobile ? '100vw' : '50vw', 
 								minHeight: isMobile ? '' : '6em',
 								margin: isMobile ? '0' : '2em',
 								padding: '1em',
@@ -465,7 +428,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 				open={betweenRounds}
 				title={gameMessage}
 				contentText={fullScreenCustomDialog}
-				// secondaryText={lastPlayedAnswer}
+				
 				roundScores={lastRoundScores}
 			>
 				<Timer
@@ -482,7 +445,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						</Typography>
 						<TableContainer>
 							{lastRoundScores.map((anagram) => {
-								console.log(anagram)
+								
 								return (
 									<TableRow>
 										<TableCell>{anagram.question.join(' ')}</TableCell>

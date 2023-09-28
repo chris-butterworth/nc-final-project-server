@@ -5,7 +5,7 @@ const Typewriter = ({ text, onComplete }) => {
 	const [displayText, setDisplayText] = useState('')
 
 	useEffect(() => {
-		const delay = 40 // Typing speed
+		const delay = 40 
 		let currentIndex = 0
 
 		const typeText = async () => {
@@ -44,7 +44,7 @@ export const Tutorial = () => {
 					linesOfText[currentLine],
 				])
 				setCurrentLine((prevLine) => prevLine + 1)
-			}, (lineLength + 1) * 150) // Added 1 to lineLength to ensure the last character is displayed
+			}, (lineLength + 1) * 150) 
 			return () => clearTimeout(timeout)
 		} else {
 			setIsTyping(false)

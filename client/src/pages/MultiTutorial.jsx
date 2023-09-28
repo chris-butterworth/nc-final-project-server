@@ -13,7 +13,7 @@ const MultiTutorial = () => {
         }}
       >
         <Typography variant="h3">Multi-Player Tutorial</Typography>
-        {/* include a jump to setting up, joining or playing */}
+        
         <Typography variant="h4">Setting up a Multi-Player Game</Typography>
         <Typography variant="p">To set up a multiplayer game simpliy click the "New Multi-player" option from the game menu </Typography>
         <Typography variant="p">Once you have entered the multiplayer room a "Game Room ID" will appear that you can send to your friends to join the room!</Typography>

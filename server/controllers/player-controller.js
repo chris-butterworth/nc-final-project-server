@@ -62,7 +62,7 @@ const resetCorrectAndSkipped = (roomId) => {
     player.correct = false;
     player.skipped = false;
   });
-  console.log(roomData.players)
+  
   roomsMap.set(roomData.roomId, roomData);
   
 };

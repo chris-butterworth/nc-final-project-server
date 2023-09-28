@@ -12,13 +12,13 @@ import {
 	InputLabel,
 	Input,
 	Button,
-	Divider,
+	
 } from '@mui/material'
 import socket from '../socket'
 import { useState, useEffect } from 'react'
 import { Tutorial } from '../components/Tutorial'
 
-const InitGame = ({ room, setRoom, setPlayers }) => {
+const InitGame = ({  setRoom, setPlayers }) => {
 	const [roomCodeInput, setRoomCodeInput] = useState('')
 	const [joinRoomError, setJoinRoomError] = useState('')
 	const [searchParams, setSearchParams] = useSearchParams()
