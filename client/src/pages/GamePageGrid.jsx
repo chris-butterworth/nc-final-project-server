@@ -243,7 +243,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 
 	const handleQuitButtonClick = () => {
 		setRoom('')
-		// setPlayers([])
 		socket.emit('leaveRoom')
 		setPlayerReady(false)
 		setTimer(0)
@@ -470,9 +469,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										<TableCell>{anagram.question.join(' ')}</TableCell>
 										<TableCell>{anagram.answer}</TableCell>
 										{anagram.scores[0].score > 0 && (
-											<TableCell>
-												<EmojiEventsIcon /> {anagram.scores[0].username}
-											</TableCell>
+											<div>
+												<TableCell sx={{ margin: 'auto' }}>
+													<EmojiEventsIcon />
+												</TableCell>
+												<TableCell>{anagram.scores[0].username}</TableCell>
+											</div>
 										)}
 									</TableRow>
 								)
@@ -594,7 +596,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 														sx={{
 															display: 'inline',
 															color:
-																mode.palette.mode === 'light' ? '#ef476f' : '#00FF41',
+																mode.palette.mode === 'light'
+																	? '#ef476f'
+																	: '#00FF41',
 														}}
 													>
 														{item.username}

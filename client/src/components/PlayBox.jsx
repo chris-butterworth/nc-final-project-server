@@ -305,7 +305,7 @@ export const PlayBox = ({
 					</Grid>
 					<Grid item sx={{ flexDirection: 'column' }}>
 						<Typography sx={{ padding: '5px' }}>
-							Category: {category}.
+							Category: {category}
 						</Typography>
 						<Typography sx={{ padding: '5px' }}>
 							Subcategory: {subcategory}

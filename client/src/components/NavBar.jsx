@@ -46,7 +46,7 @@ const NavBar = ({ username, setUsername, setRoom, room }) => {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static" sx={{ marginBottom: '1em' }}>
 				<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-					<div>
+					<div >
 						<Hidden mdUp>
 							<IconButton
 								edge="start"
@@ -59,24 +59,26 @@ const NavBar = ({ username, setUsername, setRoom, room }) => {
 							</IconButton>
 						</Hidden>
 						<Hidden mdDown>
-							<Button component={Link} to="/" variant="text" color="inherit">
+							<Button component={Link} to="/" variant="text" color="inherit" sx={{ marginRight: '2em' }}>
 								Anagram Game
 							</Button>
 							<Button
-								component={Link}
-								to="/thebuild"
-								variant="text"
-								color="inherit"
-							>
-								The Build
-							</Button>
-							<Button
+							sx={{ marginRight: '2em' }}
 								component={Link}
 								to="/leaderboard"
 								variant="text"
 								color="inherit"
 							>
 								Leaderboards
+							</Button>
+							<Button
+							sx={{ marginRight: '2em' }}
+								component={Link}
+								to="/thebuild"
+								variant="text"
+								color="inherit"
+							>
+								The Build
 							</Button>
 						</Hidden>
 					</div>
@@ -119,16 +121,6 @@ const NavBar = ({ username, setUsername, setRoom, room }) => {
 							</Button>
 							<Button
 								component={Link}
-								to="/thebuild"
-								variant="text"
-								color="inherit"
-								fullWidth
-								onClick={() => setMenuOpen(false)}
-							>
-								The Build
-							</Button>
-							<Button
-								component={Link}
 								to="/leaderboard"
 								variant="text"
 								color="inherit"
@@ -136,6 +128,16 @@ const NavBar = ({ username, setUsername, setRoom, room }) => {
 								onClick={() => setMenuOpen(false)}
 							>
 								Leaderboards
+							</Button>
+							<Button
+								component={Link}
+								to="/thebuild"
+								variant="text"
+								color="inherit"
+								fullWidth
+								onClick={() => setMenuOpen(false)}
+							>
+								The Build
 							</Button>
 							{room ? (
 								<Button
@@ -147,7 +149,7 @@ const NavBar = ({ username, setUsername, setRoom, room }) => {
 									onClick={() => {
 										navigator.clipboard.writeText(createRoomURL())
 									}}
-                  fullWidth
+									fullWidth
 								>
 									Copy Room Link
 								</Button>
