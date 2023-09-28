@@ -51,8 +51,8 @@ const Login = ({ setUsername }) => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        // alignItems: "center",
+        // height: "100vh",
         width: "100vw",
       }}
     >
@@ -61,7 +61,9 @@ const Login = ({ setUsername }) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          minHeight: isMobile ? "80vh" : "60vh",
+          paddingBottom:'2em',
+          paddingTop:'2em',
+          minHeight: isMobile ? "auto" : "70vh",
           width: isMobile ? "80vw" : "40vw",
         }}
       >

@@ -7,7 +7,7 @@ export const Footer = () => {
   return (
     <Box sx={{ mt: 5, paddingBottom: "3em" }}>
       <Typography variant="body2" color="text.secondary" align="center">
-        {"CraftedBy: "}
+        {"craftedBy: "}
         <Link
           color="inherit"
           href="https://github.com/cCody34"
@@ -39,12 +39,11 @@ export const Footer = () => {
         <Link
           color="inherit"
           href="https://github.com/TypeError92"
-          sx={{ marginRight: "1em" }}
+          sx={{ marginRight: "0.5em" }}
         >
           Simon Walgenbach
         </Link>{" "}
         {new Date().getFullYear()}
-        {"."}
       </Typography>
     </Box>
   );

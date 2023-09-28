@@ -342,22 +342,20 @@ export const PlayBox = ({
 									sx={{
 										border: '0.1em solid #B8ADA0',
 										borderRadius: '0.5em',
-										// padding: mode.palette.mode === 'light' ? '' : 'auto',
-                    padding: '0',
-                    margin:'0',
-                    minWidth: '40px',
-                    height: '2.5em',
-                    display: 'block',
+										padding: '0',
+										margin: '0',
+										minWidth: '40px',
+										height: '2.5em',
+										display: 'block',
 									}}
 								>
 									{answerLetter !== '' ? (
 										<Button
 											sx={{
 												padding: '0',
-                        margin: '0',
+												margin: '0',
 												minWidth: '40px',
-												height: mode.palette.mode === 'light' ? '100%' : 'auto',
-												border: '0.1em solid #B8ADA0',
+												height: '100%',
 											}}
 										>
 											{answerLetter}
@@ -365,9 +363,9 @@ export const PlayBox = ({
 									) : (
 										<Box
 											sx={{
-                        padding: '0',
-                        margin:'0',
-                        minWidth: '40px',
+												padding: '0',
+												margin: '0',
+												minWidth: '40px',
 												height: '2.5em',
 												display: 'block',
 											}}

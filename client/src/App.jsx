@@ -60,6 +60,7 @@ function App() {
 						}),
 						minHeight: '100vh',
 						minWidth: isMobile ? '75vw' : '100vh',
+
 					}}
 				>
 					<NavBar
