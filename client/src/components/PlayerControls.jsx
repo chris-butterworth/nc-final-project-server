@@ -22,7 +22,6 @@ const PlayerControls = ({
 	skippedOrCorrect,
 	anagramWords,
 }) => {
-	console.log(anagramWords, '<<<words in player controls')
 	const { mode } = useContext(ModeContext)
 
 	const isMobile = useMediaQuery((mode) => mode.breakpoints.down('sm'))

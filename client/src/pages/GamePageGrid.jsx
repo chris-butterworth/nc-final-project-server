@@ -9,9 +9,13 @@ import {
 	Button,
 	Container,
 	useMediaQuery,
+	TableContainer,
+	TableRow,
+	TableCell,
 } from '@mui/material'
 import { Timer } from '../components/Timer'
 import { PlayerList } from '../components/PlayerList'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import { PlayBox } from '../components/PlayBox'
 import { useState, useEffect, useRef } from 'react'
 import socket from '../socket'
@@ -21,6 +25,7 @@ import { Scoreboard } from '../components/Scoreboard'
 import ChatInput from '../components/ChatInput'
 import { FastForward, Close } from '@mui/icons-material'
 import PlayerControls from '../components/PlayerControls'
+
 import { auth } from '../../firebase'
 import { Toaster } from 'react-hot-toast'
 import toast from 'react-hot-toast'
@@ -71,7 +76,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 			'fullScreenCustomDialog',
 			(message, lastPlayedAnswer, scores = '') => {
 				setFullScreenCustomDialog(message)
-				setGameScores(scores)
+				setLastRoundScores(scores)
 				setLastPlayedAnswer(lastPlayedAnswer)
 			}
 		)
@@ -493,7 +498,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 				open={betweenRounds}
 				title={gameMessage}
 				contentText={fullScreenCustomDialog}
-				secondaryText={lastPlayedAnswer}
+				// secondaryText={lastPlayedAnswer}
 				roundScores={lastRoundScores}
 			>
 				<Timer
@@ -503,6 +508,29 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					setPlayerReady={setPlayerReady}
 					sx={{ maxHeight: '25px' }}
 				/>
+				{lastRoundScores && (
+					<Paper sx={{ padding: '1em' }}>
+						<Typography variant="h5" sx={{ paddingBottom: '0.2em' }}>
+							Winners from the last round
+						</Typography>
+						<TableContainer>
+							{lastRoundScores.map((anagram) => {
+								console.log(anagram)
+								return (
+									<TableRow>
+										<TableCell>{anagram.question.join(' ')}</TableCell>
+										<TableCell>{anagram.answer}</TableCell>
+										{anagram.scores[0].score > 0 && (
+											<TableCell>
+												<EmojiEventsIcon /> {anagram.scores[0].username}
+											</TableCell>
+										)}
+									</TableRow>
+								)
+							})}
+						</TableContainer>
+					</Paper>
+				)}
 			</CustomDialog>
 
 			<Paper sx={{ flexGrow: 1, height: 'auto', width: '100vw' }}>
