@@ -7,14 +7,14 @@ export const Scoreboard = ({ gameScores, players, setPlayerReady }) => {
   const sortedPlayers = players.slice().sort((a, b) => b.score - a.score);
   
   return (
-    <Box>
+    <Box sx={{height:'95%'}}>
       <Paper
         elevation={3}
         sx={{
-          minWidth: "25vw",
-          minHeight: "8em",
-          maxHeight: "40vh", 
-          margin: "2em",
+          // minWidth: "25vw",
+          // minHeight: "8em",
+          // height: "50em", 
+          margin: "auto",
           padding: "1em",
           textAlign: "center",
           backgroundColor:
