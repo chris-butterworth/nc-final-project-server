@@ -459,7 +459,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 				{lastRoundScores && (
 					<Paper sx={{ padding: '1em' }}>
 						<Typography variant="h5" sx={{ paddingBottom: '0.2em' }}>
-							Winners from the last round
+							Results from the last round
 						</Typography>
 						<TableContainer>
 							{lastRoundScores.map((anagram) => {
@@ -484,7 +484,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 				)}
 			</CustomDialog>
 
-			<Paper sx={{ flexGrow: 1, height: 'auto', width: '100vw' }}>
+			<Paper sx={{ flexGrow: 1, height: 'auto', maxWidth: '95vw' }}>
 				<Grid container spacing={2}>
 					<Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
 						<Item sx={{ overflow: 'auto' }}>
@@ -529,7 +529,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
                     }}
                   > */}
 									<PlayBox
-										sx={{ minWidth: '100%', height: 'auto' }}
+										sx={{ height: 'auto' }}
 										anagramWords={anagramWords}
 										setAnagramWords={setAnagramWords}
 										formattedAnswerArray={formattedAnswerArray}

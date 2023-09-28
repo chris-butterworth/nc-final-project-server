@@ -241,6 +241,7 @@ export const PlayBox = ({
 					flexDirection: 'row',
 					alignItems: 'center',
 					minWidth: '25vw',
+
 					minHeight: '2vh',
 					margin: '1em',
 					padding: '0.5em',
@@ -304,12 +305,16 @@ export const PlayBox = ({
 						</Typography>
 					</Grid>
 					<Grid item sx={{ flexDirection: 'column' }}>
-						<Typography sx={{ padding: '5px' }}>
-							Category: {category}
-						</Typography>
-						<Typography sx={{ padding: '5px' }}>
-							Subcategory: {subcategory}
-						</Typography>
+						{category && (
+							<Typography sx={{ padding: '5px' }}>
+								Category: {category}
+							</Typography>
+						)}
+						{subcategory && (
+							<Typography sx={{ padding: '5px' }}>
+								Subcategory: {subcategory}
+							</Typography>
+						)}
 					</Grid>
 				</Grid>
 			</Box>
@@ -320,6 +325,7 @@ export const PlayBox = ({
 					flexWrap: 'wrap',
 					paddingBottom: '1em',
 					paddingTop: '1em',
+					minHeight:'150px',
 					justifyContent: 'center',
 					alignContent: 'center',
 				}}
@@ -383,6 +389,7 @@ export const PlayBox = ({
 					display: 'flex',
 					paddingBottom: '1em',
 					paddingTop: '1em',
+					minHeight:'60px',
 					flexWrap: 'wrap',
 					justifyContent: 'center',
 				}}

@@ -26,7 +26,7 @@ export const PlayerListCard = ({ player, position }) => {
         <Grid item xs={10} md={9} sx={{ textAlign: "left", paddingLeft: "0.4em" }}>
           <Grid item>
             {" "}
-            <Typography variant="h5">
+            <Typography variant="h6">
               {position}. {player.username}
             </Typography>
           </Grid>
