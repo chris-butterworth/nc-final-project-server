@@ -37,7 +37,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("avatar", (avatar) => {
-    console.log("socket", socket.id, "=", socket.data.username, "=", avatar);
     socket.data.avatar = avatar;
   });
 
