@@ -79,7 +79,7 @@ const LanguageLogo = ({ src, alt }) => (
 const ProjectDescription = () => (
   <Paper
     sx={{
-      marginTop: "3em",
+      // marginTop: "3em",
       marginBottom: "2em",
       padding: "2em",
       textAlign: "center",
@@ -94,7 +94,7 @@ const ProjectDescription = () => (
       industry-leading Northcoders software engineering boot camp.
     </Typography>
 
-    <Typography variant="body2" gutterBottom sx={{ marginBottom: "3em" }}>
+    <Typography variant="body2" gutterBottom sx={{ marginBottom: "3em", textAlign:"left"}}>
       We decided to build a game to test our full-stack skills and see if we
       could build a real-time multiplayer game using this tech stack:
     </Typography>
@@ -146,7 +146,7 @@ const ProjectDescription = () => (
     <Typography
       variant="h6"
       gutterBottom
-      sx={{ marginTop: "2em", marginBottom: "3em" }}
+      sx={{ marginTop: "2em"}}
     >
       Languages used:
     </Typography>

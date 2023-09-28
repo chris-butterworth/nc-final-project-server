@@ -9,8 +9,8 @@ const TutorialPage = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
+        // alignItems: "center",
+        // minHeight: "100vh",
         padding: isMobile ? "1em" : "0",
       }}
     >
@@ -27,7 +27,7 @@ const TutorialPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h3" sx={{ marginBottom: "1em" }}>
+          <Typography variant="h3" sx={{ marginBottom: "0.5em" }}>
             How To Play
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: "1em" }}>

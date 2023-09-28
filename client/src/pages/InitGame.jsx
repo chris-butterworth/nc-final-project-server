@@ -53,7 +53,8 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
-				maxWidth: '60vw',
+				maxWidth: '80vw',
+				minWidth: '50vw',
 			}}
 		>
 			<Grid container spacing={2}>
@@ -69,8 +70,8 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 					>
 						<Paper
 							sx={{
-								minWidth: '100',
-								minHeight: '30vh',
+								// minWidth: '100',
+								minHeight: '220px',
 								margin: 'auto',
 								padding: '1em',
 								textAlign: 'center',
@@ -85,8 +86,8 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 				<Grid item xs={12} md={6}>
 					<Paper
 						sx={{
-							minWidth: '100',
-							minHeight: '30vh',
+							// minWidth: '100',
+							minHeight: '220px',
 							margin: 'auto',
 							padding: '1em',
 							textAlign: 'center',
@@ -96,7 +97,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 						<Typography variant="h3">Join game</Typography>
 
 						<FormControl>
-							<InputLabel htmlFor="roomcode" margin='dense'>
+							<InputLabel htmlFor="roomcode" margin="dense">
 								Room code
 							</InputLabel>
 							<Input
@@ -125,8 +126,8 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 					<Link to="/tutorial" style={{ textDecoration: 'none' }}>
 						<Paper
 							sx={{
-								minWidth: '100',
-								minHeight: '30vh',
+								minWidth:'60vw',
+								minHeight: '220px',
 								margin: 'auto',
 								padding: '1em',
 								textAlign: 'center',
