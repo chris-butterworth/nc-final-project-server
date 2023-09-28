@@ -80,30 +80,30 @@ const ProjectDescription = () => (
 	<Paper
 		sx={{
 			// marginTop: "3em",
+			maxWidth: '900px',
+			margin: 'auto',
 			marginBottom: '2em',
 			padding: '2em',
 			textAlign: 'center',
 		}}
 	>
 		<Typography variant="h2">Anagram Game: The Build</Typography>
-		<Typography
-			variant="h5"
-			gutterBottom
-			sx={{ marginBottom: '1em', textAlign: 'center' }}
-		>
-			This project was created as a portfolio piece in the final 8 days of the
-			industry-leading Northcoders software engineering boot camp.
+		<Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
+			This project was created as a portfolio piece in the final 8 days of our
+			time on the industry-leading Northcoders software engineering boot camp.
 		</Typography>
 
 		<Typography
 			variant="body2"
 			gutterBottom
-			sx={{ marginBottom: '3em', textAlign: 'left' }}
+			sx={{ margin: 'auto', marginBottom: '1em', textAlign: 'center', maxWidth:'40em'}}
 		>
-			We decided to build a game to test our full-stack skills and see if we
+			We decided to create a game to test our full-stack skills and see if we
 			could build a real-time multiplayer game using this tech stack:
 		</Typography>
-
+		<Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
+			Tech Stack:
+		</Typography>
 		<Grid
 			container
 			justifyContent="center"
@@ -148,7 +148,7 @@ const ProjectDescription = () => (
 			</Grid>
 		</Grid>
 
-		<Typography variant="h6" gutterBottom sx={{ marginTop: '2em' }}>
+		<Typography variant="h6" gutterBottom sx={{ marginTop: '1em' }}>
 			Languages used:
 		</Typography>
 
@@ -177,7 +177,7 @@ const ProjectDescription = () => (
 		<Typography
 			variant="body2"
 			gutterBottom
-			sx={{ marginBottom: '1em', textAlign: 'center' }}
+			sx={{ margin:'auto', marginBottom: '1em', textAlign: 'center', maxWidth: '40em' }}
 		>
 			We think that we've done a pretty good job and exceeded our MVP goals.
 			There's obviously more we would have liked to have done, but 8 days is
@@ -189,7 +189,7 @@ const ProjectDescription = () => (
 		<Typography
 			variant="body2"
 			gutterBottom
-			sx={{ marginBottom: '1em', textAlign: 'center' }}
+			sx={{ margin:'auto', marginBottom: '1em', textAlign: 'center', maxWidth: '40em'  }}
 		>
 			Either way, thank you for stopping by & playing. If you'd like to talk to
 			any of us, use the links below to connect with us. If you're wondering how
@@ -200,7 +200,7 @@ const ProjectDescription = () => (
 		<Typography
 			variant="body2"
 			gutterBottom
-			sx={{ marginBottom: '1em', textAlign: 'center' }}
+			sx={{ margin:'auto', marginBottom: '1em', textAlign: 'center', maxWidth: '40em'  }}
 		>
 			We all want to thank the team at Northcoders for the teaching, mentoring
 			and support throughout the course.
@@ -253,11 +253,12 @@ export const TheBuild = () => {
 	return (
 		<Container>
 			<ProjectDescription />
-			<Paper>
+			<Paper sx={{	maxWidth: '900px', margin:'auto'}}>
 				<Typography
 					variant="h4"
 					gutterBottom
 					sx={{
+							maxWidth: '900px',
 						marginTop: '1em',
 						marginBottom: '1em',
 						paddingTop: '1em',
