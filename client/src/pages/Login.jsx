@@ -65,7 +65,7 @@ const Login = ({ setUsername }) => {
           paddingTop:'2em',
           minHeight: isMobile ? "auto" : "70vh",
           // width: isMobile ? "80vw" : "40vw",
-          minWidth:'350px'
+          minWidth:'365px'
         }}
       >
         <Box

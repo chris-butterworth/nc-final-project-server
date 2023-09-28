@@ -5,7 +5,7 @@ export const Typewriter = ({ text }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const delay = 100; // Adjust the typing speed (milliseconds per character)
+    const delay = 40; // Adjust the typing speed (milliseconds per character)
 
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {

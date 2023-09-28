@@ -53,7 +53,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
-				maxWidth: '80vw',
+				maxWidth: '600px',
 				minWidth: '50vw',
 			}}
 		>
@@ -70,7 +70,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 					>
 						<Paper
 							sx={{
-								// minWidth: '100',
+								maxWidth: '90vw',
 								minHeight: '220px',
 								margin: 'auto',
 								padding: '1em',
@@ -86,7 +86,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 				<Grid item xs={12} md={6}>
 					<Paper
 						sx={{
-							// minWidth: '100',
+							maxWidth: '90vw',
 							minHeight: '220px',
 							margin: 'auto',
 							padding: '1em',
@@ -126,7 +126,7 @@ const InitGame = ({ room, setRoom, setPlayers }) => {
 					<Link to="/tutorial" style={{ textDecoration: 'none' }}>
 						<Paper
 							sx={{
-								minWidth:'60vw',
+								maxWidth: '90vw',
 								minHeight: '220px',
 								margin: 'auto',
 								padding: '1em',
