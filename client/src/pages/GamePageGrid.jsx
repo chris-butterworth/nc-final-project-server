@@ -316,7 +316,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 	}
 
 	return (
-		<Paper sx={{ minWidth: '80vw', minHeight: '100vh' }}>
+		<Paper sx={{ minWidth: '80vw' }}>
 			<Grid container>
 				<Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
 					<Paper
@@ -487,7 +487,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 			<Paper sx={{ flexGrow: 1, height: 'auto', maxWidth: '95vw' }}>
 				<Grid container spacing={2}>
 					<Grid item xs={12} order={{ xs: 3, md: 1 }} md={3}>
-						<Item sx={{ overflow: 'auto' }}>
+						<Item sx={{ overflow: 'auto', minHeight: isMobile ? '' : '97%' }}>
 							<PlayerList players={players} />
 						</Item>
 					</Grid>
@@ -507,6 +507,18 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 									players={players}
 									setPlayerReady={setPlayerReady}
 								/>
+							) : anagramWords.length === 0 &&
+							  !betweenRounds &&
+							  !betweenWords ? (
+								<div>
+									{' '}
+									<Typography variant="h5">
+										Welcome to the game!
+									</Typography>{' '}
+									<Typography variant="h6">
+										When all players are ready the round will begin
+									</Typography>
+								</div>
 							) : (
 								<div
 									sx={{
@@ -517,15 +529,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										alignItems: 'space-between',
 									}}
 								>
-									{/* <div
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      flex: 1,
-                      overflow: "hidden",
-                    }}
-                  > */}
 									<PlayBox
 										sx={{ height: 'auto' }}
 										anagramWords={anagramWords}
@@ -542,10 +545,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										mode={mode}
 										hint={hint}
 										setHint={setHint}
-										hintCount={hintCount}
-										setHintCount={setHintCount}
-										hints={hints}
-										setHints={setHints}
 										subcategory={subcategory}
 									/>
 									{/* <div
@@ -584,11 +583,11 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							<Grid item xs={12} md={12}>
 								<Box
 									textAlign={'left'}
-									sx={{ height: '40vh', overflow: 'auto' }}
+									sx={{ height: '30em', overflow: 'auto' }}
 								>
 									{gameScroll.map((item, index) => {
 										return (
-											<Box key={index}>
+											<div key={index}>
 												{item.username !== 'system' && (
 													<Typography
 														sx={{
@@ -606,7 +605,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 												<Typography sx={{ display: 'inline' }}>
 													{item.message}
 												</Typography>
-											</Box>
+											</div>
 										)
 									})}
 								</Box>
@@ -619,7 +618,12 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					<Grid item xs={6} order={{ xs: 1, md: 2 }}></Grid>
 					<Grid
 						item
-						sx={{ maxWidth: 'auto', maxHeight: '30em' }}
+						sx={{
+							maxWidth: 'auto',
+							height: isMobile ? '' : '95%',
+							width: 'auto',
+							marginBottom: '1em',
+						}}
 						order={{ xs: 2, md: 2 }}
 						xs={3}
 					>

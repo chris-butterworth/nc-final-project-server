@@ -241,11 +241,7 @@ export const PlayBox = ({
 					flexDirection: 'row',
 					alignItems: 'center',
 					minWidth: '25vw',
-					// minHeight: '2vh',
-					margin: '1em',
-					// padding: '0.5em',
-					// paddingLeft: isMobile ? '0.7m' : '2em',
-					// paddingRight: isMobile ? '0.7em' : '2em',
+					marginBottom: '1em',
 					textAlign: 'center',
 					justifyContent: 'space-between',
 					backgroundColor:
