@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
-import { Typography, Button, Box, useMediaQuery } from "@mui/material";
-import { ModeContext } from "../context/Mode";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { useContext, useState } from 'react'
+import { Typography, Button, Box, useMediaQuery } from '@mui/material'
+import { ModeContext } from '../context/Mode'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 const PlayerControls = ({
 	handleQuitButtonClick,
@@ -15,17 +15,17 @@ const PlayerControls = ({
 }) => {
 	const { mode } = useContext(ModeContext)
 
-  const isMobile = useMediaQuery((mode) => mode.breakpoints.down("sm"));
+	const isMobile = useMediaQuery((mode) => mode.breakpoints.down('sm'))
 
-  const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false)
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+	const handleClickOpen = () => {
+		setOpen(true)
+	}
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleClose = () => {
+		setOpen(false)
+	}
 
 	return (
 		<Box
@@ -78,9 +78,9 @@ const PlayerControls = ({
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose}>Disagree</Button>
+					<Button onClick={handleClose}>No</Button>
 					<Button onClick={handleQuitButtonClick} autoFocus>
-						Agree
+						Yes
 					</Button>
 				</DialogActions>
 			</Dialog>
