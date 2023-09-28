@@ -21,7 +21,7 @@ export const PlayerListCard = ({ player, position }) => {
       }}
     >
       <Grid sx={{ display: "flex" }}>
-        <Grid item md={3} sx={{ margin: "auto" }}>
+        <Grid item xs={2} md={3} sx={{ margin: "auto" }}>
           {" "}
           <Avatar
             alt={player.avatar_alt}
@@ -29,7 +29,7 @@ export const PlayerListCard = ({ player, position }) => {
             sx={{ margin: "auto" }}
           />
         </Grid>
-        <Grid item md={9} sx={{ textAlign: "left", paddingLeft: "0.4em" }}>
+        <Grid item xs={10} md={9} sx={{ textAlign: "left", paddingLeft: "0.4em" }}>
           <Grid item>
             {" "}
             <Typography variant="h5">
