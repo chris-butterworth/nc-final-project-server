@@ -13,7 +13,6 @@ const resetReadyStateAndCurrentWord = (roomId) => {
 
 const createNewRoom = (socket, callback) => {
   const roomId = `${uuidv4().slice(0, 5)}`;
-
   roomsMap.set(roomId, {
     roomId,
     timer: 0,
@@ -30,7 +29,6 @@ const createNewRoom = (socket, callback) => {
       },
     ],
   });
-
   socket.join(roomId);
   callback(roomsMap.get(roomId));
   return roomId;

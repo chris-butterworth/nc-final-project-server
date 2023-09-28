@@ -32,7 +32,6 @@ const anagramStageEmit = (roomId) => {
 const betweenWordStageEmit = (roomId, message = 'Next word coming up...') => {
 	const roomData = roomsMap.get(roomId)
 	const lastWordAnswer = roomData.anagrams[roomData.currentWord].answer
-
 	io.ioObject.in(roomId).emit('betweenWordsCountdown', timeBetweenWords)
 	io.ioObject
 		.in(roomId)
@@ -53,7 +52,6 @@ const betweenRoundStageEmit = (roomId) => {
 			return b.score - a.score
 		})
 	})
-	console.log(lastRoundAnswers)
 	io.ioObject.in(roomId).emit('betweenRoundsCountdown', timeBetweenRounds)
 	io.ioObject
 		.in(roomId)
@@ -65,9 +63,6 @@ const betweenRoundStageEmit = (roomId) => {
 		)
 }
 
-//socket.on(updatescore, (auth.key))
-
-//player list.find matching socketid list, grab score
 module.exports = {
 	startGameEmit,
 	endGameEmit,
