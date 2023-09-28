@@ -42,11 +42,10 @@ const TutorialPage = () => {
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: "1em" }}>
             Stuck on a question? You get 3 hints per game, so hit the hint
-            button.
+            button. You will lose 100 points per hint used.
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: "1em" }}>
-            So stuck you're giving up? No drama, press the skip button! Be
-            careful though, you will lose precious points!
+            So stuck you're giving up? No drama, press the skip button!
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: "1em" }}>
             Playing with friends? Don't forget to hit up the chat!
