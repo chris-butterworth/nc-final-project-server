@@ -4,6 +4,7 @@ const { templateAnagrams } = require("../testData");
 const getAnagrams = () => {
   return getNineAnagrams()
     .then((anagrams) => {
+      
       anagrams.forEach((anagram) => {
         anagram.scores = [];
         anagram.question = anagram.question.split(" ");
@@ -12,7 +13,10 @@ const getAnagrams = () => {
     })
     .catch(({ code }) => {
       console.log("getAnagrams error", code);
-      return templateAnagrams;
+      return templateAnagrams.forEach((anagram) => {
+        anagram.scores = [];
+        anagram.question = anagram.question.split(" ");
+      });
     });
 };
 
