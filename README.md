@@ -42,11 +42,11 @@
 
 <div align="center">
 
-[WHY A GAME?](https://github.com/chris-butterworth/nc-final-project#-why-a-game?) • 
+**[WHY A GAME?](https://github.com/chris-butterworth/nc-final-project#-why-a-game) • 
 [GETTING STARTED](https://github.com/chris-butterworth/nc-final-project#-getting-started) • 
-[TECH STACK](https://github.com/chris-butterworth/nc-final-project#-tech-stack?) • 
-[CONTRIBUTING](https://github.com/chris-butterworth/nc-final-project#-contributors?) • 
-[SPREAD THE WORD](https://github.com/chris-butterworth/nc-final-project#-why-a-game?) 
+[TECH STACK](https://github.com/chris-butterworth/nc-final-project#-tech-stack) • 
+[CONTRIBUTING](https://github.com/chris-butterworth/nc-final-project#-contributors) • 
+[SPREAD THE WORD](https://github.com/chris-butterworth/nc-final-project#-spread-the-word)**
 
 
 </div>
