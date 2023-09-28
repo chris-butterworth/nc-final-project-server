@@ -45,7 +45,7 @@
 **[WHY A GAME?](https://github.com/chris-butterworth/nc-final-project#-why-a-game) • 
 [GETTING STARTED](https://github.com/chris-butterworth/nc-final-project#-getting-started) • 
 [TECH STACK](https://github.com/chris-butterworth/nc-final-project#-tech-stack) • 
-[CONTRIBUTING](https://github.com/chris-butterworth/nc-final-project#-contributors) • 
+[CONTRIBUTORS](https://github.com/chris-butterworth/nc-final-project#-contributors) • 
 [SPREAD THE WORD](https://github.com/chris-butterworth/nc-final-project#-spread-the-word)**
 
 
@@ -92,11 +92,11 @@ API_PASSWORD=
 API_URL=https://sphinx-api-gjqf.onrender.com/api
 ```
 
-<br>
+
 
 # 🛠️ Tech Stack
 
-<br>
+
 
 <div align='center'>
 
@@ -110,9 +110,7 @@ API_URL=https://sphinx-api-gjqf.onrender.com/api
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" title="PostGres" alt="PostGres" width="40" height="40" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" title="Flask" alt="Flask" width="40" height="40" />
           
-  <br>
 
-  
 </div>
 
 # ⚠️ Contributors
