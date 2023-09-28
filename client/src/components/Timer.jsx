@@ -6,14 +6,14 @@ import socket from "../socket";
 export const Timer = ({ timer, playerReady, setPlayerReady }) => {
   return (
     <Box >
-      <Typography
-        variant="h5"
+      {playerReady && <Typography
+        variant= 'h3'
         sx={{ textAlign: "center", justifyContent: "center" }}
       >
         {timer} Seconds{" "}
-      </Typography>
+      </Typography>}
       {!playerReady && (
-        <Button sx={{fontSize: "large", padding: "0"}}
+        <Button sx={{fontSize: "34px", padding: "0"}}
           onClick={() => {
             socket.emit("playerReady");
             setPlayerReady(true);

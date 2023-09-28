@@ -294,10 +294,10 @@ export const PlayBox = ({
 
 					<Grid item sx={{ flexDirection: 'column' }}>
 						<Typography sx={{ }}>
-							Round: {roundNumber}.
+							Round: {roundNumber}
 						</Typography>
 						<Typography sx={{  }}>
-							Word: {anagramNumber}.
+							Word: {anagramNumber}
 						</Typography>
 					</Grid>
 					<Grid item sx={{ flexDirection: 'column' }}>

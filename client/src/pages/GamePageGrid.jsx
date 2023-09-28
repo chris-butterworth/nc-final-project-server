@@ -325,7 +325,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							maxWidth: isMobile ? '100vw' : '25', // Adjusted maxWidth
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
-							marginTop: isMobile? '1em':'',
+							marginTop: isMobile ? '1em' : '',
 							padding: '1em',
 							textAlign: 'center',
 							flexDirection: 'column', // Add this to make it a flex container
@@ -354,7 +354,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							justifyContent: 'center',
 						}}
 					>
-						<Typography variant="h3">NC-Anagrams</Typography>
+						<Typography variant="h3" >NC-Anagrams</Typography>
 					</Paper>
 				</Grid>
 				{isMobile ? (
@@ -392,7 +392,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										navigator.clipboard.writeText(room)
 									}}
 								>
-									Game Room ID: {room}
+									Room ID: {room}
 								</Typography>
 								<Button
 									sx={{
@@ -529,9 +529,9 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 							) : anagramWords.length === 0 &&
 							  !betweenRounds &&
 							  !betweenWords ? (
-								<div>
+								<div >
 									{' '}
-									<Typography variant="h5">
+									<Typography variant="h5" sx={{marginTop:'1em'}}>
 										Welcome to the game!
 									</Typography>{' '}
 									<Typography variant="h6">
@@ -570,14 +570,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										setHintCount={setHintCount}
 										subcategory={subcategory}
 									/>
-									{/* <div
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flex: 1,
-                        overflow: "hidden",
-                      }}
-                    > */}
 									<PlayerControls
 										sx={{ minWidth: '100%', flex: 1, justifySelf: 'flex-end' }}
 										handleQuitButtonClick={handleQuitButtonClick}
@@ -587,8 +579,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										setAnagramWords={setAnagramWords}
 										mode={mode}
 									/>
-									{/* </div>
-                  </div> */}
 								</div>
 							)}
 						</Item>
