@@ -75,7 +75,6 @@ const handlePlayerReady = (socket) => {
 	const roomId = getRoomIdFromSocket(socket)
 	playerReady(socket)
 	pushPlayerlistToClients(roomId)
-	;``
 	if (testEveryPlayerReady(roomId)) {
 		populateScoreboard(roomId)
 		handleStartGame(roomId)

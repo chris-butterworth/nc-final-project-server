@@ -1,4 +1,3 @@
-const roomsMap = require("../roomsDatabase");
 const io = require("../server");
 
 const gameScrollEmit = (roomId, user, message) => {
