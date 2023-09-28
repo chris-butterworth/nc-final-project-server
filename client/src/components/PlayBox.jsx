@@ -242,6 +242,7 @@ export const PlayBox = ({
 					alignItems: 'center',
 					minWidth: '25vw',
 					marginBottom: '1em',
+					padding: '0.5em',
 					textAlign: 'center',
 					justifyContent: 'space-between',
 					backgroundColor:
@@ -253,7 +254,7 @@ export const PlayBox = ({
 				<Grid
 					container
 					spacing={2}
-					sx={{ justifyContent: 'space-evenly', alignItems: 'center' }}
+					sx={{ justifyContent: 'space-evenly' }}
 				>
 					<Grid item>
 						<Button
@@ -292,21 +293,21 @@ export const PlayBox = ({
 					</Grid>
 
 					<Grid item sx={{ flexDirection: 'column' }}>
-						<Typography sx={{ padding: '5px' }}>
+						<Typography sx={{ }}>
 							Round: {roundNumber}.
 						</Typography>
-						<Typography sx={{ padding: '5px' }}>
+						<Typography sx={{  }}>
 							Word: {anagramNumber}.
 						</Typography>
 					</Grid>
 					<Grid item sx={{ flexDirection: 'column' }}>
 						{category && (
-							<Typography sx={{ padding: '5px' }}>
+							<Typography sx={{  }}>
 								Category: {category}
 							</Typography>
 						)}
 						{subcategory && (
-							<Typography sx={{ padding: '5px' }}>
+							<Typography sx={{ }}>
 								Subcategory: {subcategory}
 							</Typography>
 						)}

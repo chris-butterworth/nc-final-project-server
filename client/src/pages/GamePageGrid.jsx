@@ -318,13 +318,14 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 	return (
 		<Paper sx={{ minWidth: '80vw' }}>
 			<Grid container>
-				<Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
+				<Grid item xs={12} md={4} order={{ xs: 2, md: 1 }}>
 					<Paper
 						elevation={3}
 						sx={{
 							maxWidth: isMobile ? '100vw' : '25', // Adjusted maxWidth
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
+							marginTop: isMobile? '1em':'',
 							padding: '1em',
 							textAlign: 'center',
 							flexDirection: 'column', // Add this to make it a flex container
@@ -339,10 +340,27 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						/>
 					</Paper>
 				</Grid>
+				<Grid item xs={12} md={4} order={{ xs: 1, md: 2 }}>
+					<Paper
+						elevation={3}
+						sx={{
+							maxWidth: isMobile ? '100vw' : '25', // Adjusted maxWidth
+							minHeight: isMobile ? '' : '6em',
+							margin: isMobile ? '0' : '2em',
+							padding: '1em',
+							textAlign: 'center',
+							flexDirection: 'column', // Add this to make it a flex container
+							alignItems: 'center', // Center its children horizontally
+							justifyContent: 'center',
+						}}
+					>
+						<Typography variant="h3">NC-Anagrams</Typography>
+					</Paper>
+				</Grid>
 				{isMobile ? (
 					''
 				) : (
-					<Grid item xs={12} sm={12} md={6} order={{ xs: 1, md: 2 }}>
+					<Grid item xs={12} sm={12} md={4} order={{ xs: 1, md: 3 }}>
 						<Paper
 							elevation={3}
 							sx={{
@@ -354,6 +372,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 								flexDirection: 'column',
 								alignItems: 'flex-end',
 								justifyContent: 'flex-end',
+								align: 'center',
 							}}
 						>
 							<Container
@@ -364,7 +383,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 								}}
 							>
 								<Typography
-									// variant="h6"
+									variant="h6"
 									sx={{
 										maxHeight: '25px',
 										paddingRight: '1em',
@@ -396,7 +415,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 								}}
 							>
 								<Typography
-									// variant="h6"
+									variant="h6"
 									sx={{
 										maxHeight: '25px',
 										maxWidth: 'calc(100%-1em)',
@@ -545,6 +564,10 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 										mode={mode}
 										hint={hint}
 										setHint={setHint}
+										hints={hints}
+										setHints={setHints}
+										hintCount={hintCount}
+										setHintCount={setHintCount}
 										subcategory={subcategory}
 									/>
 									{/* <div
