@@ -59,7 +59,7 @@ const betweenRoundStageEmit = (roomId) => {
 		.in(roomId)
 		.emit(
 			'fullScreenCustomDialog',
-			'Take a little break...
+			'Take a little break...',
 			`Last Answer: ${lastWordAnswer}`,
 			lastRoundAnswers
 		)

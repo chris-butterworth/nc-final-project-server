@@ -125,6 +125,7 @@ const nextWord = async (roomId) => {
 	}
 }
 
+
 const handleTestAttempt = (socket, attempt, time, hintCount) => {
 	const roomId = getRoomIdFromSocket(socket)
 	const roomData = roomsMap.get(roomId)
