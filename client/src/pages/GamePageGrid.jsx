@@ -12,6 +12,7 @@ import {
 	TableContainer,
 	TableRow,
 	TableCell,
+	Divider,
 } from '@mui/material'
 import { Timer } from '../components/Timer'
 import { PlayerList } from '../components/PlayerList'
@@ -86,7 +87,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 	useEffect(() => {
 		socket.on('gameScroll', (username, message) => {
 			setGameScroll((current) => {
-				return [ { username, message }, ...current]
+				return [{ username, message }, ...current]
 			})
 		})
 	}, [])
@@ -276,8 +277,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 		return `${window.location.origin}?room=${room}`
 	}
 
-	
-
 	return (
 		<Paper sx={{ minWidth: '80vw' }}>
 			<Grid container>
@@ -285,14 +284,14 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					<Paper
 						elevation={3}
 						sx={{
-							maxWidth: isMobile ? '100vw' : '25', 
+							maxWidth: isMobile ? '100vw' : '25',
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
 							marginTop: isMobile ? '1em' : '',
 							padding: '1em',
 							textAlign: 'center',
-							flexDirection: 'column', 
-							alignItems: 'center', 
+							flexDirection: 'column',
+							alignItems: 'center',
 							justifyContent: 'center',
 						}}
 					>
@@ -307,13 +306,13 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 					<Paper
 						elevation={3}
 						sx={{
-							maxWidth: isMobile ? '100vw' : '25', 
+							maxWidth: isMobile ? '100vw' : '25',
 							minHeight: isMobile ? '' : '6em',
 							margin: isMobile ? '0' : '2em',
 							padding: '1em',
 							textAlign: 'center',
-							flexDirection: 'column', 
-							alignItems: 'center', 
+							flexDirection: 'column',
+							alignItems: 'center',
 							justifyContent: 'center',
 						}}
 					>
@@ -327,7 +326,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						<Paper
 							elevation={3}
 							sx={{
-								maxWidth: isMobile ? '100vw' : '50vw', 
+								maxWidth: isMobile ? '100vw' : '50vw',
 								minHeight: isMobile ? '' : '6em',
 								margin: isMobile ? '0' : '2em',
 								padding: '1em',
@@ -444,7 +443,6 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 						</Typography>
 						<TableContainer>
 							{lastRoundScores.map((anagram) => {
-								
 								return (
 									<TableRow>
 										<TableCell>{anagram.question.join(' ')}</TableCell>
@@ -496,9 +494,28 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 									<Typography variant="h5" sx={{ marginTop: '1em' }}>
 										Welcome to the game!
 									</Typography>{' '}
-									<Typography variant="h6">
+									<Typography variant="h6" sx={{marginBottom:'1em'}}>
 										When all players are ready the round will begin
 									</Typography>
+									<Typography>3 words per round, 3 rounds per game</Typography>
+									<Typography>
+										Faster you guess, the more points you get
+									</Typography>
+									<Typography sx={{marginBottom:'2em'}}>Click for a more detailed tutorial</Typography> 
+									<Paper sx={{margin:'auto', padding:'1em', width:'30em'}}>
+										<Typography >
+
+										An anagram is a word or phrase formed by rearranging the
+										letters of a different word or phrase, typically using all
+										the original letters exactly once.
+										</Typography>
+									<Typography sx={{color:'black'}}>
+									Wikipedia
+										</Typography>	
+
+								
+
+									</Paper>
 								</div>
 							) : (
 								<div
@@ -561,7 +578,7 @@ const GamePageGrid = ({ players, room, setRoom }) => {
 									sx={{
 										height: '30em',
 										overflow: 'auto',
-										display:'flex',
+										display: 'flex',
 										flexDirection: 'column-reverse',
 									}}
 								>
