@@ -89,7 +89,7 @@ The server requires a .env.development file with the following vars declared
 ```
 API_USERNAME=
 API_PASSWORD=
-API_URL=https://sphinx-api-gjqf.onrender.com/api
+API_URL=
 ```
 
 
@@ -113,6 +113,10 @@ API_URL=https://sphinx-api-gjqf.onrender.com/api
 
 </div>
 
+We used Flask and PSQL for our back end, as we wanted to challenge ourselves by exploring Python based alternatives to express.
+Our express server acts as a conduit between the client and the backend API. Using socket.io to handle all gameplay, player and room logic.
+The auth token firebase provides also made sending authentication and user details from the react app to the flask server a simple process allowing for streamlined user authentication.
+We used React and MUI on the front end for their easily stackable components, which was well suited to our short time frame, and allowed for high levels of customisation.
 # ⚠️ Contributors
 
 This game was created by: 
